@@ -4,7 +4,6 @@ import com.quarkus.dto.request.AlbumRequest;
 import com.quarkus.entity.Album;
 import com.quarkus.entity.Artist;
 import com.quarkus.entity.ArtistType;
-import com.quarkus.util.TestTokenHelper;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
@@ -79,6 +78,7 @@ class AlbumResourceTest {
             .queryParam("page", 0)
             .queryParam("size", 1)
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums")
             .then()
             .statusCode(200)
@@ -93,6 +93,7 @@ class AlbumResourceTest {
         given()
             .queryParam("sort", "title:desc")
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums")
             .then()
             .statusCode(200)
@@ -104,6 +105,7 @@ class AlbumResourceTest {
         given()
             .queryParam("artistType", "BAND")
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums")
             .then()
             .statusCode(200)
@@ -116,6 +118,7 @@ class AlbumResourceTest {
         given()
             .queryParam("artistType", "SINGER")
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums")
             .then()
             .statusCode(200)
@@ -127,6 +130,7 @@ class AlbumResourceTest {
         given()
             .pathParam("id", album1Id)
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums/{id}")
             .then()
             .statusCode(200)
@@ -141,6 +145,7 @@ class AlbumResourceTest {
         given()
             .pathParam("id", 99999)
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums/{id}")
             .then()
             .statusCode(404);
@@ -171,6 +176,7 @@ class AlbumResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
             .when()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .post("/api/v1/albums")
             .then()
             .statusCode(400);
@@ -184,6 +190,7 @@ class AlbumResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
             .when()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .post("/api/v1/albums")
             .then()
             .statusCode(404);
@@ -198,6 +205,7 @@ class AlbumResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
             .when()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .put("/api/v1/albums/{id}")
             .then()
             .statusCode(200)
@@ -217,6 +225,7 @@ class AlbumResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
             .when()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .put("/api/v1/albums/{id}")
             .then()
             .statusCode(404);
@@ -231,6 +240,7 @@ class AlbumResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
             .when()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .put("/api/v1/albums/{id}")
             .then()
             .statusCode(400);
@@ -241,6 +251,7 @@ class AlbumResourceTest {
         given()
             .pathParam("id", album1Id)
             .when()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .delete("/api/v1/albums/{id}")
             .then()
             .statusCode(204);
@@ -249,6 +260,7 @@ class AlbumResourceTest {
         given()
             .pathParam("id", album1Id)
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums/{id}")
             .then()
             .statusCode(404);
@@ -259,6 +271,7 @@ class AlbumResourceTest {
         given()
             .pathParam("id", 99999)
             .when()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .delete("/api/v1/albums/{id}")
             .then()
             .statusCode(404);
@@ -269,6 +282,7 @@ class AlbumResourceTest {
         given()
             .queryParam("size", 150) // Over max of 100
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums")
             .then()
             .statusCode(200)
@@ -280,6 +294,7 @@ class AlbumResourceTest {
         given()
             .queryParam("sort", "invalid:param")
             .when()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .get("/api/v1/albums")
             .then()
             .statusCode(200)

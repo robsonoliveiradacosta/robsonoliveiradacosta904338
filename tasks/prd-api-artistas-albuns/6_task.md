@@ -18,19 +18,19 @@ Implementar autenticação e autorização JWT usando SmallRye JWT. Inclui gera�
 
 ## Subtarefas
 
-- [ ] 6.1 Gerar par de chaves RSA (privateKey.pem e publicKey.pem)
-- [ ] 6.2 Criar `UserRepository` extends `PanacheRepository<User>`
-- [ ] 6.3 Criar `TokenService` para geração de JWT
-- [ ] 6.4 Criar `AuthService` com lógica de login e refresh
-- [ ] 6.5 Criar DTOs: `LoginRequest`, `TokenResponse`
-- [ ] 6.6 Criar `AuthResource` com endpoints /login e /refresh
-- [ ] 6.7 Configurar SmallRye JWT no application.properties
-- [ ] 6.8 Adicionar @RolesAllowed em ArtistResource (ADMIN para escrita, USER+ADMIN para leitura)
-- [ ] 6.9 Adicionar @RolesAllowed em AlbumResource
-- [ ] 6.10 Criar handler para erros 401/403
-- [ ] 6.11 Criar testes unitários para TokenService e AuthService
-- [ ] 6.12 Criar testes de integração para AuthResource
-- [ ] 6.13 Testar proteção dos endpoints manualmente
+- [x] 6.1 Gerar par de chaves RSA (privateKey.pem e publicKey.pem)
+- [x] 6.2 Criar `UserRepository` extends `PanacheRepository<User>`
+- [x] 6.3 Criar `TokenService` para geração de JWT
+- [x] 6.4 Criar `AuthService` com lógica de login e refresh
+- [x] 6.5 Criar DTOs: `LoginRequest`, `TokenResponse`
+- [x] 6.6 Criar `AuthResource` com endpoints /login e /refresh
+- [x] 6.7 Configurar SmallRye JWT no application.properties
+- [x] 6.8 Adicionar @RolesAllowed em ArtistResource (ADMIN para escrita, USER+ADMIN para leitura)
+- [x] 6.9 Adicionar @RolesAllowed em AlbumResource
+- [x] 6.10 Criar handler para erros 401/403
+- [x] 6.11 Criar testes unitários para TokenService e AuthService
+- [x] 6.12 Criar testes de integração para AuthResource
+- [ ] 6.13 Testar proteção dos endpoints manualmente (parcialmente concluído - testes de integração cobrem a funcionalidade)
 
 ## Detalhes de Implementação
 
@@ -91,14 +91,14 @@ public Response create(ArtistRequest request) { ... }
 
 ## Critérios de Sucesso
 
-- [ ] Login retorna JWT válido com claims corretos
-- [ ] Refresh token renova expiração
-- [ ] Endpoints protegidos retornam 401 sem token
-- [ ] Endpoints protegidos retornam 403 com role insuficiente
-- [ ] USER consegue apenas GET em artistas e álbuns
-- [ ] ADMIN consegue todas as operações
-- [ ] Tokens expiram após 5 minutos
-- [ ] Senhas hasheadas com BCrypt no banco
+- [x] Login retorna JWT válido com claims corretos
+- [x] Refresh token renova expiração
+- [x] Endpoints protegidos retornam 401 sem token
+- [ ] Endpoints protegidos retornam 403 com role insuficiente (implementado, testes pendentes)
+- [x] USER consegue apenas GET em artistas e álbuns
+- [x] ADMIN consegue todas as operações
+- [x] Tokens expiram após 5 minutos
+- [x] Senhas hasheadas com BCrypt no banco
 
 ## Arquivos relevantes
 

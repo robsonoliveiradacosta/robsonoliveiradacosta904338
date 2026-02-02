@@ -3,6 +3,7 @@ package com.quarkus.resource;
 import com.quarkus.dto.request.ArtistRequest;
 import com.quarkus.dto.response.ArtistResponse;
 import com.quarkus.service.ArtistService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -26,6 +27,7 @@ public class ArtistResource {
     ArtistService artistService;
 
     @GET
+    @RolesAllowed({"USER", "ADMIN"})
     @Operation(summary = "List all artists", description = "Returns a list of artists with optional name filter and sorting")
     @APIResponses({
         @APIResponse(responseCode = "200", description = "Artists retrieved successfully")
@@ -42,6 +44,7 @@ public class ArtistResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"USER", "ADMIN"})
     @Operation(summary = "Get artist by ID", description = "Returns a single artist by its ID")
     @APIResponses({
         @APIResponse(responseCode = "200", description = "Artist found"),
@@ -55,6 +58,7 @@ public class ArtistResource {
     }
 
     @POST
+    @RolesAllowed("ADMIN")
     @Operation(summary = "Create a new artist", description = "Creates a new artist with the provided information")
     @APIResponses({
         @APIResponse(responseCode = "201", description = "Artist created successfully"),
@@ -67,6 +71,7 @@ public class ArtistResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     @Operation(summary = "Update an artist", description = "Updates an existing artist by ID")
     @APIResponses({
         @APIResponse(responseCode = "200", description = "Artist updated successfully"),
@@ -83,6 +88,7 @@ public class ArtistResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     @Operation(summary = "Delete an artist", description = "Permanently deletes an artist by ID (hard delete)")
     @APIResponses({
         @APIResponse(responseCode = "204", description = "Artist deleted successfully"),

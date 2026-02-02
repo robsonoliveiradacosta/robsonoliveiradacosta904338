@@ -4,5 +4,5 @@
 -- BCrypt hash format: $2a$10$... (60 characters)
 
 INSERT INTO users (username, password_hash, role) VALUES
-    ('admin', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'ADMIN'),
-    ('user', '$2a$10$UZLCfq5j9eVhFMGEQKpYFeM6rcI4pVVGx0J6OvXKQW1LYvZ8VqXnS', 'USER');
+    ('admin', '$2a$10$Ww6vEj7GpuMba44Mi6Jl1uChOtSrZHkx5xvZlqDUWLmPrvq9LANUS', 'ADMIN'),
+    ('user', '$2a$10$6hIoMI5aWPeG2ztfkO6DO.1fZRXGXLSa3RM1/ydcrOyhpgb.zio1C', 'USER');

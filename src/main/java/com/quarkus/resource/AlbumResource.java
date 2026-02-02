@@ -5,6 +5,7 @@ import com.quarkus.dto.response.AlbumResponse;
 import com.quarkus.dto.response.PageResponse;
 import com.quarkus.entity.ArtistType;
 import com.quarkus.service.AlbumService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -27,6 +28,7 @@ public class AlbumResource {
     AlbumService albumService;
 
     @GET
+    @RolesAllowed({"USER", "ADMIN"})
     @Operation(
         summary = "List all albums",
         description = "Get a paginated list of albums with optional filtering by artist type and sorting"
@@ -55,6 +57,7 @@ public class AlbumResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"USER", "ADMIN"})
     @Operation(
         summary = "Get album by ID",
         description = "Retrieve a single album by its ID"
@@ -77,6 +80,7 @@ public class AlbumResource {
     }
 
     @POST
+    @RolesAllowed("ADMIN")
     @Operation(
         summary = "Create new album",
         description = "Create a new album with linked artists"
@@ -101,6 +105,7 @@ public class AlbumResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     @Operation(
         summary = "Update album",
         description = "Update an existing album by ID"
@@ -129,6 +134,7 @@ public class AlbumResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     @Operation(
         summary = "Delete album",
         description = "Permanently delete an album by ID"

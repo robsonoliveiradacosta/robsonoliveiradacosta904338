@@ -115,6 +115,13 @@
             <version>8.10.1</version>
         </dependency>
 
+        <!-- BCrypt for password hashing -->
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.10.2</version>
+        </dependency>
+
         <!-- Testes -->
         <dependency>
             <groupId>io.quarkus</groupId>
