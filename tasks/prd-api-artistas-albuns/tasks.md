@@ -5,7 +5,7 @@
 ### Fase 1 - Fundação
 - [x] 1.0 Configurar dependências Maven e application.properties
 - [x] 2.0 Criar entidades JPA (Artist, Album, User, Regional)
-- [ ] 3.0 Criar migrations Flyway (schema + dados iniciais)
+- [x] 3.0 Criar migrations Flyway (schema + dados iniciais)
 
 ### Fase 2 - CRUD Básico
 - [ ] 4.0 Implementar CRUD de Artistas
