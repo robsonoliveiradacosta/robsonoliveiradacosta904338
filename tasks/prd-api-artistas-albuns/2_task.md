@@ -16,13 +16,13 @@ Criar todas as entidades JPA do domínio seguindo o diagrama ER e os modelos def
 
 ## Subtarefas
 
-- [ ] 2.1 Criar enum `ArtistType` (SINGER, BAND)
-- [ ] 2.2 Criar enum `UserRole` (ADMIN, USER)
-- [ ] 2.3 Criar entidade `Artist` com relacionamento N:N para Album
-- [ ] 2.4 Criar entidade `Album` com relacionamento N:N para Artist e lista de imageKeys
-- [ ] 2.5 Criar entidade `User` com campos username, passwordHash e role
-- [ ] 2.6 Criar entidade `Regional` com id externo, nome e flag active
-- [ ] 2.7 Verificar que o build compila: `./mvnw compile`
+- [x] 2.1 Criar enum `ArtistType` (SINGER, BAND)
+- [x] 2.2 Criar enum `UserRole` (ADMIN, USER)
+- [x] 2.3 Criar entidade `Artist` com relacionamento N:N para Album
+- [x] 2.4 Criar entidade `Album` com relacionamento N:N para Artist e lista de imageKeys
+- [x] 2.5 Criar entidade `User` com campos username, passwordHash e role
+- [x] 2.6 Criar entidade `Regional` com id externo, nome e flag active
+- [x] 2.7 Verificar que o build compila: `./mvnw compile`
 
 ## Detalhes de Implementação
 
@@ -38,11 +38,11 @@ Consultar o **"Diagrama ER"** na techspec.md para visualizar os relacionamentos.
 
 ## Critérios de Sucesso
 
-- [ ] 4 entidades criadas no pacote `com.quarkus.entity`
-- [ ] 2 enums criados no pacote `com.quarkus.entity`
-- [ ] Relacionamento N:N configurado corretamente
-- [ ] Build compila sem erros: `./mvnw compile`
-- [ ] Hibernate valida o schema sem warnings críticos
+- [x] 4 entidades criadas no pacote `com.quarkus.entity`
+- [x] 2 enums criados no pacote `com.quarkus.entity`
+- [x] Relacionamento N:N configurado corretamente
+- [x] Build compila sem erros: `./mvnw compile`
+- [x] Hibernate valida o schema sem warnings críticos
 
 ## Arquivos relevantes
 
