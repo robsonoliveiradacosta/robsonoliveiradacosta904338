@@ -22,6 +22,36 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
 ```
 
+## Docker Compose
+
+```bash
+# Quick start - Build and run all services (PostgreSQL, MinIO, Application)
+./start.sh
+
+# Manual start - Build and run all services
+./mvnw package -DskipTests
+docker compose up --build -d
+
+# View logs from all services
+docker compose logs -f
+
+# View logs from specific service
+docker compose logs -f app
+docker compose logs -f postgres
+docker compose logs -f minio
+
+# Stop all services
+docker compose down
+
+# Stop and remove volumes (clean state)
+docker compose down -v
+
+# Check services health
+curl http://localhost:8080/q/health
+curl http://localhost:8080/q/health/live
+curl http://localhost:8080/q/health/ready
+```
+
 ## Docker Builds
 
 ```bash
@@ -31,6 +61,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Native container (smallest footprint)
 ./mvnw package -Dnative && docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/quarkus-ai-02 .
 ```
+
+## Service URLs (when running with Docker Compose)
+
+- **API**: http://localhost:8080
+- **Swagger UI**: http://localhost:8080/q/swagger-ui
+- **Health Checks**: http://localhost:8080/q/health
+- **MinIO Console**: http://localhost:9001 (credentials: minioadmin/minioadmin)
+- **PostgreSQL**: localhost:5432 (database: music_catalog, user: postgres, password: postgres)
+
+## Environment Configuration
+
+Copy `.env.example` to `.env` and customize as needed:
+
+```bash
+cp .env.example .env
+```
+
+Available environment variables:
+- `POSTGRES_DB` - PostgreSQL database name
+- `POSTGRES_USER` - PostgreSQL username
+- `POSTGRES_PASSWORD` - PostgreSQL password
+- `MINIO_ACCESS_KEY` - MinIO access key
+- `MINIO_SECRET_KEY` - MinIO secret key
+- `MINIO_BUCKET` - MinIO bucket name for album images
+- `CORS_ALLOWED_ORIGINS` - Allowed CORS origins
+- `REGIONAL_API_URL` - External regional API URL
 
 ## Architecture
 

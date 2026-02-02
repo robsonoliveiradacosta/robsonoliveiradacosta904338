@@ -22,7 +22,7 @@
 
 ### Fase 5 - Observabilidade e Finalização
 - [x] 11.0 Configurar Health Checks e documentação OpenAPI
-- [ ] 12.0 Criar Docker Compose e configuração de deploy
+- [x] 12.0 Criar Docker Compose e configuração de deploy
 
 ## Diagrama de Dependências
 
