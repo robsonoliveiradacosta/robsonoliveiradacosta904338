@@ -76,6 +76,7 @@ class AlbumResourceTest {
     @Test
     void shouldListAlbumsWithPagination() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("page", 0)
             .queryParam("size", 1)
             .when()
@@ -91,6 +92,7 @@ class AlbumResourceTest {
     @Test
     void shouldListAlbumsWithSorting() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("sort", "title:desc")
             .when()
             .get("/api/v1/albums")
@@ -102,6 +104,7 @@ class AlbumResourceTest {
     @Test
     void shouldFilterAlbumsByArtistType() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("artistType", "BAND")
             .when()
             .get("/api/v1/albums")
@@ -114,6 +117,7 @@ class AlbumResourceTest {
     @Test
     void shouldReturnEmptyWhenFilteringByNonMatchingArtistType() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("artistType", "SINGER")
             .when()
             .get("/api/v1/albums")
@@ -125,6 +129,7 @@ class AlbumResourceTest {
     @Test
     void shouldGetAlbumById() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .pathParam("id", album1Id)
             .when()
             .get("/api/v1/albums/{id}")
@@ -139,6 +144,7 @@ class AlbumResourceTest {
     @Test
     void shouldReturn404WhenAlbumNotFound() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .pathParam("id", 99999)
             .when()
             .get("/api/v1/albums/{id}")
@@ -168,6 +174,7 @@ class AlbumResourceTest {
         AlbumRequest request = new AlbumRequest("", null, List.of());
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(request)
             .when()
@@ -181,6 +188,7 @@ class AlbumResourceTest {
         AlbumRequest request = new AlbumRequest("Test Album", 2020, List.of(99999L));
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(request)
             .when()
@@ -194,6 +202,7 @@ class AlbumResourceTest {
         AlbumRequest request = new AlbumRequest("Updated Title", 1976, List.of(artist2Id));
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .pathParam("id", album1Id)
             .contentType(ContentType.JSON)
             .body(request)
@@ -213,6 +222,7 @@ class AlbumResourceTest {
         AlbumRequest request = new AlbumRequest("Test", 2020, List.of(artist1Id));
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .pathParam("id", 99999)
             .contentType(ContentType.JSON)
             .body(request)
@@ -227,6 +237,7 @@ class AlbumResourceTest {
         AlbumRequest request = new AlbumRequest("", null, List.of());
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .pathParam("id", album1Id)
             .contentType(ContentType.JSON)
             .body(request)
@@ -239,6 +250,7 @@ class AlbumResourceTest {
     @Test
     void shouldDeleteAlbum() {
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .pathParam("id", album1Id)
             .when()
             .delete("/api/v1/albums/{id}")
@@ -247,6 +259,7 @@ class AlbumResourceTest {
 
         // Verify album is deleted
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .pathParam("id", album1Id)
             .when()
             .get("/api/v1/albums/{id}")
@@ -257,6 +270,7 @@ class AlbumResourceTest {
     @Test
     void shouldReturn404WhenDeletingNonExistentAlbum() {
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .pathParam("id", 99999)
             .when()
             .delete("/api/v1/albums/{id}")
@@ -267,6 +281,7 @@ class AlbumResourceTest {
     @Test
     void shouldEnforcePaginationLimits() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("size", 150) // Over max of 100
             .when()
             .get("/api/v1/albums")
@@ -278,6 +293,7 @@ class AlbumResourceTest {
     @Test
     void shouldHandleInvalidSortParameter() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("sort", "invalid:param")
             .when()
             .get("/api/v1/albums")

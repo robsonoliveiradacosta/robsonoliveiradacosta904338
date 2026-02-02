@@ -42,6 +42,7 @@ class ArtistResourceTest {
 
         // Then filter by name
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("name", "Queen")
             .when()
             .get("/api/v1/artists")
@@ -54,6 +55,7 @@ class ArtistResourceTest {
     @Test
     void testListArtists_WithSortAscending() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("sort", "name:asc")
             .when()
             .get("/api/v1/artists")
@@ -65,6 +67,7 @@ class ArtistResourceTest {
     @Test
     void testListArtists_WithSortDescending() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .queryParam("sort", "name:desc")
             .when()
             .get("/api/v1/artists")
@@ -79,6 +82,7 @@ class ArtistResourceTest {
         ArtistRequest createRequest = new ArtistRequest("Test Artist", ArtistType.SINGER);
 
         Integer artistId = given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(createRequest)
             .when()
@@ -90,6 +94,7 @@ class ArtistResourceTest {
 
         // Then retrieve it
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .pathParam("id", artistId)
             .when()
             .get("/api/v1/artists/{id}")
@@ -103,6 +108,7 @@ class ArtistResourceTest {
     @Test
     void testGetArtist_NotFound() {
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .pathParam("id", 99999)
             .when()
             .get("/api/v1/artists/{id}")
@@ -115,6 +121,7 @@ class ArtistResourceTest {
         ArtistRequest request = new ArtistRequest("The Beatles", ArtistType.BAND);
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(request)
             .when()
@@ -131,6 +138,7 @@ class ArtistResourceTest {
         ArtistRequest request = new ArtistRequest("", ArtistType.BAND);
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(request)
             .when()
@@ -144,6 +152,7 @@ class ArtistResourceTest {
         String requestJson = "{\"name\":\"Test Artist\",\"type\":null}";
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(requestJson)
             .when()
@@ -158,6 +167,7 @@ class ArtistResourceTest {
         ArtistRequest createRequest = new ArtistRequest("Artist to Update", ArtistType.SINGER);
 
         Integer artistId = given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(createRequest)
             .when()
@@ -171,6 +181,7 @@ class ArtistResourceTest {
         ArtistRequest updateRequest = new ArtistRequest("Updated Artist", ArtistType.BAND);
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .pathParam("id", artistId)
             .body(updateRequest)
@@ -187,6 +198,7 @@ class ArtistResourceTest {
         ArtistRequest request = new ArtistRequest("Non-existent", ArtistType.BAND);
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .pathParam("id", 99999)
             .body(request)
@@ -202,6 +214,7 @@ class ArtistResourceTest {
         ArtistRequest createRequest = new ArtistRequest("Valid Name", ArtistType.BAND);
 
         Integer artistId = given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(createRequest)
             .when()
@@ -215,6 +228,7 @@ class ArtistResourceTest {
         ArtistRequest invalidRequest = new ArtistRequest("", ArtistType.BAND);
 
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .pathParam("id", artistId)
             .body(invalidRequest)
@@ -230,6 +244,7 @@ class ArtistResourceTest {
         ArtistRequest createRequest = new ArtistRequest("Artist to Delete", ArtistType.SINGER);
 
         Integer artistId = given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .body(createRequest)
             .when()
@@ -241,6 +256,7 @@ class ArtistResourceTest {
 
         // Then delete it
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .pathParam("id", artistId)
             .when()
             .delete("/api/v1/artists/{id}")
@@ -249,6 +265,7 @@ class ArtistResourceTest {
 
         // Verify it's deleted
         given()
+            .auth().oauth2(TestTokenHelper.generateUserToken())
             .pathParam("id", artistId)
             .when()
             .get("/api/v1/artists/{id}")
@@ -259,6 +276,7 @@ class ArtistResourceTest {
     @Test
     void testDeleteArtist_NotFound() {
         given()
+            .auth().oauth2(TestTokenHelper.generateAdminToken())
             .pathParam("id", 99999)
             .when()
             .delete("/api/v1/artists/{id}")
