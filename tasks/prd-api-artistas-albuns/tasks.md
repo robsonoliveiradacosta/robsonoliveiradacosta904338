@@ -16,7 +16,7 @@
 - [x] 7.0 Implementar Rate Limiting com Bucket4j
 
 ### Fase 4 - Integrações
-- [ ] 8.0 Implementar integração com MinIO
+- [x] 8.0 Implementar integração com MinIO
 - [ ] 9.0 Implementar WebSocket para notificação de álbuns
 - [ ] 10.0 Implementar sincronização de Regionais
 
