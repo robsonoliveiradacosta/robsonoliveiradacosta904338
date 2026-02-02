@@ -12,7 +12,7 @@
 - [x] 5.0 Implementar CRUD de Álbuns
 
 ### Fase 3 - Segurança
-- [ ] 6.0 Implementar autenticação JWT
+- [x] 6.0 Implementar autenticação JWT
 - [ ] 7.0 Implementar Rate Limiting com Bucket4j
 
 ### Fase 4 - Integrações
