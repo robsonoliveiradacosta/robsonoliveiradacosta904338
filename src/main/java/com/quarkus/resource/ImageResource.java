@@ -62,6 +62,14 @@ public class ImageResource {
             description = "Invalid file format or size exceeds limit"
     )
     @APIResponse(
+            responseCode = "401",
+            description = "Unauthorized - Authentication required"
+    )
+    @APIResponse(
+            responseCode = "403",
+            description = "Forbidden - Admin role required"
+    )
+    @APIResponse(
             responseCode = "404",
             description = "Album not found"
     )
@@ -70,7 +78,7 @@ public class ImageResource {
             description = "MinIO service unavailable"
     )
     public Response uploadImage(
-            @Parameter(description = "Album ID", required = true, example = "1")
+            @Parameter(description = "Album ID", required = true)
             @PathParam("albumId") Long albumId,
 
             @RequestBody(
@@ -131,6 +139,10 @@ public class ImageResource {
             content = @Content(schema = @Schema(implementation = ImageUrlResponse.class))
     )
     @APIResponse(
+            responseCode = "401",
+            description = "Unauthorized - Authentication required"
+    )
+    @APIResponse(
             responseCode = "404",
             description = "Album or image not found"
     )
@@ -139,13 +151,12 @@ public class ImageResource {
             description = "MinIO service unavailable"
     )
     public Response getImageUrl(
-            @Parameter(description = "Album ID", required = true, example = "1")
+            @Parameter(description = "Album ID", required = true)
             @PathParam("albumId") Long albumId,
 
             @Parameter(
                     description = "Image key identifier",
-                    required = true,
-                    example = "1/550e8400-e29b-41d4-a716-446655440000_cover.jpg"
+                    required = true
             )
             @PathParam("imageKey") String imageKey
     ) {
@@ -170,6 +181,14 @@ public class ImageResource {
             description = "Image deleted successfully"
     )
     @APIResponse(
+            responseCode = "401",
+            description = "Unauthorized - Authentication required"
+    )
+    @APIResponse(
+            responseCode = "403",
+            description = "Forbidden - Admin role required"
+    )
+    @APIResponse(
             responseCode = "404",
             description = "Album or image not found"
     )
@@ -178,13 +197,12 @@ public class ImageResource {
             description = "MinIO service unavailable"
     )
     public Response deleteImage(
-            @Parameter(description = "Album ID", required = true, example = "1")
+            @Parameter(description = "Album ID", required = true)
             @PathParam("albumId") Long albumId,
 
             @Parameter(
                     description = "Image key identifier",
-                    required = true,
-                    example = "1/550e8400-e29b-41d4-a716-446655440000_cover.jpg"
+                    required = true
             )
             @PathParam("imageKey") String imageKey
     ) {

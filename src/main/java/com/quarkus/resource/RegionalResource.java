@@ -31,6 +31,7 @@ public class RegionalResource {
     @RolesAllowed({"USER", "ADMIN"})
     @Operation(summary = "List all active regionals", description = "Returns a list of all active regionals")
     @APIResponse(responseCode = "200", description = "List of active regionals")
+    @APIResponse(responseCode = "401", description = "Unauthorized - Authentication required")
     public List<RegionalResponse> list() {
         return repository.findAllActive().stream()
             .map(r -> new RegionalResponse(r.getId(), r.getName(), r.getActive()))
@@ -42,6 +43,8 @@ public class RegionalResource {
     @RolesAllowed("ADMIN")
     @Operation(summary = "Trigger manual regional synchronization", description = "Manually triggers the synchronization with the external regional API")
     @APIResponse(responseCode = "200", description = "Synchronization completed successfully")
+    @APIResponse(responseCode = "401", description = "Unauthorized - Authentication required")
+    @APIResponse(responseCode = "403", description = "Forbidden - Admin role required")
     @APIResponse(responseCode = "500", description = "Synchronization failed")
     public SyncResult sync() {
         return syncService.sync();

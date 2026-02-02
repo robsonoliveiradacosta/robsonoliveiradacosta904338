@@ -21,7 +21,7 @@
 - [x] 10.0 Implementar sincronização de Regionais
 
 ### Fase 5 - Observabilidade e Finalização
-- [ ] 11.0 Configurar Health Checks e documentação OpenAPI
+- [x] 11.0 Configurar Health Checks e documentação OpenAPI
 - [ ] 12.0 Criar Docker Compose e configuração de deploy
 
 ## Diagrama de Dependências

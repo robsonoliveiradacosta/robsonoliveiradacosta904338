@@ -30,13 +30,14 @@ public class ArtistResource {
     @RolesAllowed({"USER", "ADMIN"})
     @Operation(summary = "List all artists", description = "Returns a list of artists with optional name filter and sorting")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Artists retrieved successfully")
+        @APIResponse(responseCode = "200", description = "Artists retrieved successfully"),
+        @APIResponse(responseCode = "401", description = "Unauthorized - Authentication required")
     })
     public List<ArtistResponse> listArtists(
         @Parameter(description = "Filter by name (partial match, case-insensitive)")
         @QueryParam("name") String name,
 
-        @Parameter(description = "Sort parameter in format 'field:direction' (e.g., 'name:asc' or 'name:desc')", example = "name:asc")
+        @Parameter(description = "Sort parameter in format 'field:direction' (e.g., 'name:asc' or 'name:desc')")
         @QueryParam("sort") String sort
     ) {
         return artistService.listArtists(name, sort);
@@ -48,6 +49,7 @@ public class ArtistResource {
     @Operation(summary = "Get artist by ID", description = "Returns a single artist by its ID")
     @APIResponses({
         @APIResponse(responseCode = "200", description = "Artist found"),
+        @APIResponse(responseCode = "401", description = "Unauthorized - Authentication required"),
         @APIResponse(responseCode = "404", description = "Artist not found")
     })
     public ArtistResponse getArtist(
@@ -62,7 +64,9 @@ public class ArtistResource {
     @Operation(summary = "Create a new artist", description = "Creates a new artist with the provided information")
     @APIResponses({
         @APIResponse(responseCode = "201", description = "Artist created successfully"),
-        @APIResponse(responseCode = "400", description = "Invalid request data")
+        @APIResponse(responseCode = "400", description = "Invalid request data"),
+        @APIResponse(responseCode = "401", description = "Unauthorized - Authentication required"),
+        @APIResponse(responseCode = "403", description = "Forbidden - Admin role required")
     })
     public Response createArtist(@Valid ArtistRequest request) {
         ArtistResponse response = artistService.createArtist(request);
@@ -76,6 +80,8 @@ public class ArtistResource {
     @APIResponses({
         @APIResponse(responseCode = "200", description = "Artist updated successfully"),
         @APIResponse(responseCode = "400", description = "Invalid request data"),
+        @APIResponse(responseCode = "401", description = "Unauthorized - Authentication required"),
+        @APIResponse(responseCode = "403", description = "Forbidden - Admin role required"),
         @APIResponse(responseCode = "404", description = "Artist not found")
     })
     public ArtistResponse updateArtist(
@@ -92,6 +98,8 @@ public class ArtistResource {
     @Operation(summary = "Delete an artist", description = "Permanently deletes an artist by ID (hard delete)")
     @APIResponses({
         @APIResponse(responseCode = "204", description = "Artist deleted successfully"),
+        @APIResponse(responseCode = "401", description = "Unauthorized - Authentication required"),
+        @APIResponse(responseCode = "403", description = "Forbidden - Admin role required"),
         @APIResponse(responseCode = "404", description = "Artist not found")
     })
     public Response deleteArtist(

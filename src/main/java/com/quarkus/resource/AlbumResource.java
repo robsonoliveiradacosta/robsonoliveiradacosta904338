@@ -38,17 +38,21 @@ public class AlbumResource {
         description = "Success",
         content = @Content(schema = @Schema(implementation = PageResponse.class))
     )
+    @APIResponse(
+        responseCode = "401",
+        description = "Unauthorized - Authentication required"
+    )
     public Response listAlbums(
-        @Parameter(description = "Page number (0-based)", example = "0")
+        @Parameter(description = "Page number (0-based)")
         @QueryParam("page") @DefaultValue("0") int page,
 
-        @Parameter(description = "Page size (max 100)", example = "20")
+        @Parameter(description = "Page size (max 100)")
         @QueryParam("size") @DefaultValue("20") int size,
 
-        @Parameter(description = "Sort criteria (e.g., 'title:asc', 'year:desc')", example = "title:asc")
+        @Parameter(description = "Sort criteria (e.g., 'title:asc', 'year:desc')")
         @QueryParam("sort") String sort,
 
-        @Parameter(description = "Filter by artist type (SINGER or BAND)", example = "BAND")
+        @Parameter(description = "Filter by artist type (SINGER or BAND)")
         @QueryParam("artistType") ArtistType artistType
     ) {
         PageResponse<AlbumResponse> result = albumService.findAll(page, size, sort, artistType);
@@ -68,11 +72,15 @@ public class AlbumResource {
         content = @Content(schema = @Schema(implementation = AlbumResponse.class))
     )
     @APIResponse(
+        responseCode = "401",
+        description = "Unauthorized - Authentication required"
+    )
+    @APIResponse(
         responseCode = "404",
         description = "Album not found"
     )
     public Response getAlbum(
-        @Parameter(description = "Album ID", required = true, example = "1")
+        @Parameter(description = "Album ID", required = true)
         @PathParam("id") Long id
     ) {
         AlbumResponse album = albumService.findById(id);
@@ -93,6 +101,14 @@ public class AlbumResource {
     @APIResponse(
         responseCode = "400",
         description = "Invalid request data"
+    )
+    @APIResponse(
+        responseCode = "401",
+        description = "Unauthorized - Authentication required"
+    )
+    @APIResponse(
+        responseCode = "403",
+        description = "Forbidden - Admin role required"
     )
     @APIResponse(
         responseCode = "404",
@@ -120,11 +136,19 @@ public class AlbumResource {
         description = "Invalid request data"
     )
     @APIResponse(
+        responseCode = "401",
+        description = "Unauthorized - Authentication required"
+    )
+    @APIResponse(
+        responseCode = "403",
+        description = "Forbidden - Admin role required"
+    )
+    @APIResponse(
         responseCode = "404",
         description = "Album or one of the artists not found"
     )
     public Response updateAlbum(
-        @Parameter(description = "Album ID", required = true, example = "1")
+        @Parameter(description = "Album ID", required = true)
         @PathParam("id") Long id,
         @Valid AlbumRequest request
     ) {
@@ -144,11 +168,19 @@ public class AlbumResource {
         description = "Album deleted successfully"
     )
     @APIResponse(
+        responseCode = "401",
+        description = "Unauthorized - Authentication required"
+    )
+    @APIResponse(
+        responseCode = "403",
+        description = "Forbidden - Admin role required"
+    )
+    @APIResponse(
         responseCode = "404",
         description = "Album not found"
     )
     public Response deleteAlbum(
-        @Parameter(description = "Album ID", required = true, example = "1")
+        @Parameter(description = "Album ID", required = true)
         @PathParam("id") Long id
     ) {
         albumService.delete(id);
