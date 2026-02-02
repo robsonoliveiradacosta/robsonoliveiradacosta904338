@@ -3,7 +3,6 @@ package com.quarkus.resource;
 import com.quarkus.common.MinioTestResource;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -21,7 +20,6 @@ import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
 @QuarkusTestResource(MinioTestResource.class)
-@TestSecurity(user = "admin", roles = "ADMIN")
 class ImageResourceTest {
 
     @Inject
@@ -49,6 +47,7 @@ class ImageResourceTest {
                 .when()
                 .post("/api/v1/auth/login")
                 .then()
+                .log().ifValidationFails()
                 .statusCode(200)
                 .extract()
                 .path("accessToken");
@@ -65,11 +64,31 @@ class ImageResourceTest {
                 .when()
                 .post("/api/v1/auth/login")
                 .then()
+                .log().ifValidationFails()
                 .statusCode(200)
                 .extract()
                 .path("accessToken");
 
-        // Create test album
+        // Create (or ensure) an artist for this test run
+        Long testArtistId = given()
+                .auth().oauth2(adminToken)
+                .contentType(ContentType.JSON)
+                .body("""
+                        {
+                            "name": "Test Artist (ImageResourceTest)",
+                            "type": "SINGER"
+                        }
+                        """)
+                .when()
+                .post("/api/v1/artists")
+                .then()
+                .log().ifValidationFails()
+                .statusCode(anyOf(is(201), is(409)))
+                .extract()
+                .jsonPath()
+                .getLong("id");
+
+        // Create test album using the artist created above
         testAlbumId = given()
                 .auth().oauth2(adminToken)
                 .contentType(ContentType.JSON)
@@ -77,12 +96,13 @@ class ImageResourceTest {
                         {
                             "title": "Test Album for Images",
                             "year": 2024,
-                            "artistIds": [1]
+                            "artistIds": [%d]
                         }
-                        """)
+                        """.formatted(testArtistId))
                 .when()
                 .post("/api/v1/albums")
                 .then()
+                .log().ifValidationFails()
                 .statusCode(201)
                 .extract()
                 .jsonPath()

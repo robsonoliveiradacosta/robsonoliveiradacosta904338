@@ -23,8 +23,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ImageServiceTest {
@@ -86,7 +86,7 @@ class ImageServiceTest {
 
         // When & Then
         assertThrows(NotFoundException.class, () ->
-            imageService.uploadImage(999L, "cover.jpg", inputStream, 1024L, "image/jpeg")
+                imageService.uploadImage(999L, "cover.jpg", inputStream, 1024L, "image/jpeg")
         );
     }
 
@@ -98,7 +98,7 @@ class ImageServiceTest {
 
         // When & Then
         assertThrows(BadRequestException.class, () ->
-            imageService.uploadImage(1L, "file.pdf", inputStream, 1024L, "application/pdf")
+                imageService.uploadImage(1L, "file.pdf", inputStream, 1024L, "application/pdf")
         );
     }
 
@@ -111,7 +111,7 @@ class ImageServiceTest {
 
         // When & Then
         assertThrows(BadRequestException.class, () ->
-            imageService.uploadImage(1L, "large.jpg", inputStream, oversizedFile, "image/jpeg")
+                imageService.uploadImage(1L, "large.jpg", inputStream, oversizedFile, "image/jpeg")
         );
     }
 
@@ -122,7 +122,7 @@ class ImageServiceTest {
         testAlbum.getImageKeys().add(imageKey);
         when(albumRepository.findByIdOptional(1L)).thenReturn(Optional.of(testAlbum));
         when(minioClient.getPresignedObjectUrl(any(GetPresignedObjectUrlArgs.class)))
-            .thenReturn("https://minio.example.com/presigned-url");
+                .thenReturn("https://minio.example.com/presigned-url");
 
         // When
         String url = imageService.getPresignedUrl(1L, imageKey);
@@ -142,7 +142,7 @@ class ImageServiceTest {
 
         // When & Then
         assertThrows(NotFoundException.class, () ->
-            imageService.getPresignedUrl(1L, imageKey)
+                imageService.getPresignedUrl(1L, imageKey)
         );
     }
 
@@ -169,7 +169,7 @@ class ImageServiceTest {
 
         // When & Then
         assertThrows(NotFoundException.class, () ->
-            imageService.deleteImage(1L, "1/nonexistent.jpg")
+                imageService.deleteImage(1L, "1/nonexistent.jpg")
         );
     }
 
@@ -178,13 +178,13 @@ class ImageServiceTest {
         // Given
         when(albumRepository.findByIdOptional(1L)).thenReturn(Optional.of(testAlbum));
         when(minioClient.putObject(any(PutObjectArgs.class)))
-            .thenThrow(new RuntimeException("MinIO connection failed"));
+                .thenThrow(new RuntimeException("MinIO connection failed"));
 
         InputStream inputStream = new ByteArrayInputStream("test".getBytes());
 
         // When & Then
         assertThrows(InternalServerErrorException.class, () ->
-            imageService.uploadImage(1L, "cover.jpg", inputStream, 1024L, "image/jpeg")
+                imageService.uploadImage(1L, "cover.jpg", inputStream, 1024L, "image/jpeg")
         );
     }
 
