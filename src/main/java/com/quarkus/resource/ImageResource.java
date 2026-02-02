@@ -110,7 +110,7 @@ public class ImageResource {
         }
 
         try {
-            String imageKey = imageService.uploadImage(
+            String hash = imageService.uploadImage(
                     albumId,
                     form.file.fileName(),
                     Files.newInputStream(form.file.filePath()),
@@ -118,7 +118,7 @@ public class ImageResource {
                     form.file.contentType()
             );
 
-            ImageUploadResponse response = ImageUploadResponse.of(imageKey);
+            ImageUploadResponse response = ImageUploadResponse.of(hash);
             return Response.status(Response.Status.CREATED).entity(response).build();
 
         } catch (IOException e) {
@@ -127,7 +127,7 @@ public class ImageResource {
     }
 
     @GET
-    @Path("/{imageKey}")
+    @Path("/{hash:.+}")
     @RolesAllowed({"USER", "ADMIN"})
     @Operation(
             summary = "Get image URL",
@@ -155,22 +155,19 @@ public class ImageResource {
             @PathParam("albumId") Long albumId,
 
             @Parameter(
-                    description = "Image key identifier",
+                    description = "Image hash identifier (format: yyyy/MM/dd/uuid.ext)",
                     required = true
             )
-            @PathParam("imageKey") String imageKey
+            @PathParam("hash") String hash
     ) {
-        // Handle URL-encoded path parameters
-        String decodedImageKey = decodeImageKey(albumId, imageKey);
-
-        String url = imageService.getPresignedUrl(albumId, decodedImageKey);
-        ImageUrlResponse response = ImageUrlResponse.of(decodedImageKey, url, presignedUrlExpiry);
+        String url = imageService.getPresignedUrl(albumId, hash);
+        ImageUrlResponse response = ImageUrlResponse.of(hash, url, presignedUrlExpiry);
 
         return Response.ok(response).build();
     }
 
     @DELETE
-    @Path("/{imageKey}")
+    @Path("/{hash:.+}")
     @RolesAllowed("ADMIN")
     @Operation(
             summary = "Delete album image",
@@ -201,33 +198,13 @@ public class ImageResource {
             @PathParam("albumId") Long albumId,
 
             @Parameter(
-                    description = "Image key identifier",
+                    description = "Image hash identifier (format: yyyy/MM/dd/uuid.ext)",
                     required = true
             )
-            @PathParam("imageKey") String imageKey
+            @PathParam("hash") String hash
     ) {
-        // Handle URL-encoded path parameters
-        String decodedImageKey = decodeImageKey(albumId, imageKey);
-
-        imageService.deleteImage(albumId, decodedImageKey);
+        imageService.deleteImage(albumId, hash);
         return Response.noContent().build();
-    }
-
-    /**
-     * Decode image key from path parameter.
-     * The imageKey path param only contains the UUID and filename part,
-     * so we need to reconstruct the full key as "albumId/imageKey".
-     *
-     * @param albumId  Album ID
-     * @param imageKey Image key from path parameter
-     * @return Full image key
-     */
-    private String decodeImageKey(Long albumId, String imageKey) {
-        // If imageKey doesn't start with albumId, prepend it
-        if (!imageKey.startsWith(albumId + "/")) {
-            return albumId + "/" + imageKey;
-        }
-        return imageKey;
     }
 
     /**

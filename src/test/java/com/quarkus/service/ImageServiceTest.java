@@ -1,6 +1,8 @@
 package com.quarkus.service;
 
 import com.quarkus.entity.Album;
+import com.quarkus.entity.AlbumImage;
+import com.quarkus.repository.AlbumImageRepository;
 import com.quarkus.repository.AlbumRepository;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
@@ -23,7 +25,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,6 +36,9 @@ class ImageServiceTest {
 
     @Mock
     AlbumRepository albumRepository;
+
+    @Mock
+    AlbumImageRepository albumImageRepository;
 
     @InjectMocks
     ImageService imageService;
@@ -53,7 +58,7 @@ class ImageServiceTest {
 
         testAlbum = new Album("Test Album", 2024);
         testAlbum.setId(1L);
-        testAlbum.setImageKeys(new ArrayList<>());
+        testAlbum.setImages(new ArrayList<>());
     }
 
     @Test
@@ -67,15 +72,13 @@ class ImageServiceTest {
         String contentType = "image/jpeg";
 
         // When
-        String imageKey = imageService.uploadImage(1L, filename, inputStream, size, contentType);
+        String hash = imageService.uploadImage(1L, filename, inputStream, size, contentType);
 
         // Then
-        assertNotNull(imageKey);
-        assertTrue(imageKey.startsWith("1/"));
-        assertTrue(imageKey.endsWith("_cover.jpg"));
-        assertTrue(testAlbum.getImageKeys().contains(imageKey));
+        assertNotNull(hash);
+        assertTrue(hash.matches("\\d{4}/\\d{2}/\\d{2}/[a-f0-9\\-]+\\.jpg"));
         verify(minioClient).putObject(any(PutObjectArgs.class));
-        verify(albumRepository).persist(testAlbum);
+        verify(albumImageRepository).persist(any(AlbumImage.class));
     }
 
     @Test
@@ -118,14 +121,15 @@ class ImageServiceTest {
     @Test
     void shouldGeneratePresignedUrlSuccessfully() throws Exception {
         // Given
-        String imageKey = "1/uuid_cover.jpg";
-        testAlbum.getImageKeys().add(imageKey);
-        when(albumRepository.findByIdOptional(1L)).thenReturn(Optional.of(testAlbum));
+        String hash = "2026/02/02/uuid.jpg";
+        AlbumImage albumImage = new AlbumImage(testAlbum, "test-bucket", hash, "image/jpeg", 1024);
+        when(albumImageRepository.findByAlbumIdAndHash(1L, hash))
+                .thenReturn(Optional.of(albumImage));
         when(minioClient.getPresignedObjectUrl(any(GetPresignedObjectUrlArgs.class)))
                 .thenReturn("https://minio.example.com/presigned-url");
 
         // When
-        String url = imageService.getPresignedUrl(1L, imageKey);
+        String url = imageService.getPresignedUrl(1L, hash);
 
         // Then
         assertNotNull(url);
@@ -136,40 +140,42 @@ class ImageServiceTest {
     @Test
     void shouldThrowNotFoundWhenImageNotOwnedByAlbum() {
         // Given
-        String imageKey = "1/uuid_cover.jpg";
-        // Don't add imageKey to album
-        when(albumRepository.findByIdOptional(1L)).thenReturn(Optional.of(testAlbum));
+        String hash = "2026/02/02/uuid.jpg";
+        when(albumImageRepository.findByAlbumIdAndHash(1L, hash))
+                .thenReturn(Optional.empty());
 
         // When & Then
         assertThrows(NotFoundException.class, () ->
-                imageService.getPresignedUrl(1L, imageKey)
+                imageService.getPresignedUrl(1L, hash)
         );
     }
 
     @Test
     void shouldDeleteImageSuccessfully() throws Exception {
         // Given
-        String imageKey = "1/uuid_cover.jpg";
-        testAlbum.getImageKeys().add(imageKey);
-        when(albumRepository.findByIdOptional(1L)).thenReturn(Optional.of(testAlbum));
+        String hash = "2026/02/02/uuid.jpg";
+        AlbumImage albumImage = new AlbumImage(testAlbum, "test-bucket", hash, "image/jpeg", 1024);
+        when(albumImageRepository.findByAlbumIdAndHash(1L, hash))
+                .thenReturn(Optional.of(albumImage));
 
         // When
-        imageService.deleteImage(1L, imageKey);
+        imageService.deleteImage(1L, hash);
 
         // Then
-        assertFalse(testAlbum.getImageKeys().contains(imageKey));
         verify(minioClient).removeObject(any(RemoveObjectArgs.class));
-        verify(albumRepository).persist(testAlbum);
+        verify(albumImageRepository).delete(albumImage);
     }
 
     @Test
     void shouldThrowNotFoundWhenDeletingNonExistentImage() {
         // Given
-        when(albumRepository.findByIdOptional(1L)).thenReturn(Optional.of(testAlbum));
+        String hash = "2026/02/02/nonexistent.jpg";
+        when(albumImageRepository.findByAlbumIdAndHash(1L, hash))
+                .thenReturn(Optional.empty());
 
         // When & Then
         assertThrows(NotFoundException.class, () ->
-                imageService.deleteImage(1L, "1/nonexistent.jpg")
+                imageService.deleteImage(1L, hash)
         );
     }
 

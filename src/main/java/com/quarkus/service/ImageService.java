@@ -1,6 +1,8 @@
 package com.quarkus.service;
 
 import com.quarkus.entity.Album;
+import com.quarkus.entity.AlbumImage;
+import com.quarkus.repository.AlbumImageRepository;
 import com.quarkus.repository.AlbumRepository;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
@@ -18,6 +20,8 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +43,9 @@ public class ImageService {
     @Inject
     AlbumRepository albumRepository;
 
+    @Inject
+    AlbumImageRepository albumImageRepository;
+
     @ConfigProperty(name = "app.minio.bucket")
     String bucket;
 
@@ -56,7 +63,7 @@ public class ImageService {
      * @param inputStream Image data stream
      * @param size File size in bytes
      * @param contentType MIME type
-     * @return MinIO object key
+     * @return Image hash
      * @throws NotFoundException if album not found
      * @throws BadRequestException if file validation fails
      */
@@ -73,29 +80,37 @@ public class ImageService {
         // Validate file size
         validateFileSize(size);
 
-        // Generate unique object name: albumId/uuid_filename
-        String objectName = generateObjectName(albumId, filename);
+        // Generate hash using new pattern: yyyy/MM/dd/uuid.ext
+        String extension = getExtension(filename);
+        String hash = generateHash(extension);
 
         try {
             // Upload to MinIO
             minioClient.putObject(
                 PutObjectArgs.builder()
                     .bucket(bucket)
-                    .object(objectName)
+                    .object(hash)
                     .stream(inputStream, size, -1)
                     .contentType(contentType)
                     .build()
             );
 
-            // Add image key to album
-            album.getImageKeys().add(objectName);
-            albumRepository.persist(album);
+            // Create and persist AlbumImage entity
+            AlbumImage albumImage = new AlbumImage(
+                album,
+                bucket,
+                hash,
+                contentType,
+                (int) size
+            );
+            album.addImage(albumImage);
+            albumImageRepository.persist(albumImage);
 
-            LOG.infof("Image uploaded successfully: %s", objectName);
-            return objectName;
+            LOG.infof("Image uploaded successfully: %s", hash);
+            return hash;
 
         } catch (Exception e) {
-            LOG.errorf(e, "Failed to upload image to MinIO: %s", objectName);
+            LOG.errorf(e, "Failed to upload image to MinIO: %s", hash);
             throw new InternalServerErrorException("Failed to upload image", e);
         }
     }
@@ -104,72 +119,63 @@ public class ImageService {
      * Generate a presigned URL for accessing an image.
      *
      * @param albumId Album ID
-     * @param imageKey Image object key
+     * @param hash Image hash
      * @return Presigned URL valid for configured expiry time
      * @throws NotFoundException if album or image not found
      */
-    public String getPresignedUrl(Long albumId, String imageKey) {
+    public String getPresignedUrl(Long albumId, String hash) {
         // Validate album exists and owns the image
-        Album album = albumRepository.findByIdOptional(albumId)
-            .orElseThrow(() -> new NotFoundException("Album not found with id: " + albumId));
-
-        if (!album.getImageKeys().contains(imageKey)) {
-            throw new NotFoundException("Image not found for album: " + imageKey);
-        }
+        AlbumImage albumImage = albumImageRepository.findByAlbumIdAndHash(albumId, hash)
+            .orElseThrow(() -> new NotFoundException("Image not found for album: " + hash));
 
         try {
             String url = minioClient.getPresignedObjectUrl(
                 GetPresignedObjectUrlArgs.builder()
                     .bucket(bucket)
-                    .object(imageKey)
+                    .object(hash)
                     .method(Method.GET)
                     .expiry(presignedUrlExpiry, TimeUnit.MINUTES)
                     .build()
             );
 
-            LOG.debugf("Generated presigned URL for image: %s", imageKey);
+            LOG.debugf("Generated presigned URL for image: %s", hash);
             return url;
 
         } catch (Exception e) {
-            LOG.errorf(e, "Failed to generate presigned URL for image: %s", imageKey);
+            LOG.errorf(e, "Failed to generate presigned URL for image: %s", hash);
             throw new InternalServerErrorException("Failed to generate presigned URL", e);
         }
     }
 
     /**
-     * Delete an image from both MinIO and the album's image list.
+     * Delete an image from both MinIO and the database.
      *
      * @param albumId Album ID
-     * @param imageKey Image object key
+     * @param hash Image hash
      * @throws NotFoundException if album or image not found
      */
     @Transactional
-    public void deleteImage(Long albumId, String imageKey) {
+    public void deleteImage(Long albumId, String hash) {
         // Validate album exists and owns the image
-        Album album = albumRepository.findByIdOptional(albumId)
-            .orElseThrow(() -> new NotFoundException("Album not found with id: " + albumId));
-
-        if (!album.getImageKeys().contains(imageKey)) {
-            throw new NotFoundException("Image not found for album: " + imageKey);
-        }
+        AlbumImage albumImage = albumImageRepository.findByAlbumIdAndHash(albumId, hash)
+            .orElseThrow(() -> new NotFoundException("Image not found for album: " + hash));
 
         try {
             // Remove from MinIO
             minioClient.removeObject(
                 RemoveObjectArgs.builder()
                     .bucket(bucket)
-                    .object(imageKey)
+                    .object(hash)
                     .build()
             );
 
-            // Remove from album
-            album.getImageKeys().remove(imageKey);
-            albumRepository.persist(album);
+            // Remove from database
+            albumImageRepository.delete(albumImage);
 
-            LOG.infof("Image deleted successfully: %s", imageKey);
+            LOG.infof("Image deleted successfully: %s", hash);
 
         } catch (Exception e) {
-            LOG.errorf(e, "Failed to delete image from MinIO: %s", imageKey);
+            LOG.errorf(e, "Failed to delete image from MinIO: %s", hash);
             throw new InternalServerErrorException("Failed to delete image", e);
         }
     }
@@ -207,15 +213,29 @@ public class ImageService {
     }
 
     /**
-     * Generate a unique object name for MinIO storage.
-     * Format: albumId/uuid_filename
+     * Extract file extension from filename.
      *
-     * @param albumId Album ID
-     * @param filename Original filename
-     * @return Generated object name
+     * @param fileName Original filename
+     * @return File extension (including dot) or empty string if no extension
      */
-    private String generateObjectName(Long albumId, String filename) {
+    private String getExtension(String fileName) {
+        if (fileName == null || !fileName.contains(".")) {
+            return "";
+        }
+        return fileName.substring(fileName.lastIndexOf("."));
+    }
+
+    /**
+     * Generate hash for MinIO storage using date-based pattern.
+     * Format: yyyy/MM/dd/uuid.ext
+     *
+     * @param extension File extension (including dot)
+     * @return Generated hash
+     */
+    private String generateHash(String extension) {
+        LocalDate now = LocalDate.now();
+        String datePath = now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         String uuid = UUID.randomUUID().toString();
-        return String.format("%d/%s_%s", albumId, uuid, filename);
+        return String.format("%s/%s%s", datePath, uuid, extension);
     }
 }

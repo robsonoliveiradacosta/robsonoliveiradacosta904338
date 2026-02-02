@@ -24,6 +24,9 @@
 - [x] 11.0 Configurar Health Checks e documentação OpenAPI
 - [x] 12.0 Criar Docker Compose e configuração de deploy
 
+### Fase 6 - Melhorias e Refatorações
+- [x] 13.0 Reestruturar tabela album_images com metadados
+
 ## Diagrama de Dependências
 
 ```

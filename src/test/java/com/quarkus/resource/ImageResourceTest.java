@@ -122,9 +122,8 @@ class ImageResourceTest {
                 .post("/api/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
-                .body("imageKey", notNullValue())
-                .body("imageKey", startsWith(testAlbumId + "/"))
-                .body("imageKey", containsString("test-image.jpg"))
+                .body("hash", notNullValue())
+                .body("hash", matchesRegex("\\d{4}/\\d{2}/\\d{2}/[a-f0-9\\-]+\\.jpg"))
                 .body("message", equalTo("Image uploaded successfully"));
 
         // Cleanup
@@ -193,7 +192,7 @@ class ImageResourceTest {
         // Given - Upload an image first
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
-        String imageKey = given()
+        String hash = given()
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
@@ -201,21 +200,18 @@ class ImageResourceTest {
                 .then()
                 .statusCode(201)
                 .extract()
-                .path("imageKey");
+                .path("hash");
 
         tempFile.delete();
-
-        // Extract just the UUID_filename part for the path parameter
-        String imageKeyPath = imageKey.substring(imageKey.indexOf("/") + 1);
 
         // When & Then - Get presigned URL (as USER)
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(200)
-                .body("imageKey", equalTo(imageKey))
+                .body("hash", equalTo(hash))
                 .body("url", notNullValue())
                 .body("url", startsWith("http"))
                 .body("expiresInMinutes", equalTo(presignedUrlExpiry));
@@ -226,7 +222,7 @@ class ImageResourceTest {
         // Given
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
-        String imageKey = given()
+        String hash = given()
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
@@ -234,17 +230,15 @@ class ImageResourceTest {
                 .then()
                 .statusCode(201)
                 .extract()
-                .path("imageKey");
+                .path("hash");
 
         tempFile.delete();
-
-        String imageKeyPath = imageKey.substring(imageKey.indexOf("/") + 1);
 
         // When & Then - Get presigned URL (as ADMIN)
         given()
                 .auth().oauth2(adminToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(200)
                 .body("url", notNullValue());
@@ -256,7 +250,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, "nonexistent.jpg")
+                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, "2026/02/02/nonexistent.jpg")
                 .then()
                 .statusCode(404);
     }
@@ -284,7 +278,7 @@ class ImageResourceTest {
         // Given - Upload an image first
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
-        String imageKey = given()
+        String hash = given()
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
@@ -292,17 +286,15 @@ class ImageResourceTest {
                 .then()
                 .statusCode(201)
                 .extract()
-                .path("imageKey");
+                .path("hash");
 
         tempFile.delete();
-
-        String imageKeyPath = imageKey.substring(imageKey.indexOf("/") + 1);
 
         // When & Then - Delete the image
         given()
                 .auth().oauth2(adminToken)
                 .when()
-                .delete("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .delete("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(204);
 
@@ -310,7 +302,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(404);
     }
@@ -320,7 +312,7 @@ class ImageResourceTest {
         // Given - Upload an image first
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
-        String imageKey = given()
+        String hash = given()
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
@@ -328,17 +320,15 @@ class ImageResourceTest {
                 .then()
                 .statusCode(201)
                 .extract()
-                .path("imageKey");
+                .path("hash");
 
         tempFile.delete();
-
-        String imageKeyPath = imageKey.substring(imageKey.indexOf("/") + 1);
 
         // When & Then - Try to delete as USER
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .delete("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .delete("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(403);
     }
@@ -350,7 +340,7 @@ class ImageResourceTest {
         File tempFile2 = createTestImageFile("image2.png", "image/png");
 
         // When - Upload first image
-        String imageKey1 = given()
+        String hash1 = given()
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile1, "image/jpeg")
                 .when()
@@ -358,10 +348,10 @@ class ImageResourceTest {
                 .then()
                 .statusCode(201)
                 .extract()
-                .path("imageKey");
+                .path("hash");
 
         // Upload second image
-        String imageKey2 = given()
+        String hash2 = given()
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile2, "image/png")
                 .when()
@@ -369,10 +359,10 @@ class ImageResourceTest {
                 .then()
                 .statusCode(201)
                 .extract()
-                .path("imageKey");
+                .path("hash");
 
         // Then - Both images should be different
-        assertThat(imageKey1, not(equalTo(imageKey2)));
+        assertThat(hash1, not(equalTo(hash2)));
 
         // Cleanup
         tempFile1.delete();

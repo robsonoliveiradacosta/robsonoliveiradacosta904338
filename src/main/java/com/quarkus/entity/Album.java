@@ -28,10 +28,8 @@ public class Album {
     )
     private Set<Artist> artists = new HashSet<>();
 
-    @ElementCollection
-    @CollectionTable(name = "album_images", joinColumns = @JoinColumn(name = "album_id"))
-    @Column(name = "image_key", length = 500, nullable = false)
-    private List<String> imageKeys = new ArrayList<>();
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AlbumImage> images = new ArrayList<>();
 
     public Album() {
     }
@@ -73,11 +71,21 @@ public class Album {
         this.artists = artists;
     }
 
-    public List<String> getImageKeys() {
-        return imageKeys;
+    public List<AlbumImage> getImages() {
+        return images;
     }
 
-    public void setImageKeys(List<String> imageKeys) {
-        this.imageKeys = imageKeys;
+    public void setImages(List<AlbumImage> images) {
+        this.images = images;
+    }
+
+    public void addImage(AlbumImage image) {
+        images.add(image);
+        image.setAlbum(this);
+    }
+
+    public void removeImage(AlbumImage image) {
+        images.remove(image);
+        image.setAlbum(null);
     }
 }
