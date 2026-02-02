@@ -30,7 +30,7 @@ public class Album {
 
     @ElementCollection
     @CollectionTable(name = "album_images", joinColumns = @JoinColumn(name = "album_id"))
-    @Column(name = "image_key")
+    @Column(name = "image_key", length = 500, nullable = false)
     private List<String> imageKeys = new ArrayList<>();
 
     public Album() {

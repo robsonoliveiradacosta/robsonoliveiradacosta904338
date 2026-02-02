@@ -16,17 +16,17 @@ Criar scripts de migração Flyway para criação do schema do banco de dados e 
 
 ## Subtarefas
 
-- [ ] 3.1 Criar V1__create_artists_table.sql
-- [ ] 3.2 Criar V2__create_albums_table.sql
-- [ ] 3.3 Criar V3__create_album_artist_junction.sql (tabela de junção N:N)
-- [ ] 3.4 Criar V4__create_album_images_table.sql
-- [ ] 3.5 Criar V5__create_users_table.sql
-- [ ] 3.6 Criar V6__create_regionals_table.sql
-- [ ] 3.7 Criar V7__insert_sample_artists.sql (dados de exemplo)
-- [ ] 3.8 Criar V8__insert_sample_albums.sql (dados de exemplo)
-- [ ] 3.9 Criar V9__insert_sample_users.sql (admin e user de teste)
-- [ ] 3.10 Testar migrations com banco PostgreSQL local ou container
-- [ ] 3.11 Verificar que a aplicação inicia: `./mvnw quarkus:dev`
+- [x] 3.1 Criar V1__create_artists_table.sql
+- [x] 3.2 Criar V2__create_albums_table.sql
+- [x] 3.3 Criar V3__create_album_artist_junction.sql (tabela de junção N:N)
+- [x] 3.4 Criar V4__create_album_images_table.sql
+- [x] 3.5 Criar V5__create_users_table.sql
+- [x] 3.6 Criar V6__create_regionals_table.sql
+- [x] 3.7 Criar V7__insert_sample_artists.sql (dados de exemplo)
+- [x] 3.8 Criar V8__insert_sample_albums.sql (dados de exemplo)
+- [x] 3.9 Criar V9__insert_sample_users.sql (admin e user de teste)
+- [x] 3.10 Testar migrations com banco PostgreSQL local ou container
+- [x] 3.11 Verificar que a aplicação inicia: `./mvnw quarkus:dev`
 
 ## Detalhes de Implementação
 
@@ -85,11 +85,11 @@ CREATE TABLE regionals (
 
 ## Critérios de Sucesso
 
-- [ ] 9 arquivos de migration criados em `src/main/resources/db/migration/`
-- [ ] Migrations executam sem erros em banco PostgreSQL limpo
-- [ ] Tabelas criadas com constraints corretas (FK, PK, UNIQUE)
-- [ ] Dados de exemplo inseridos corretamente
-- [ ] Aplicação inicia sem erros de schema
+- [x] 9 arquivos de migration criados em `src/main/resources/db/migration/`
+- [x] Migrations executam sem erros em banco PostgreSQL limpo
+- [x] Tabelas criadas com constraints corretas (FK, PK, UNIQUE)
+- [x] Dados de exemplo inseridos corretamente
+- [x] Aplicação inicia sem erros de schema
 
 ## Arquivos relevantes
 

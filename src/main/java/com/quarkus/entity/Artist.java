@@ -16,7 +16,7 @@ public class Artist {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private ArtistType type;
 
     @ManyToMany(mappedBy = "artists")
