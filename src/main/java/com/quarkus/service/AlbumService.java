@@ -8,6 +8,7 @@ import com.quarkus.entity.Artist;
 import com.quarkus.entity.ArtistType;
 import com.quarkus.repository.AlbumRepository;
 import com.quarkus.repository.ArtistRepository;
+import com.quarkus.websocket.AlbumNotificationSocket;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -27,6 +28,9 @@ public class AlbumService {
 
     @Inject
     ArtistRepository artistRepository;
+
+    @Inject
+    AlbumNotificationSocket notificationSocket;
 
     /**
      * Find all albums with pagination, sorting and optional artist type filter.
@@ -95,6 +99,10 @@ public class AlbumService {
         album.setArtists(artists);
 
         albumRepository.persist(album);
+
+        // Notify WebSocket clients
+        notificationSocket.notifyNewAlbum(album);
+
         return AlbumResponse.from(album);
     }
 

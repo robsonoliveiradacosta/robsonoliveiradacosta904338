@@ -8,6 +8,7 @@ import com.quarkus.entity.Artist;
 import com.quarkus.entity.ArtistType;
 import com.quarkus.repository.AlbumRepository;
 import com.quarkus.repository.ArtistRepository;
+import com.quarkus.websocket.AlbumNotificationSocket;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import jakarta.ws.rs.NotFoundException;
@@ -34,6 +35,9 @@ class AlbumServiceTest {
 
     @Mock
     ArtistRepository artistRepository;
+
+    @Mock
+    AlbumNotificationSocket notificationSocket;
 
     @InjectMocks
     AlbumService albumService;
