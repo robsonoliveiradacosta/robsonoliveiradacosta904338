@@ -17,15 +17,15 @@ Implementar rate limiting para limitar requisições a 10 por minuto por usuári
 
 ## Subtarefas
 
-- [ ] 7.1 Verificar dependência bucket4j-core no pom.xml
-- [ ] 7.2 Criar `RateLimitFilter` implements `ContainerRequestFilter`
-- [ ] 7.3 Implementar lógica de bucket por usuário
-- [ ] 7.4 Configurar bandwidth: 10 tokens, refill a cada 1 minuto
-- [ ] 7.5 Retornar 429 com ErrorResponse quando limite excedido
-- [ ] 7.6 Adicionar headers X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset
-- [ ] 7.7 Criar testes unitários para lógica do bucket
-- [ ] 7.8 Criar testes de integração para verificar rate limiting
-- [ ] 7.9 Testar manualmente com múltiplas requisições rápidas
+- [x] 7.1 Verificar dependência bucket4j-core no pom.xml
+- [x] 7.2 Criar `RateLimitFilter` implements `ContainerRequestFilter`
+- [x] 7.3 Implementar lógica de bucket por usuário
+- [x] 7.4 Configurar bandwidth: 10 tokens, refill a cada 1 minuto
+- [x] 7.5 Retornar 429 com ErrorResponse quando limite excedido
+- [x] 7.6 Adicionar headers X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset
+- [x] 7.7 Criar testes unitários para lógica do bucket
+- [x] 7.8 Criar testes de integração para verificar rate limiting
+- [x] 7.9 Testar manualmente com múltiplas requisições rápidas
 
 ## Detalhes de Implementação
 
@@ -91,13 +91,13 @@ public class RateLimitFilter implements ContainerRequestFilter, ContainerRespons
 
 ## Critérios de Sucesso
 
-- [ ] Filtro intercepta todas as requisições autenticadas
-- [ ] Após 10 requisições em 1 minuto, retorna 429
-- [ ] Headers X-RateLimit-* presentes nas respostas
-- [ ] Buckets são isolados por usuário
-- [ ] Requisições não autenticadas não são limitadas
-- [ ] Bucket reseta após 1 minuto
-- [ ] Testes validam comportamento do rate limiting
+- [x] Filtro intercepta todas as requisições autenticadas
+- [x] Após 10 requisições em 1 minuto, retorna 429
+- [x] Headers X-RateLimit-* presentes nas respostas
+- [x] Buckets são isolados por usuário
+- [x] Requisições não autenticadas não são limitadas
+- [x] Bucket reseta após 1 minuto
+- [x] Testes validam comportamento do rate limiting
 
 ## Arquivos relevantes
 

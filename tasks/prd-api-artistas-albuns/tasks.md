@@ -13,7 +13,7 @@
 
 ### Fase 3 - Segurança
 - [x] 6.0 Implementar autenticação JWT
-- [ ] 7.0 Implementar Rate Limiting com Bucket4j
+- [x] 7.0 Implementar Rate Limiting com Bucket4j
 
 ### Fase 4 - Integrações
 - [ ] 8.0 Implementar integração com MinIO
