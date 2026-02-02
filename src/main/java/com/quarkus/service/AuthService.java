@@ -1,11 +1,11 @@
 package com.quarkus.service;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.quarkus.dto.request.LoginRequest;
 import com.quarkus.dto.response.TokenResponse;
 import com.quarkus.entity.User;
 import com.quarkus.repository.UserRepository;
 import com.quarkus.security.TokenService;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -35,9 +35,7 @@ public class AuthService {
 
         LOG.infof("User found: %s, verifying password", user.getUsername());
 
-        boolean passwordMatches = BCrypt.verifyer()
-                .verify(request.password().toCharArray(), user.getPasswordHash())
-                .verified;
+        boolean passwordMatches = BcryptUtil.matches(request.password(), user.getPasswordHash());
 
         if (!passwordMatches) {
             LOG.warnf("Password does not match for user: %s", request.username());

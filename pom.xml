@@ -115,11 +115,10 @@
             <version>8.10.1</version>
         </dependency>
 
-        <!-- BCrypt for password hashing -->
+        <!-- Elytron Security Common (includes BCrypt) -->
         <dependency>
-            <groupId>at.favre.lib</groupId>
-            <artifactId>bcrypt</artifactId>
-            <version>0.10.2</version>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-elytron-security-common</artifactId>
         </dependency>
 
         <!-- Testes -->

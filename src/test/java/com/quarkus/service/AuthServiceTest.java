@@ -1,12 +1,12 @@
 package com.quarkus.service;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.quarkus.dto.request.LoginRequest;
 import com.quarkus.dto.response.TokenResponse;
 import com.quarkus.entity.User;
 import com.quarkus.entity.UserRole;
 import com.quarkus.repository.UserRepository;
 import com.quarkus.security.TokenService;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -38,7 +38,7 @@ class AuthServiceTest {
 
     @BeforeEach
     void setUp() {
-        hashedPassword = BCrypt.withDefaults().hashToString(12, "password123".toCharArray());
+        hashedPassword = BcryptUtil.bcryptHash("password123");
         testUser = new User("testuser", hashedPassword, UserRole.USER);
         testUser.setId(1L);
     }
