@@ -20,18 +20,18 @@ Implementar sincronização de regionais com API externa usando REST Client e Sc
 
 ## Subtarefas
 
-- [ ] 10.1 Criar `RegionalApiClient` interface com @RegisterRestClient
-- [ ] 10.2 Configurar REST Client no application.properties
-- [ ] 10.3 Criar `RegionalDto` para deserialização da resposta externa
-- [ ] 10.4 Criar `RegionalRepository` extends PanacheRepository
-- [ ] 10.5 Criar `RegionalSyncService` com lógica de sincronização
-- [ ] 10.6 Implementar regras: inserir novos, inativar ausentes, tratar alterações
-- [ ] 10.7 Criar `RegionalSyncScheduler` com @Scheduled(cron)
-- [ ] 10.8 Criar `RegionalResource` com endpoints /sync e listagem
-- [ ] 10.9 Adicionar tratamento de erros (timeout, API indisponível)
-- [ ] 10.10 Criar testes unitários para lógica de sincronização
-- [ ] 10.11 Criar testes de integração com WireMock para API externa
-- [ ] 10.12 Testar sincronização manual e verificar logs
+- [x] 10.1 Criar `RegionalApiClient` interface com @RegisterRestClient
+- [x] 10.2 Configurar REST Client no application.properties
+- [x] 10.3 Criar `RegionalDto` para deserialização da resposta externa
+- [x] 10.4 Criar `RegionalRepository` extends PanacheRepository
+- [x] 10.5 Criar `RegionalSyncService` com lógica de sincronização
+- [x] 10.6 Implementar regras: inserir novos, inativar ausentes, tratar alterações
+- [x] 10.7 Criar `RegionalSyncScheduler` com @Scheduled(cron)
+- [x] 10.8 Criar `RegionalResource` com endpoints /sync e listagem
+- [x] 10.9 Adicionar tratamento de erros (timeout, API indisponível)
+- [x] 10.10 Criar testes unitários para lógica de sincronização
+- [x] 10.11 Criar testes de integração com WireMock para API externa
+- [x] 10.12 Testar sincronização manual e verificar logs
 
 ## Detalhes de Implementação
 
@@ -161,15 +161,15 @@ public class RegionalSyncService {
 
 ## Critérios de Sucesso
 
-- [ ] REST Client conecta na API externa corretamente
-- [ ] Scheduler executa às 04:00 (verificar logs)
-- [ ] Endpoint manual dispara sincronização
-- [ ] Novos regionais são inseridos com active=true
-- [ ] Regionais ausentes são marcados active=false
-- [ ] Alteração de nome: antigo inativado, novo inserido
-- [ ] Timeout tratado graciosamente (não quebra a aplicação)
-- [ ] Listagem retorna apenas regionais ativos
-- [ ] Testes com WireMock validam cenários
+- [x] REST Client conecta na API externa corretamente
+- [x] Scheduler executa às 04:00 (verificar logs)
+- [x] Endpoint manual dispara sincronização
+- [x] Novos regionais são inseridos com active=true
+- [x] Regionais ausentes são marcados active=false
+- [x] Alteração de nome: antigo inativado, novo inserido
+- [x] Timeout tratado graciosamente (não quebra a aplicação)
+- [x] Listagem retorna apenas regionais ativos
+- [x] Testes com WireMock validam cenários
 
 ## Arquivos relevantes
 

@@ -18,7 +18,7 @@
 ### Fase 4 - Integrações
 - [x] 8.0 Implementar integração com MinIO
 - [x] 9.0 Implementar WebSocket para notificação de álbuns
-- [ ] 10.0 Implementar sincronização de Regionais
+- [x] 10.0 Implementar sincronização de Regionais
 
 ### Fase 5 - Observabilidade e Finalização
 - [ ] 11.0 Configurar Health Checks e documentação OpenAPI
