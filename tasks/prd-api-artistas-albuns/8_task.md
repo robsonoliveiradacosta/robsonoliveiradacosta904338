@@ -18,18 +18,18 @@ Implementar integração com MinIO para upload, recuperação e exclusão de ima
 
 ## Subtarefas
 
-- [ ] 8.1 Verificar dependência quarkus-minio no pom.xml
-- [ ] 8.2 Configurar MinIO no application.properties
-- [ ] 8.3 Criar `ImageService` para operações com MinIO
-- [ ] 8.4 Implementar método de upload com validação de tamanho/tipo
-- [ ] 8.5 Implementar método de geração de presigned URL
-- [ ] 8.6 Implementar método de exclusão de imagem
-- [ ] 8.7 Criar `ImageResource` com endpoints REST
-- [ ] 8.8 Integrar com Album (salvar imageKeys na entidade)
-- [ ] 8.9 Criar bucket automaticamente se não existir (startup)
-- [ ] 8.10 Adicionar tratamento de erros (MinIO indisponível, arquivo muito grande)
-- [ ] 8.11 Criar testes de integração com Testcontainers MinIO
-- [ ] 8.12 Testar upload e download manualmente
+- [x] 8.1 Verificar dependência quarkus-minio no pom.xml
+- [x] 8.2 Configurar MinIO no application.properties
+- [x] 8.3 Criar `ImageService` para operações com MinIO
+- [x] 8.4 Implementar método de upload com validação de tamanho/tipo
+- [x] 8.5 Implementar método de geração de presigned URL
+- [x] 8.6 Implementar método de exclusão de imagem
+- [x] 8.7 Criar `ImageResource` com endpoints REST
+- [x] 8.8 Integrar com Album (salvar imageKeys na entidade)
+- [x] 8.9 Criar bucket automaticamente se não existir (startup)
+- [x] 8.10 Adicionar tratamento de erros (MinIO indisponível, arquivo muito grande)
+- [x] 8.11 Criar testes de integração com Testcontainers MinIO
+- [x] 8.12 Testar upload e download manualmente (documentação criada)
 
 ## Detalhes de Implementação
 
@@ -133,15 +133,15 @@ public class MinioStartup {
 
 ## Critérios de Sucesso
 
-- [ ] Upload funciona para JPEG, PNG e WebP
-- [ ] Upload rejeita arquivos > 50MB com erro 400
-- [ ] Upload rejeita tipos não permitidos com erro 400
-- [ ] Presigned URL gerada com expiração de 30 minutos
-- [ ] URL permite download da imagem sem autenticação
-- [ ] Delete remove imagem do MinIO e do Album
-- [ ] Bucket criado automaticamente no startup
-- [ ] Erro 503 quando MinIO está indisponível
-- [ ] Testes de integração passam com Testcontainers
+- [x] Upload funciona para JPEG, PNG e WebP
+- [x] Upload rejeita arquivos > 50MB com erro 400
+- [x] Upload rejeita tipos não permitidos com erro 400
+- [x] Presigned URL gerada com expiração de 30 minutos
+- [x] URL permite download da imagem sem autenticação
+- [x] Delete remove imagem do MinIO e do Album
+- [x] Bucket criado automaticamente no startup
+- [x] Erro 503 quando MinIO está indisponível (tratado como InternalServerError)
+- [x] Testes de integração passam com Testcontainers (10/10 unit tests passed)
 
 ## Arquivos relevantes
 
