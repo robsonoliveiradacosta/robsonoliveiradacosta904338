@@ -20,17 +20,17 @@ Implementar o CRUD completo de Álbuns seguindo a arquitetura em camadas. Inclui
 
 ## Subtarefas
 
-- [ ] 5.1 Criar `AlbumRepository` extends `PanacheRepository<Album>`
-- [ ] 5.2 Implementar queries customizadas para paginação e filtros
-- [ ] 5.3 Criar DTOs: `AlbumRequest`, `AlbumResponse`, `PageResponse<T>`
-- [ ] 5.4 Criar `AlbumService` com lógica de negócio
-- [ ] 5.5 Implementar vinculação de artistas ao criar/atualizar álbum
-- [ ] 5.6 Criar `AlbumResource` com endpoints REST
-- [ ] 5.7 Adicionar validação Bean Validation nos DTOs
-- [ ] 5.8 Adicionar anotações OpenAPI nos endpoints
-- [ ] 5.9 Criar testes unitários para `AlbumService`
-- [ ] 5.10 Criar testes de integração para `AlbumResource`
-- [ ] 5.11 Testar paginação e filtros manualmente
+- [x] 5.1 Criar `AlbumRepository` extends `PanacheRepository<Album>`
+- [x] 5.2 Implementar queries customizadas para paginação e filtros
+- [x] 5.3 Criar DTOs: `AlbumRequest`, `AlbumResponse`, `PageResponse<T>`
+- [x] 5.4 Criar `AlbumService` com lógica de negócio
+- [x] 5.5 Implementar vinculação de artistas ao criar/atualizar álbum
+- [x] 5.6 Criar `AlbumResource` com endpoints REST
+- [x] 5.7 Adicionar validação Bean Validation nos DTOs
+- [x] 5.8 Adicionar anotações OpenAPI nos endpoints
+- [x] 5.9 Criar testes unitários para `AlbumService`
+- [x] 5.10 Criar testes de integração para `AlbumResource`
+- [x] 5.11 Testar paginação e filtros manualmente
 
 ## Detalhes de Implementação
 
@@ -79,14 +79,14 @@ Requer JOIN com tabela de artistas para filtrar álbuns que tenham pelo menos um
 
 ## Critérios de Sucesso
 
-- [ ] 5 endpoints funcionando corretamente
-- [ ] Paginação funciona com page, size e totalElements corretos
-- [ ] Filtro por artistType retorna apenas álbuns com artistas do tipo
-- [ ] Ordenação por title e year funciona (asc/desc)
-- [ ] Vinculação de artistas funciona no create e update
-- [ ] DELETE remove álbum e limpa relacionamentos
-- [ ] Testes cobrem paginação, filtros e casos de erro
-- [ ] Endpoints documentados no Swagger UI
+- [x] 5 endpoints funcionando corretamente
+- [x] Paginação funciona com page, size e totalElements corretos
+- [x] Filtro por artistType retorna apenas álbuns com artistas do tipo
+- [x] Ordenação por title e year funciona (asc/desc)
+- [x] Vinculação de artistas funciona no create e update
+- [x] DELETE remove álbum e limpa relacionamentos
+- [x] Testes cobrem paginação, filtros e casos de erro
+- [x] Endpoints documentados no Swagger UI
 
 ## Arquivos relevantes
 

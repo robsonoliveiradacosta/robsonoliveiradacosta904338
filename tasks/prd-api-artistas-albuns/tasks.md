@@ -9,7 +9,7 @@
 
 ### Fase 2 - CRUD Básico
 - [x] 4.0 Implementar CRUD de Artistas
-- [ ] 5.0 Implementar CRUD de Álbuns
+- [x] 5.0 Implementar CRUD de Álbuns
 
 ### Fase 3 - Segurança
 - [ ] 6.0 Implementar autenticação JWT
