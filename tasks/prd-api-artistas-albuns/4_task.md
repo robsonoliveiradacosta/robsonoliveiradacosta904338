@@ -18,16 +18,16 @@ Implementar o CRUD completo de Artistas seguindo a arquitetura em camadas (Repos
 
 ## Subtarefas
 
-- [ ] 4.1 Criar `ArtistRepository` extends `PanacheRepository<Artist>`
-- [ ] 4.2 Implementar query customizada para busca por nome com ordenação
-- [ ] 4.3 Criar DTOs: `ArtistRequest` e `ArtistResponse`
-- [ ] 4.4 Criar `ArtistService` com lógica de negócio
-- [ ] 4.5 Criar `ArtistResource` com endpoints REST
-- [ ] 4.6 Adicionar validação Bean Validation nos DTOs
-- [ ] 4.7 Adicionar anotações OpenAPI nos endpoints
-- [ ] 4.8 Criar testes unitários para `ArtistService`
-- [ ] 4.9 Criar testes de integração para `ArtistResource`
-- [ ] 4.10 Testar manualmente via Swagger UI ou curl
+- [x] 4.1 Criar `ArtistRepository` extends `PanacheRepository<Artist>`
+- [x] 4.2 Implementar query customizada para busca por nome com ordenação
+- [x] 4.3 Criar DTOs: `ArtistRequest` e `ArtistResponse`
+- [x] 4.4 Criar `ArtistService` com lógica de negócio
+- [x] 4.5 Criar `ArtistResource` com endpoints REST
+- [x] 4.6 Adicionar validação Bean Validation nos DTOs
+- [x] 4.7 Adicionar anotações OpenAPI nos endpoints
+- [x] 4.8 Criar testes unitários para `ArtistService`
+- [x] 4.9 Criar testes de integração para `ArtistResource`
+- [x] 4.10 Testar manualmente via Swagger UI ou curl
 
 ## Detalhes de Implementação
 
@@ -64,14 +64,14 @@ public class ArtistRepository implements PanacheRepository<Artist> {
 
 ## Critérios de Sucesso
 
-- [ ] 5 endpoints funcionando corretamente
-- [ ] Filtro por nome funciona com busca parcial case-insensitive
-- [ ] Ordenação por nome (asc/desc) funciona
-- [ ] Validação retorna 400 Bad Request para dados inválidos
-- [ ] DELETE retorna 204 No Content
-- [ ] Testes unitários cobrem casos de sucesso e erro
-- [ ] Testes de integração validam fluxo completo
-- [ ] Endpoints documentados no Swagger UI
+- [x] 5 endpoints funcionando corretamente
+- [x] Filtro por nome funciona com busca parcial case-insensitive
+- [x] Ordenação por nome (asc/desc) funciona
+- [x] Validação retorna 400 Bad Request para dados inválidos
+- [x] DELETE retorna 204 No Content
+- [x] Testes unitários cobrem casos de sucesso e erro
+- [x] Testes de integração validam fluxo completo
+- [x] Endpoints documentados no Swagger UI
 
 ## Arquivos relevantes
 

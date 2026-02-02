@@ -8,7 +8,7 @@
 - [x] 3.0 Criar migrations Flyway (schema + dados iniciais)
 
 ### Fase 2 - CRUD Básico
-- [ ] 4.0 Implementar CRUD de Artistas
+- [x] 4.0 Implementar CRUD de Artistas
 - [ ] 5.0 Implementar CRUD de Álbuns
 
 ### Fase 3 - Segurança
