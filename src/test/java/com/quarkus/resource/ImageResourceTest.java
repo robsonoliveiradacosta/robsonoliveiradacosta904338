@@ -1,9 +1,9 @@
 package com.quarkus.resource;
 
-import com.quarkus.entity.Album;
-import com.quarkus.entity.Artist;
-import com.quarkus.entity.ArtistType;
+import com.quarkus.common.MinioTestResource;
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -20,6 +20,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
+@QuarkusTestResource(MinioTestResource.class)
+@TestSecurity(user = "admin", roles = "ADMIN")
 class ImageResourceTest {
 
     @Inject
@@ -30,58 +32,61 @@ class ImageResourceTest {
     private String userToken;
     private Long testAlbumId;
 
+    private static final int STATUS_OK = 200;
+
     @BeforeEach
     @Transactional
     void setUp() {
         // Get admin token
         adminToken = given()
-            .contentType(ContentType.JSON)
-            .body("""
-                {
-                    "username": "admin",
-                    "password": "admin123"
-                }
-                """)
-            .when()
-            .post("/api/v1/auth/login")
-            .then()
-            .statusCode(200)
-            .extract()
-            .path("accessToken");
+                .contentType(ContentType.JSON)
+                .body("""
+                        {
+                            "username": "admin",
+                            "password": "admin123"
+                        }
+                        """)
+                .when()
+                .post("/api/v1/auth/login")
+                .then()
+                .statusCode(200)
+                .extract()
+                .path("accessToken");
 
         // Get user token
         userToken = given()
-            .contentType(ContentType.JSON)
-            .body("""
-                {
-                    "username": "user",
-                    "password": "user123"
-                }
-                """)
-            .when()
-            .post("/api/v1/auth/login")
-            .then()
-            .statusCode(200)
-            .extract()
-            .path("accessToken");
+                .contentType(ContentType.JSON)
+                .body("""
+                        {
+                            "username": "user",
+                            "password": "user123"
+                        }
+                        """)
+                .when()
+                .post("/api/v1/auth/login")
+                .then()
+                .statusCode(200)
+                .extract()
+                .path("accessToken");
 
         // Create test album
         testAlbumId = given()
-            .auth().oauth2(adminToken)
-            .contentType(ContentType.JSON)
-            .body("""
-                {
-                    "title": "Test Album for Images",
-                    "year": 2024,
-                    "artistIds": [1]
-                }
-                """)
-            .when()
-            .post("/api/v1/albums")
-            .then()
-            .statusCode(201)
-            .extract()
-            .path("id");
+                .auth().oauth2(adminToken)
+                .contentType(ContentType.JSON)
+                .body("""
+                        {
+                            "title": "Test Album for Images",
+                            "year": 2024,
+                            "artistIds": [1]
+                        }
+                        """)
+                .when()
+                .post("/api/v1/albums")
+                .then()
+                .statusCode(201)
+                .extract()
+                .jsonPath()
+                .getLong("id");
     }
 
     @Test
@@ -91,16 +96,16 @@ class ImageResourceTest {
 
         // When & Then
         given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201)
-            .body("imageKey", notNullValue())
-            .body("imageKey", startsWith(testAlbumId + "/"))
-            .body("imageKey", containsString("test-image.jpg"))
-            .body("message", equalTo("Image uploaded successfully"));
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201)
+                .body("imageKey", notNullValue())
+                .body("imageKey", startsWith(testAlbumId + "/"))
+                .body("imageKey", containsString("test-image.jpg"))
+                .body("message", equalTo("Image uploaded successfully"));
 
         // Cleanup
         tempFile.delete();
@@ -113,12 +118,12 @@ class ImageResourceTest {
 
         // When & Then
         given()
-            .auth().oauth2(userToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(403);
+                .auth().oauth2(userToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(403);
 
         // Cleanup
         tempFile.delete();
@@ -131,13 +136,13 @@ class ImageResourceTest {
 
         // When & Then
         given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "application/pdf")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(400)
-            .body("message", containsString("Invalid content type"));
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "application/pdf")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(400)
+                .body("message", containsString("Invalid content type"));
 
         // Cleanup
         tempFile.delete();
@@ -152,12 +157,12 @@ class ImageResourceTest {
         // Note: This test would need a real large file to test properly in a real scenario
         // For now, we're just testing the happy path and relying on unit tests for validation
         given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201); // Small file should succeed
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201); // Small file should succeed
 
         // Cleanup
         tempFile.delete();
@@ -169,14 +174,14 @@ class ImageResourceTest {
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
         String imageKey = given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201)
-            .extract()
-            .path("imageKey");
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("imageKey");
 
         tempFile.delete();
 
@@ -185,15 +190,15 @@ class ImageResourceTest {
 
         // When & Then - Get presigned URL (as USER)
         given()
-            .auth().oauth2(userToken)
-            .when()
-            .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
-            .then()
-            .statusCode(200)
-            .body("imageKey", equalTo(imageKey))
-            .body("url", notNullValue())
-            .body("url", startsWith("http"))
-            .body("expiresInMinutes", equalTo(presignedUrlExpiry));
+                .auth().oauth2(userToken)
+                .when()
+                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .then()
+                .statusCode(200)
+                .body("imageKey", equalTo(imageKey))
+                .body("url", notNullValue())
+                .body("url", startsWith("http"))
+                .body("expiresInMinutes", equalTo(presignedUrlExpiry));
     }
 
     @Test
@@ -202,14 +207,14 @@ class ImageResourceTest {
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
         String imageKey = given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201)
-            .extract()
-            .path("imageKey");
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("imageKey");
 
         tempFile.delete();
 
@@ -217,23 +222,23 @@ class ImageResourceTest {
 
         // When & Then - Get presigned URL (as ADMIN)
         given()
-            .auth().oauth2(adminToken)
-            .when()
-            .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
-            .then()
-            .statusCode(200)
-            .body("url", notNullValue());
+                .auth().oauth2(adminToken)
+                .when()
+                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .then()
+                .statusCode(200)
+                .body("url", notNullValue());
     }
 
     @Test
     void shouldReturn404ForNonExistentImage() {
         // When & Then
         given()
-            .auth().oauth2(userToken)
-            .when()
-            .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, "nonexistent.jpg")
-            .then()
-            .statusCode(404);
+                .auth().oauth2(userToken)
+                .when()
+                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, "nonexistent.jpg")
+                .then()
+                .statusCode(404);
     }
 
     @Test
@@ -243,12 +248,12 @@ class ImageResourceTest {
 
         // When & Then
         given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", 99999L)
-            .then()
-            .statusCode(404);
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", 99999L)
+                .then()
+                .statusCode(404);
 
         // Cleanup
         tempFile.delete();
@@ -260,14 +265,14 @@ class ImageResourceTest {
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
         String imageKey = given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201)
-            .extract()
-            .path("imageKey");
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("imageKey");
 
         tempFile.delete();
 
@@ -275,19 +280,19 @@ class ImageResourceTest {
 
         // When & Then - Delete the image
         given()
-            .auth().oauth2(adminToken)
-            .when()
-            .delete("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
-            .then()
-            .statusCode(204);
+                .auth().oauth2(adminToken)
+                .when()
+                .delete("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .then()
+                .statusCode(204);
 
         // Verify image is deleted - should return 404
         given()
-            .auth().oauth2(userToken)
-            .when()
-            .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
-            .then()
-            .statusCode(404);
+                .auth().oauth2(userToken)
+                .when()
+                .get("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .then()
+                .statusCode(404);
     }
 
     @Test
@@ -296,14 +301,14 @@ class ImageResourceTest {
         File tempFile = createTestImageFile("test-image.jpg", "image/jpeg");
 
         String imageKey = given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201)
-            .extract()
-            .path("imageKey");
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("imageKey");
 
         tempFile.delete();
 
@@ -311,11 +316,11 @@ class ImageResourceTest {
 
         // When & Then - Try to delete as USER
         given()
-            .auth().oauth2(userToken)
-            .when()
-            .delete("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
-            .then()
-            .statusCode(403);
+                .auth().oauth2(userToken)
+                .when()
+                .delete("/api/v1/albums/{albumId}/images/{imageKey}", testAlbumId, imageKeyPath)
+                .then()
+                .statusCode(403);
     }
 
     @Test
@@ -326,25 +331,25 @@ class ImageResourceTest {
 
         // When - Upload first image
         String imageKey1 = given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile1, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201)
-            .extract()
-            .path("imageKey");
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile1, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("imageKey");
 
         // Upload second image
         String imageKey2 = given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", tempFile2, "image/png")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201)
-            .extract()
-            .path("imageKey");
+                .auth().oauth2(adminToken)
+                .multiPart("file", tempFile2, "image/png")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("imageKey");
 
         // Then - Both images should be different
         assertThat(imageKey1, not(equalTo(imageKey2)));
@@ -359,34 +364,34 @@ class ImageResourceTest {
         // Test JPEG
         File jpegFile = createTestImageFile("image.jpg", "image/jpeg");
         given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", jpegFile, "image/jpeg")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201);
+                .auth().oauth2(adminToken)
+                .multiPart("file", jpegFile, "image/jpeg")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201);
         jpegFile.delete();
 
         // Test PNG
         File pngFile = createTestImageFile("image.png", "image/png");
         given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", pngFile, "image/png")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201);
+                .auth().oauth2(adminToken)
+                .multiPart("file", pngFile, "image/png")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201);
         pngFile.delete();
 
         // Test WebP
         File webpFile = createTestImageFile("image.webp", "image/webp");
         given()
-            .auth().oauth2(adminToken)
-            .multiPart("file", webpFile, "image/webp")
-            .when()
-            .post("/api/v1/albums/{albumId}/images", testAlbumId)
-            .then()
-            .statusCode(201);
+                .auth().oauth2(adminToken)
+                .multiPart("file", webpFile, "image/webp")
+                .when()
+                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .then()
+                .statusCode(201);
         webpFile.delete();
     }
 
