@@ -7,6 +7,33 @@
 
 API REST profissional para gerenciamento de catálogo musical, incluindo artistas, álbuns e imagens. Construída com Quarkus para máxima performance, baixo consumo de memória e inicialização rápida.
 
+---
+
+## Processo Seletivo
+
+> **PROCESSO SELETIVO CONJUNTO Nº 001/2026/SEPLAG/SEFAZ/SEDUC/SESP/PJC/PMMT/CBMMT/DETRAN/POLITEC/SEJUS/SEMA/SEAF/SINFRA/SECITECI/PGE/MTPREV**
+
+**Projeto Prático**: Implementação Back End Java Sênior
+
+| Informação | Detalhe |
+|------------|---------|
+| **Candidato** | Robson Oliveira da Costa |
+| **Perfil Profissional** | Engenheiro da Computação - Sênior |
+| **Inscrição** | 16429 |
+
+Este projeto foi desenvolvido como parte da avaliação técnica do processo seletivo, demonstrando competências em:
+- Arquitetura de microsserviços com Quarkus
+- Desenvolvimento de APIs RESTful
+- Persistência de dados com JPA/Hibernate e PostgreSQL
+- Segurança com JWT e controle de acesso baseado em roles
+- Integração com serviços externos (MinIO para armazenamento de objetos)
+- Comunicação em tempo real com WebSocket
+- Testes automatizados (unitários e de integração)
+- Containerização com Docker
+- Boas práticas de desenvolvimento e padrões de projeto
+
+---
+
 ## Índice
 
 - [Visão Geral](#visão-geral)
