@@ -41,7 +41,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: src/main/docker/Dockerfile.jvm
+      dockerfile: Dockerfile
     container_name: quarkus-api-app
     environment:
       DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-music_catalog}
