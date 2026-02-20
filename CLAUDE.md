@@ -56,10 +56,10 @@ curl http://localhost:8080/q/health/ready
 
 ```bash
 # JVM container
-./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-ai-02-jvm .
+./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/robsonoliveiradacosta904338-jvm .
 
 # Native container (smallest footprint)
-./mvnw package -Dnative && docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/quarkus-ai-02 .
+./mvnw package -Dnative && docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/robsonoliveiradacosta904338 .
 ```
 
 ## Service URLs (when running with Docker Compose)

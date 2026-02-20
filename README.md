@@ -165,8 +165,8 @@ Esta API oferece um sistema completo de gerenciamento de catálogo musical com a
 ### 1. Clone o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/quarkus-ai-02.git
-cd quarkus-ai-02
+git clone https://github.com/seu-usuario/robsonoliveiradacosta904338.git
+cd robsonoliveiradacosta904338
 ```
 
 ### 2. Configure as Variáveis de Ambiente
@@ -260,7 +260,7 @@ Para compilação nativa com GraalVM (requer GraalVM instalado):
 ./mvnw package -Dnative
 
 # Executar
-./target/quarkus-ai-02-1.0-SNAPSHOT-runner
+./target/robsonoliveiradacosta904338-1.0-SNAPSHOT-runner
 ```
 
 Ou usando container build (recomendado, não requer GraalVM local):
@@ -331,7 +331,7 @@ Artefato gerado: `target/quarkus-app/`
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
 ```
 
-Artefato gerado: `target/quarkus-ai-02-1.0-SNAPSHOT-runner`
+Artefato gerado: `target/robsonoliveiradacosta904338-1.0-SNAPSHOT-runner`
 
 ### Pular Testes no Build
 
@@ -398,16 +398,16 @@ docker compose ps
 
 ```bash
 ./mvnw package
-docker build -f src/main/docker/Dockerfile.jvm -t quarkus/quarkus-ai-02-jvm .
-docker run -i --rm -p 8080:8080 quarkus/quarkus-ai-02-jvm
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/robsonoliveiradacosta904338-jvm .
+docker run -i --rm -p 8080:8080 quarkus/robsonoliveiradacosta904338-jvm
 ```
 
 #### Imagem Native (Micro)
 
 ```bash
 ./mvnw package -Dnative
-docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/quarkus-ai-02 .
-docker run -i --rm -p 8080:8080 quarkus/quarkus-ai-02
+docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/robsonoliveiradacosta904338 .
+docker run -i --rm -p 8080:8080 quarkus/robsonoliveiradacosta904338
 ```
 
 ### URLs dos Serviços
@@ -630,7 +630,7 @@ curl -X POST http://localhost:8080/api/v1/auth/refresh \
 ## Estrutura do Projeto
 
 ```
-quarkus-ai-02/
+robsonoliveiradacosta904338/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/quarkus/
@@ -831,7 +831,7 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 ## Suporte
 
 Para questões e suporte:
-- Abra uma [issue](https://github.com/seu-usuario/quarkus-ai-02/issues)
+- Abra uma [issue](https://github.com/seu-usuario/robsonoliveiradacosta904338/issues)
 - Email: suporte@example.com
 
 ## Referências
