@@ -29,14 +29,22 @@ If the user just says "plan the latest spec", read `specs/` and pick the highest
 2. Read `CLAUDE.md` (or `AGENTS.md`) for project conventions — package root, layered architecture, auth model, migration ownership.
 3. Detect the next Flyway migration number by listing `src/main/resources/db/migration/V*.sql`.
 4. Detect the Java package root by reading `entity/` directory.
-5. Delegate cross-file design to the **`architect` agent** with a prompt that includes:
+5. **Library / framework grounding (context7)**. If `spec.md` has a
+   `## Library references` section, re-confirm the relevant API surfaces
+   are still current via `mcp__context7__query-docs` before planning. If
+   the spec did NOT capture library references but the plan will rely on
+   a Quarkus/Hibernate/Panache/etc API beyond what `CLAUDE.md` documents,
+   query context7 now — for example `"Quarkus 3.31 @Scheduled cron syntax"`
+   or `"Hibernate 6.4 @SoftDelete behavior"`. Stale plans waste cycles.
+6. Delegate cross-file design to the **`architect` agent** with a prompt that includes:
    - The full `spec.md` content
    - Project conventions summary
    - Next available migration number
    - Package root
+   - Any context7-confirmed API constraints from step 5
    - Constraint: name files, packages, the migration number, role annotations, and which companion skills to invoke
-6. Receive the architect's plan, write it into `plan.md` using the template below.
-7. Surface unresolved questions back to the user — don't guess.
+7. Receive the architect's plan, write it into `plan.md` using the template below.
+8. Surface unresolved questions back to the user — don't guess.
 
 ## Template for `plan.md`
 
@@ -148,3 +156,4 @@ Tell the user:
 - Picking a Flyway number without listing the migration directory — always re-read at plan time, the number may have moved since the spec was written.
 - Producing a plan that mutates an already-applied migration. Always allocate the next free number.
 - Skipping the `architect` agent for a multi-file feature — that agent embodies the cross-file design rules. The exception is single-layer changes (e.g. "add a field to existing DTO") where architect would refuse anyway.
+- Planning around a library API from memory when the spec touches a non-trivial Quarkus/Hibernate/Panache feature. Query context7 first; the cost of one doc lookup beats the cost of a wrong file in `plan.md`.
