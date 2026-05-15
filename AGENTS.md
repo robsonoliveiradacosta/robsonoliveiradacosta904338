@@ -26,6 +26,10 @@ Tests use JUnit 5, Quarkus test support, REST Assured, Mockito, Testcontainers, 
 
 Do not commit real credentials or production keys. Local defaults are configured through environment variables such as `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `MINIO_URL`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, and `REGIONAL_API_URL`. JWT keys are read from `src/main/resources/privateKey.pem` and `publicKey.pem`; regenerate local keys when needed instead of sharing secrets.
 
+## Codex Skills & Agents
+
+Reusable Codex skills live in `.codex/skills`; each skill keeps its own instructions in `SKILL.md` and UI metadata in `agents/openai.yaml`. Specialist role prompts live in `.codex/agents`, with the recommended workflow documented in `.codex/agents/README.md`. When creating or changing skills, validate each one with `python3 /home/robson/.codex/skills/.system/skill-creator/scripts/quick_validate.py .codex/skills/<skill-name>`. Keep skill and agent changes focused, and prefer separate commits for skills and agents when both are updated.
+
 ## Commit & Pull Request Guidelines
 
 Recent history uses concise imperative subjects, for example `Add Docker Compose setup`, `Update project name`, and `Implement regional synchronization feature`. Follow that style and keep commits focused. Pull requests should include a short purpose statement, linked issue or task when applicable, test evidence such as `./mvnw test` or `./mvnw verify`, and API examples or screenshots when endpoint behavior changes.
