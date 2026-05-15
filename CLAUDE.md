@@ -100,6 +100,19 @@ Quarkus 3.31.1 on Java 21. Standard layered REST app under `com.quarkus.*`:
 All config in `src/main/resources/application.properties`. Environment overrides flow through:
 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `MINIO_URL`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_SECURE`, `MINIO_BUCKET`, `CORS_ALLOWED_ORIGINS`, `REGIONAL_API_URL`. Quarkus profiles `%dev`, `%test`, `%prod` override at the bottom of the file. `quarkus.devservices.enabled=false` globally — do **not** rely on Dev Services for Postgres/MinIO; the compose stack is the source of truth for local infra.
 
+## Claude Code toolkit
+
+This project ships **31 skills** and **14 review agents** under `.claude/` — see [`.claude/README.md`](.claude/README.md) for the full categorized index. The harness auto-loads them; the index is for humans.
+
+Most-used in this codebase:
+
+- New endpoint → `/add-crud-resource <Entity>` (generates entity + repo + service + resource + DTOs + migration + tests in one pass).
+- Schema change → `/add-flyway-migration`. Edits to applied migrations are refused — always a new `Vn+k__*.sql`.
+- Before merge, run `quarkus-security-reviewer` and `flyway-migration-reviewer` agents. For cross-file design before coding, use the `quarkus-architect` agent.
+- Pre-release sweep: chain `quarkus-security-reviewer` + `dependency-vulnerability-reviewer` + `api-contract-reviewer` + `logging-and-pii-reviewer`.
+
+Each skill's `SKILL.md` lists anti-patterns it refuses to generate (e.g. PEM keys in git, `@Transactional` on private methods, password in logs) — trust those over re-deriving the rules from scratch.
+
 ## Quarkus conventions
 
 - `@ApplicationScoped` services, constructor or field `@Inject` (current code uses field injection).

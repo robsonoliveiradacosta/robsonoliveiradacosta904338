@@ -32,6 +32,10 @@ Este projeto foi desenvolvido como parte da avaliação técnica do processo sel
 - Containerização com Docker
 - Boas práticas de desenvolvimento e padrões de projeto
 
+### Engineering Toolkit
+
+O repositório inclui um conjunto curado de **31 skills + 14 review agents** para o [Claude Code](https://claude.com/claude-code) sob `.claude/`, cobrindo o ciclo completo de uma API REST profissional (scaffolding, segurança, persistência, observabilidade, resiliência, QA, CI/CD). Veja o índice categorizado em [`.claude/README.md`](.claude/README.md).
+
 ---
 
 ## Índice
