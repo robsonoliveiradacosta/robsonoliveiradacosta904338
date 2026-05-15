@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flaky Test Triage"
+  short_description: "Diagnose and fix flaky tests"
+  default_prompt: "Use $flaky-test-triage to diagnose intermittent test failures caused by ordering, async behavior, containers, ports, clocks, or shared data."

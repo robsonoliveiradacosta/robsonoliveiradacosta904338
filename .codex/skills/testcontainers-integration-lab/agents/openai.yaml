@@ -1,0 +1,4 @@
+interface:
+  display_name: "Testcontainers Integration Lab"
+  short_description: "Stabilize Testcontainers labs"
+  default_prompt: "Use $testcontainers-integration-lab to design stable PostgreSQL, MinIO, and WireMock integration tests with Testcontainers."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Security Testing"
+  short_description: "Test API security boundaries"
+  default_prompt: "Use $api-security-testing to test JWT, RBAC, rate limits, upload safety, injection risks, and OWASP API controls."

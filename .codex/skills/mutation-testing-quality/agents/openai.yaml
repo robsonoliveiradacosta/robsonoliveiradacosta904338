@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mutation Testing Quality"
+  short_description: "Measure test strength with mutation tests"
+  default_prompt: "Use $mutation-testing-quality to assess Java test quality with mutation testing and improve weak assertions."

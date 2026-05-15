@@ -1,0 +1,4 @@
+interface:
+  display_name: "WebSocket Realtime Testing"
+  short_description: "Test WebSocket realtime behavior"
+  default_prompt: "Use $websocket-realtime-testing to test Quarkus WebSocket notifications, connection lifecycle, message payloads, and authorization."

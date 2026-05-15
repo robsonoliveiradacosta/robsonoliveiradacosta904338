@@ -1,0 +1,4 @@
+interface:
+  display_name: "Performance Load Testing"
+  short_description: "Design API load and performance tests"
+  default_prompt: "Use $performance-load-testing to define API load scenarios, latency targets, throughput checks, and performance reports."

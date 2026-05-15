@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Test Strategy Matrix"
+  short_description: "Plan complete API test coverage"
+  default_prompt: "Use $api-test-strategy-matrix to define a professional test strategy matrix for a Quarkus REST API feature."
