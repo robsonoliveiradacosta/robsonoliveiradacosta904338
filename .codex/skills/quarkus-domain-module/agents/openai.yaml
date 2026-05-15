@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quarkus Domain Module"
+  short_description: "Generate layered API modules"
+  default_prompt: "Use $quarkus-domain-module to implement a new Quarkus domain module from migration through tests."

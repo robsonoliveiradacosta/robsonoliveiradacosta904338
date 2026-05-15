@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quarkus Test Patterns"
+  short_description: "Standardize Quarkus test coverage"
+  default_prompt: "Use $quarkus-test-patterns to design unit, resource, integration, Testcontainers, and WireMock tests."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "JWT RBAC Auth"
+  short_description: "Build JWT role-based security"
+  default_prompt: "Use $jwt-rbac-auth to add JWT authentication and role-based authorization to a Quarkus API."

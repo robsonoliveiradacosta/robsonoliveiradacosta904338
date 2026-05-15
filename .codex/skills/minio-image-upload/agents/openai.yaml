@@ -1,0 +1,4 @@
+interface:
+  display_name: "MinIO Image Upload"
+  short_description: "Implement MinIO media uploads"
+  default_prompt: "Use $minio-image-upload to implement image upload, validation, MinIO storage, and presigned URLs."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quarkus API Bootstrap"
+  short_description: "Scaffold Java 21 Quarkus APIs"
+  default_prompt: "Use $quarkus-api-bootstrap to scaffold a Java 21 Quarkus API with PostgreSQL, Flyway, Docker, and tests."

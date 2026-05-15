@@ -1,0 +1,4 @@
+interface:
+  display_name: "External Sync Client"
+  short_description: "Add REST client sync workflows"
+  default_prompt: "Use $external-sync-client to add an external REST client, synchronization service, scheduler, and WireMock tests."

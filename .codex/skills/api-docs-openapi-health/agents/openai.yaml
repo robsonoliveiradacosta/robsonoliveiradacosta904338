@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Docs OpenAPI Health"
+  short_description: "Document APIs with OpenAPI and health"
+  default_prompt: "Use $api-docs-openapi-health to add OpenAPI metadata, Swagger examples, and Quarkus health checks."

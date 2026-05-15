@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flyway Postgres Schema"
+  short_description: "Design Flyway PostgreSQL migrations"
+  default_prompt: "Use $flyway-postgres-schema to create safe PostgreSQL Flyway migrations for a Quarkus API."

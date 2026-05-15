@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dockerized Quarkus Runtime"
+  short_description: "Package Quarkus with Docker Compose"
+  default_prompt: "Use $dockerized-quarkus-runtime to add Dockerfiles, Compose services, environment variables, and health checks."
