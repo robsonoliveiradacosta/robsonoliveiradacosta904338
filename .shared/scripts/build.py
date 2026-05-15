@@ -3,14 +3,17 @@
 Builds the unified skills/agents/commands library and generates per-tool
 adapters for Claude Code, Codex, Gemini CLI and Cursor.
 
-Source of truth: .shared/{skills,agents,commands}/*.md
-Adapters generated under: .claude/, .codex/, .gemini/, .cursor/
+Source of truth:        .shared/{skills,agents,commands}/*.md
+.claude/ and .codex/:   relative symlinks back into .shared/ (no duplication)
+.codex/ also gets:      generated agents/openai.yaml sidecar per skill
+.gemini/ and .cursor/:  generated wrappers (different formats — TOML / MDC)
 
 Run from repository root:  python3 .shared/scripts/build.py
 """
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import shutil
 import subprocess
@@ -353,6 +356,16 @@ def write(path: Path, content: str) -> None:
     path.write_text(content)
 
 
+def symlink(link: Path, target: Path) -> None:
+    """Create a relative symlink at `link` pointing to `target`. Any pre-
+    existing file or symlink at `link` is replaced."""
+    link.parent.mkdir(parents=True, exist_ok=True)
+    if link.is_symlink() or link.exists():
+        link.unlink()
+    rel = os.path.relpath(target, start=link.parent)
+    link.symlink_to(rel)
+
+
 def quote_yaml(s: str) -> str:
     s = s.replace("\\", "\\\\").replace('"', '\\"')
     return f'"{s}"'
@@ -415,37 +428,38 @@ def read_shared(kind: str, name: str) -> tuple[dict, str]:
 # ---------------------------------------------------------------------------
 
 def gen_claude(index: dict) -> None:
+    """Claude Code uses the same SKILL.md / agent.md / command.md format as
+    `.shared/`, so every adapter is a relative symlink — zero duplication."""
     target = ROOT / ".claude"
     if target.exists():
         shutil.rmtree(target)
 
-    for name, desc in index["skill"]:
-        _, body = read_shared("skills", name)
-        write(target / "skills" / name / "SKILL.md",
-              f"---\nname: {name}\ndescription: {quote_yaml(desc)}\n---\n\n{body}")
+    for name, _desc in index["skill"]:
+        symlink(target / "skills" / name / "SKILL.md",
+                SHARED / "skills" / f"{name}.md")
 
-    for name, desc in index["agent"]:
-        _, body = read_shared("agents", name)
-        write(target / "agents" / f"{name}.md",
-              f"---\nname: {name}\ndescription: {quote_yaml(desc)}\n---\n\n{body}")
+    for name, _desc in index["agent"]:
+        symlink(target / "agents" / f"{name}.md",
+                SHARED / "agents" / f"{name}.md")
 
-    for name, desc in index["command"]:
-        _, body = read_shared("commands", name)
-        write(target / "commands" / f"{name}.md",
-              f"---\ndescription: {quote_yaml(desc)}\n---\n\n{body}")
+    for name, _desc in index["command"]:
+        symlink(target / "commands" / f"{name}.md",
+                SHARED / "commands" / f"{name}.md")
 
     write(target / "README.md", _claude_readme(index))
 
 
 def gen_codex(index: dict) -> None:
+    """Codex uses the same Markdown+YAML-frontmatter format as `.shared/`, so
+    SKILL.md / agent.md / command.md are symlinks. Each skill additionally
+    needs a small generated `agents/openai.yaml` UI sidecar."""
     target = ROOT / ".codex"
     if target.exists():
         shutil.rmtree(target)
 
     for name, desc in index["skill"]:
-        _, body = read_shared("skills", name)
-        write(target / "skills" / name / "SKILL.md",
-              f"---\nname: {name}\ndescription: {quote_yaml(desc)}\n---\n\n{body}")
+        symlink(target / "skills" / name / "SKILL.md",
+                SHARED / "skills" / f"{name}.md")
         ui = (
             'interface:\n'
             f'  display_name: {quote_yaml(title(name))}\n'
@@ -454,15 +468,13 @@ def gen_codex(index: dict) -> None:
         )
         write(target / "skills" / name / "agents" / "openai.yaml", ui)
 
-    for name, desc in index["agent"]:
-        _, body = read_shared("agents", name)
-        write(target / "agents" / f"{name}.md",
-              f"# {title(name)} Agent\n\n> {desc}\n\n{body}")
+    for name, _desc in index["agent"]:
+        symlink(target / "agents" / f"{name}.md",
+                SHARED / "agents" / f"{name}.md")
 
-    for name, desc in index["command"]:
-        _, body = read_shared("commands", name)
-        write(target / "commands" / f"{name}.md",
-              f"# {title(name)}\n\n> {desc}\n\n{body}")
+    for name, _desc in index["command"]:
+        symlink(target / "commands" / f"{name}.md",
+                SHARED / "commands" / f"{name}.md")
 
     write(target / "README.md", _codex_readme(index))
 
@@ -529,9 +541,13 @@ def _table(items):
 def _claude_readme(index):
     return (
         "# Claude Code adapters\n\n"
-        "Generated from `.shared/` by `.shared/scripts/build.py`. Do not edit "
-        "files in this directory by hand — change `.shared/` and rebuild.\n\n"
-        f"- **Skills**: {len(index['skill'])} (`/skill:<name>` style invocation)\n"
+        "Every `SKILL.md`, agent and command file in this directory is a "
+        "**relative symlink into `.shared/`** — there is no duplicated "
+        "content. Edit the file in `.shared/` and the change is visible "
+        "everywhere automatically; rerun `python3 .shared/scripts/build.py` "
+        "only when you add or remove items from the manifest.\n\n"
+        f"- **Skills**: {len(index['skill'])} (skill auto-discovery via the "
+        f"frontmatter `description`)\n"
         f"- **Agents**: {len(index['agent'])} (used with the `Agent` tool)\n"
         f"- **Slash commands**: {len(index['command'])}\n\n"
         "## Skills\n" + _table(index["skill"]) +
@@ -543,9 +559,14 @@ def _claude_readme(index):
 def _codex_readme(index):
     return (
         "# Codex adapters\n\n"
-        "Generated from `.shared/` by `.shared/scripts/build.py`.\n\n"
-        f"- **Skills**: {len(index['skill'])} — invoke with `$<name>` (e.g. `$add-jwt-auth`)\n"
-        f"- **Agents**: {len(index['agent'])} — name explicitly (`security`, `architect`, …)\n"
+        "`SKILL.md`, agent and command files are **relative symlinks into "
+        "`.shared/`**. Each skill also has a small generated "
+        "`agents/openai.yaml` sidecar — that file is not a symlink because "
+        "it carries Codex-specific UI metadata.\n\n"
+        f"- **Skills**: {len(index['skill'])} — invoke with `$<name>` "
+        f"(e.g. `$add-jwt-auth`)\n"
+        f"- **Agents**: {len(index['agent'])} — name explicitly "
+        f"(`security`, `architect`, …)\n"
         f"- **Commands**: {len(index['command'])}\n\n"
         "## Skills\n" + _table(index["skill"]) +
         "\n## Agents\n" + _table(index["agent"]) +

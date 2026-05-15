@@ -27,20 +27,28 @@ and the strategic considerations from the Codex guide are appended under a
                              # .codex/, .gemini/ and .cursor/.
 ```
 
-## Generated adapters
+## Per-tool adapters (hybrid: symlink + generate)
 
 Run `python3 .shared/scripts/build.py` from the repo root to (re)generate:
 
-| Tool | Output | Invocation |
-|---|---|---|
-| Claude Code | `.claude/{skills,agents,commands}/` | Skills auto-trigger by description; agents via the `Agent` tool; `/<name>` for commands |
-| Codex CLI | `.codex/{skills,agents,commands}/` (skills include `agents/openai.yaml`) | `$<skill-name>` to invoke a skill, name the agent explicitly |
-| Gemini CLI | `.gemini/commands/{skills,agents,commands}/<name>.toml` + `.gemini/GEMINI.md` | `/skills:<name>`, `/agents:<name>`, `/commands:<name>` |
-| Cursor | `.cursor/rules/{skills,agents}/<name>.mdc` (Agent Requested) + `.cursor/commands/<name>.md` | Cursor auto-attaches matching rules; commands via the command palette |
+| Tool | Output | Strategy | Invocation |
+|---|---|---|---|
+| Claude Code | `.claude/{skills,agents,commands}/` | **Symlink** → `.shared/` | Skills auto-trigger; agents via the `Agent` tool; `/<name>` for commands |
+| Codex CLI | `.codex/{skills,agents,commands}/` | **Symlink** + tiny generated `agents/openai.yaml` per skill | `$<skill-name>` to invoke a skill, name the agent explicitly |
+| Gemini CLI | `.gemini/commands/{skills,agents,commands}/<name>.toml` + `.gemini/GEMINI.md` | **Generated** (TOML format) | `/skills:<name>`, `/agents:<name>`, `/commands:<name>` |
+| Cursor | `.cursor/rules/{skills,agents}/<name>.mdc` (Agent Requested) + `.cursor/commands/<name>.md` | **Generated** (different frontmatter) | Cursor auto-attaches matching rules; commands via the command palette |
 
-Adapters are committed so the project works offline in any of the four tools
-without running the build step. Treat `.shared/` as the editable source — the
-adapter directories are regenerated outputs.
+Why hybrid: Claude Code and Codex use the same Markdown + YAML-frontmatter
+file shape as `.shared/`, so symlinks let edits in `.shared/` propagate
+instantly with no duplicated bytes. Gemini CLI expects TOML and Cursor uses a
+divergent frontmatter (`description` + `alwaysApply`, no `name` field), so
+those two tools genuinely need transformed output.
+
+**Platform note**: relative symlinks work natively on Linux and macOS (default
+`git config core.symlinks=true`). On Windows the repo needs symlinks enabled
+(Developer Mode + `git config --global core.symlinks true`); otherwise Claude
+Code and Codex will see literal `../../../.shared/...` paths instead of
+following them.
 
 ## Refresh from upstream
 

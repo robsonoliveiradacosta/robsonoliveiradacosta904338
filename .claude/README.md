@@ -1,8 +1,8 @@
 # Claude Code adapters
 
-Generated from `.shared/` by `.shared/scripts/build.py`. Do not edit files in this directory by hand — change `.shared/` and rebuild.
+Every `SKILL.md`, agent and command file in this directory is a **relative symlink into `.shared/`** — there is no duplicated content. Edit the file in `.shared/` and the change is visible everywhere automatically; rerun `python3 .shared/scripts/build.py` only when you add or remove items from the manifest.
 
-- **Skills**: 52 (`/skill:<name>` style invocation)
+- **Skills**: 52 (skill auto-discovery via the frontmatter `description`)
 - **Agents**: 29 (used with the `Agent` tool)
 - **Slash commands**: 4
 

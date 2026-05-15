@@ -1,6 +1,6 @@
 # Codex adapters
 
-Generated from `.shared/` by `.shared/scripts/build.py`.
+`SKILL.md`, agent and command files are **relative symlinks into `.shared/`**. Each skill also has a small generated `agents/openai.yaml` sidecar — that file is not a symlink because it carries Codex-specific UI metadata.
 
 - **Skills**: 52 — invoke with `$<name>` (e.g. `$add-jwt-auth`)
 - **Agents**: 29 — name explicitly (`security`, `architect`, …)
