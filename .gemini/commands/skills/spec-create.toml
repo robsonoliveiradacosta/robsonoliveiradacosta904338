@@ -54,6 +54,13 @@ implementation.
    to ground the spec in *current* docs rather than your training data.
    Note in the spec what was confirmed against current docs and what
    version was assumed.
+   - **If context7 is not installed** (the `mcp__context7__*` tools aren't
+     available in this session): don't block — proceed using training
+     data, but record `context7: unavailable` in the `## Library
+     references` section so the user knows the spec wasn't doc-grounded.
+     Once, at the end of the interview, point the user at `AGENTS.md`
+     §"MCP servers (context7)" for the install one-liner so future specs
+     can be grounded.
 6. **Recap & confirm**. Before writing, summarize the spec in 5-8 bullet
    points and ask: "Anything missing or wrong?" Wait for the OK.
 7. **Write**. List existing `specs/` directory, pick the **next**

@@ -36,6 +36,10 @@ If the user just says "plan the latest spec", read `specs/` and pick the highest
    a Quarkus/Hibernate/Panache/etc API beyond what `CLAUDE.md` documents,
    query context7 now — for example `"Quarkus 3.31 @Scheduled cron syntax"`
    or `"Hibernate 6.4 @SoftDelete behavior"`. Stale plans waste cycles.
+   - **If context7 is not installed**: proceed with training data and
+     mention it once at the end (e.g. "context7 unavailable — Hibernate
+     6.4 API assumed from training data; verify before merge"). Point
+     the user at `AGENTS.md` §"MCP servers (context7)" for install.
 6. Delegate cross-file design to the **`architect` agent** with a prompt that includes:
    - The full `spec.md` content
    - Project conventions summary
