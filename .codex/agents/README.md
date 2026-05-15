@@ -8,9 +8,17 @@ These agent definitions are reusable role prompts for building projects with the
 2. `scaffold-agent`: create or normalize the Quarkus project foundation.
 3. `domain-module-agent`: implement each domain aggregate end to end.
 4. `security-agent`: add or review JWT, RBAC, rate limiting, and secret handling.
-5. `testing-agent`: add focused unit, resource, integration, and security tests.
-6. `devops-agent`: package runtime, Compose services, env vars, and health checks.
-7. `review-agent`: perform final code, architecture, security, and test review.
+5. `api-governance-agent`: keep REST contracts, versioning, OpenAPI, and compatibility coherent.
+6. `error-handling-agent`: standardize exception mapping and client-safe error responses.
+7. `resilience-agent`: harden external calls, retries, timeouts, and idempotency.
+8. `observability-agent`: add logs, correlation IDs, metrics, tracing, and diagnostics.
+9. `database-performance-agent`: review indexes, queries, pagination, and migration impact.
+10. `test-data-agent`: maintain deterministic seed data and fixtures.
+11. `testing-agent`: add focused unit, resource, integration, and security tests.
+12. `ci-cd-agent`: enforce automated quality gates and pipeline checks.
+13. `devops-agent`: package runtime, Compose services, env vars, and health checks.
+14. `release-manager-agent`: prepare release notes, rollback notes, and go-live evidence.
+15. `review-agent`: perform final code, architecture, security, and test review.
 
 ## Operating Rules
 
