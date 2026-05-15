@@ -35,6 +35,21 @@ SHARED = ROOT / ".shared"
 _FRONTMATTER = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.DOTALL)
 
 
+def _yaml_unescape(s: str) -> str:
+    """Reverse what quote_yaml() does — process `\\"` and `\\\\` left-to-right
+    so we don't double-escape on a round-trip."""
+    out: list[str] = []
+    i = 0
+    while i < len(s):
+        if s[i] == "\\" and i + 1 < len(s) and s[i + 1] in ('"', "\\"):
+            out.append(s[i + 1])
+            i += 2
+        else:
+            out.append(s[i])
+            i += 1
+    return "".join(out)
+
+
 def parse_frontmatter(text: str) -> tuple[dict, str]:
     m = _FRONTMATTER.match(text)
     if not m:
@@ -44,7 +59,12 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     for line in raw.splitlines():
         if ":" in line and not line.startswith(" "):
             k, _, v = line.partition(":")
-            fm[k.strip()] = v.strip().strip('"').strip("'")
+            v = v.strip()
+            if (v.startswith('"') and v.endswith('"')) or (
+                v.startswith("'") and v.endswith("'")
+            ):
+                v = _yaml_unescape(v[1:-1])
+            fm[k.strip()] = v
     return fm, body.lstrip("\n")
 
 

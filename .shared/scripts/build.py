@@ -265,6 +265,21 @@ def git_show(branch: str, path: str) -> str:
 _FRONTMATTER = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.DOTALL)
 
 
+def _yaml_unescape(s: str) -> str:
+    """Reverse what quote_yaml() does: process `\\"` and `\\\\` left-to-right
+    so we don't double-escape on a round-trip."""
+    out: list[str] = []
+    i = 0
+    while i < len(s):
+        if s[i] == "\\" and i + 1 < len(s) and s[i + 1] in ('"', "\\"):
+            out.append(s[i + 1])
+            i += 2
+        else:
+            out.append(s[i])
+            i += 1
+    return "".join(out)
+
+
 def parse_frontmatter(text: str) -> tuple[dict, str]:
     m = _FRONTMATTER.match(text)
     if not m:
@@ -274,7 +289,12 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     for line in raw.splitlines():
         if ":" in line and not line.startswith(" "):
             k, _, v = line.partition(":")
-            fm[k.strip()] = v.strip().strip('"').strip("'")
+            v = v.strip()
+            if (v.startswith('"') and v.endswith('"')) or (
+                v.startswith("'") and v.endswith("'")
+            ):
+                v = _yaml_unescape(v[1:-1])
+            fm[k.strip()] = v
     return fm, body.lstrip("\n")
 
 
@@ -630,6 +650,22 @@ def _cursor_readme(index):
 # Entrypoint
 # ---------------------------------------------------------------------------
 
+def load_index_from_shared() -> dict:
+    """Walk .shared/ for ALL canonical files — the upstream-extracted ones
+    plus any locally-authored skills/agents/commands not in the manifest."""
+    index: dict = {"skill": [], "agent": [], "command": []}
+    for kind, folder in [("skill", "skills"), ("agent", "agents"), ("command", "commands")]:
+        d = SHARED / folder
+        if not d.exists():
+            continue
+        for f in sorted(d.glob("*.md")):
+            fm, _ = parse_frontmatter(f.read_text())
+            name = fm.get("name") or f.stem
+            desc = fm.get("description") or name
+            index[kind].append((name, desc))
+    return index
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -641,17 +677,14 @@ def main(argv: list[str]) -> int:
 
     if args.only in ("extract", "all"):
         print("[1/5] Extracting source files into .shared/ ...", flush=True)
-        index = stage_extract_shared()
-        print(f"      → {len(index['skill'])} skills, "
-              f"{len(index['agent'])} agents, "
-              f"{len(index['command'])} commands")
-    else:
-        # Rebuild index from existing .shared/ contents
-        index = {"skill": [], "agent": [], "command": []}
-        for kind, folder in [("skill", "skills"), ("agent", "agents"), ("command", "commands")]:
-            for f in sorted((SHARED / folder).glob("*.md")):
-                fm, _ = parse_frontmatter(f.read_text())
-                index[kind].append((fm["name"], fm.get("description", fm["name"])))
+        stage_extract_shared()
+
+    # Always rebuild the index by walking .shared/, so adapters include both
+    # upstream-extracted AND locally-authored entries.
+    index = load_index_from_shared()
+    print(f"      → {len(index['skill'])} skills, "
+          f"{len(index['agent'])} agents, "
+          f"{len(index['command'])} commands in .shared/")
 
     if args.only in ("claude", "all"):
         print("[2/5] Generating .claude/ adapters ...", flush=True)
