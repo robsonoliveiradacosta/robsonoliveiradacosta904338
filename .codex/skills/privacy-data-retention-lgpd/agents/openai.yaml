@@ -1,0 +1,4 @@
+interface:
+  display_name: "Privacy Data Retention LGPD"
+  short_description: "Govern privacy and retention"
+  default_prompt: "Use $privacy-data-retention-lgpd to review PII, LGPD, retention, deletion, logs, audit data, and data minimization."

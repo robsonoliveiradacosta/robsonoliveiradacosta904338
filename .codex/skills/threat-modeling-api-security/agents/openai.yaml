@@ -1,0 +1,4 @@
+interface:
+  display_name: "Threat Modeling API Security"
+  short_description: "Model API security threats"
+  default_prompt: "Use $threat-modeling-api-security to model API security threats with OWASP API Top 10 and STRIDE before implementation."

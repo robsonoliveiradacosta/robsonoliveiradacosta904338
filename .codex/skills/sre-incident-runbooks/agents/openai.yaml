@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRE Incident Runbooks"
+  short_description: "Create SRE incident runbooks"
+  default_prompt: "Use $sre-incident-runbooks to create incident runbooks for API outage, database failure, MinIO issues, JWT errors, high latency, and migrations."

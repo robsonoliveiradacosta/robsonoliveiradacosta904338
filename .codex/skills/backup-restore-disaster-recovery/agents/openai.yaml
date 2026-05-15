@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backup Restore Disaster Recovery"
+  short_description: "Plan backup and recovery drills"
+  default_prompt: "Use $backup-restore-disaster-recovery to plan PostgreSQL and MinIO backup, restore, rollback, and disaster recovery drills."

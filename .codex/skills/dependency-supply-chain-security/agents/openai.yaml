@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dependency Supply Chain Security"
+  short_description: "Audit dependencies and images"
+  default_prompt: "Use $dependency-supply-chain-security to audit Maven dependencies, Docker images, CVEs, SBOMs, licenses, and transitive risk."

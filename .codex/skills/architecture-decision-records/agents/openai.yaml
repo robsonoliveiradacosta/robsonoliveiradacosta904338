@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Decision Records"
+  short_description: "Capture architecture decisions"
+  default_prompt: "Use $architecture-decision-records to write ADRs for Quarkus, Panache, Flyway, MinIO, JWT, testing, and operations decisions."

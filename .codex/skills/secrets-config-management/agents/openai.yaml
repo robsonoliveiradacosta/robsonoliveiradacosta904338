@@ -1,0 +1,4 @@
+interface:
+  display_name: "Secrets Config Management"
+  short_description: "Manage secrets and config safely"
+  default_prompt: "Use $secrets-config-management to review Quarkus configuration, profiles, JWT keys, environment variables, and secret handling."
