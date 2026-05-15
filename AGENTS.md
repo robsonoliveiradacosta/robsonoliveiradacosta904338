@@ -132,19 +132,72 @@ instead of relying on training data. Install once per tool — config is
 machine-local, not committed. The skills degrade gracefully if context7 is
 absent (they note "context7 unavailable, used training data" in the spec).
 
-| Tool | Install command | Config file |
-|---|---|---|
-| Claude Code | `claude mcp add context7 -- npx -y @upstash/context7-mcp` | `~/.claude.json` (or project `.mcp.json`) |
-| Codex CLI | edit `~/.codex/config.toml` — add `[mcp_servers.context7]` with `command = "npx"`, `args = ["-y", "@upstash/context7-mcp"]` | `~/.codex/config.toml` |
-| Gemini CLI | edit `~/.gemini/settings.json` — add `mcpServers.context7` with `command: "npx"`, `args: ["-y", "@upstash/context7-mcp"]` | `~/.gemini/settings.json` |
-| Cursor | Settings → MCP → Add server `context7` with `npx -y @upstash/context7-mcp` | `~/.cursor/mcp.json` |
+Two transport options:
 
-Requires Node ≥ 18. Verify with: in Claude Code, `claude mcp list` should
-show `context7` as `connected`. Tools then appear as
-`mcp__context7__resolve-library-id` and `mcp__context7__query-docs`.
+- **Local (stdio)** — runs `@upstash/context7-mcp` via `npx` on your
+  machine. Requires Node ≥ 18. Default; no account needed but rate-limited.
+- **Remote (HTTP)** — points at the hosted endpoint
+  `https://mcp.context7.com/mcp`. No Node required. **Strongly recommended
+  with an API key** (free at https://context7.com/dashboard) — without one,
+  the hosted endpoint is aggressively rate-limited.
 
-If you'd rather avoid local Node, point at the hosted endpoint
-`https://mcp.context7.com/mcp` instead of `npx` — same protocol, no install.
+#### Local install (npx)
+
+| Tool | Install command |
+|---|---|
+| Claude Code | `claude mcp add context7 -- npx -y @upstash/context7-mcp` |
+| Codex CLI | edit `~/.codex/config.toml` — add `[mcp_servers.context7]` with `command = "npx"`, `args = ["-y", "@upstash/context7-mcp"]` |
+| Gemini CLI | edit `~/.gemini/settings.json` — add `mcpServers.context7` with `command: "npx"`, `args: ["-y", "@upstash/context7-mcp"]` |
+| Cursor | Settings → MCP → Add server `context7` with `npx -y @upstash/context7-mcp` |
+
+To pass the API key in local mode, inject `CONTEXT7_API_KEY` as an env var:
+
+- Claude Code: `claude mcp add context7 -e CONTEXT7_API_KEY=ctx7sk_xxx -- npx -y @upstash/context7-mcp`
+- Codex CLI: add `env = { CONTEXT7_API_KEY = "ctx7sk_xxx" }` to the `[mcp_servers.context7]` block
+- Gemini CLI / Cursor: add `"env": { "CONTEXT7_API_KEY": "ctx7sk_xxx" }` next to `command`/`args`
+
+#### Remote install (hosted, no Node)
+
+Pass the key via an `Authorization: Bearer` header.
+
+- **Claude Code:**
+  ```bash
+  claude mcp add --transport http context7 https://mcp.context7.com/mcp \
+      --header "Authorization: Bearer ctx7sk_xxx"
+  ```
+- **Cursor** (`~/.cursor/mcp.json`):
+  ```json
+  { "mcpServers": { "context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "headers": { "Authorization": "Bearer ctx7sk_xxx" }
+  } } }
+  ```
+- **Gemini CLI** (`~/.gemini/settings.json`):
+  ```json
+  { "mcpServers": { "context7": {
+      "httpUrl": "https://mcp.context7.com/mcp",
+      "headers": { "Authorization": "Bearer ctx7sk_xxx" }
+  } } }
+  ```
+- **Codex CLI** doesn't support HTTP MCP transports natively at time of
+  writing — bridge via `mcp-remote`:
+  ```toml
+  [mcp_servers.context7]
+  command = "npx"
+  args = ["-y", "mcp-remote", "https://mcp.context7.com/mcp",
+          "--header", "Authorization: Bearer ctx7sk_xxx"]
+  ```
+
+> **Don't commit the key.** Keep it in your machine-local config
+> (`~/.claude.json`, `~/.codex/config.toml`, etc.), not in `.mcp.json` or
+> any tracked file. If you must put it in a project file, source it from
+> an env var (`${CONTEXT7_API_KEY}`) and gitignore the resolved version.
+
+#### Verify
+
+In Claude Code, `claude mcp list` should show `context7` as `connected`.
+Tools then appear as `mcp__context7__resolve-library-id` and
+`mcp__context7__query-docs`.
 
 ### Spec-driven flow (for non-trivial features)
 
