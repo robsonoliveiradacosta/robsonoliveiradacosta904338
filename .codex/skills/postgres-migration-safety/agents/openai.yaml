@@ -1,0 +1,4 @@
+interface:
+  display_name: "Postgres Migration Safety"
+  short_description: "Plan safe production migrations"
+  default_prompt: "Use $postgres-migration-safety to review PostgreSQL Flyway migrations for production safety, backfills, indexes, and rollback risk."

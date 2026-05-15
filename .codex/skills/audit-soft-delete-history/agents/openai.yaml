@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Soft Delete History"
+  short_description: "Model audit and soft-delete data"
+  default_prompt: "Use $audit-soft-delete-history to design created/updated audit fields, soft delete, history tables, and query behavior."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Persistence Test Patterns"
+  short_description: "Test repositories and ORM behavior"
+  default_prompt: "Use $persistence-test-patterns to test repositories, constraints, migrations, pagination, transactions, and ORM mapping behavior."

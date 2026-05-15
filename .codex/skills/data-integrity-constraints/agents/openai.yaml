@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Integrity Constraints"
+  short_description: "Enforce database integrity rules"
+  default_prompt: "Use $data-integrity-constraints to design not-null, unique, foreign-key, check, cascade, and concurrency-safe integrity rules."

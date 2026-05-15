@@ -1,0 +1,4 @@
+interface:
+  display_name: "Transaction Boundary Design"
+  short_description: "Design safe transaction boundaries"
+  default_prompt: "Use $transaction-boundary-design to decide transactional boundaries, rollback behavior, consistency, and external-call placement."

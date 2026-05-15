@@ -1,0 +1,4 @@
+interface:
+  display_name: "Concurrency Locking Control"
+  short_description: "Control concurrent data writes"
+  default_prompt: "Use $concurrency-locking-control to design optimistic locking, pessimistic locking, race-condition prevention, and concurrent tests."

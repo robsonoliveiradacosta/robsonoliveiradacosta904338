@@ -1,0 +1,4 @@
+interface:
+  display_name: "Panache ORM Mapping Patterns"
+  short_description: "Model JPA and Panache mappings"
+  default_prompt: "Use $panache-orm-mapping-patterns to design JPA/Panache entities, relationships, loading, cascades, and DTO mapping."

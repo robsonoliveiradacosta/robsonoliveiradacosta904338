@@ -1,0 +1,4 @@
+interface:
+  display_name: "Postgres Query Patterns"
+  short_description: "Write predictable PostgreSQL queries"
+  default_prompt: "Use $postgres-query-patterns to design Panache/JPA queries, filters, pagination, sorting, joins, counts, and search patterns."
