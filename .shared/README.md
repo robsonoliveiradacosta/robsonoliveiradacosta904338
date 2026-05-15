@@ -1,8 +1,8 @@
-# Unified skills, agents and commands
+# Unified skills and agents
 
-Single source of truth for the AI skills, specialist agents and slash commands
-that target this Quarkus 21 / PostgreSQL / Flyway / MinIO project. The
-collection is the **deduplicated union** of two upstream branches:
+Single source of truth for the AI skills and specialist agents that target
+this Quarkus 21 / PostgreSQL / Flyway / MinIO project. The collection is the
+**deduplicated union** of two upstream branches:
 
 | Source branch | Style |
 |---|---|
@@ -20,7 +20,8 @@ and the strategic considerations from the Codex guide are appended under a
 .shared/
 ├── skills/<name>.md         # 52 canonical skills (frontmatter + body)
 ├── agents/<name>.md         # 29 canonical agents
-├── commands/<name>.md       #  4 slash commands (criar-prd, criar-tasks, …)
+├── commands/<name>.md       # slash commands (currently empty — supported
+│                            # by the build script if you add files here)
 └── scripts/
     └── build.py             # generator — pulls from upstream branches and
                              # produces per-tool adapters under .claude/,
@@ -33,10 +34,10 @@ Run `python3 .shared/scripts/build.py` from the repo root to (re)generate:
 
 | Tool | Output | Strategy | Invocation |
 |---|---|---|---|
-| Claude Code | `.claude/{skills,agents,commands}/` | **Symlink** → `.shared/` | Skills auto-trigger; agents via the `Agent` tool; `/<name>` for commands |
-| Codex CLI | `.codex/{skills,agents,commands}/` | **Symlink** + tiny generated `agents/openai.yaml` per skill | `$<skill-name>` to invoke a skill, name the agent explicitly |
-| Gemini CLI | `.gemini/commands/{skills,agents,commands}/<name>.toml` + `.gemini/GEMINI.md` | **Generated** (TOML format) | `/skills:<name>`, `/agents:<name>`, `/commands:<name>` |
-| Cursor | `.cursor/rules/{skills,agents}/<name>.mdc` (Agent Requested) + `.cursor/commands/<name>.md` | **Generated** (different frontmatter) | Cursor auto-attaches matching rules; commands via the command palette |
+| Claude Code | `.claude/{skills,agents}/` | **Symlink** → `.shared/` | Skills auto-trigger; agents via the `Agent` tool |
+| Codex CLI | `.codex/{skills,agents}/` | **Symlink** + tiny generated `agents/openai.yaml` per skill | `$<skill-name>` to invoke a skill, name the agent explicitly |
+| Gemini CLI | `.gemini/commands/{skills,agents}/<name>.toml` + `.gemini/GEMINI.md` | **Generated** (TOML format) | `/skills:<name>`, `/agents:<name>` |
+| Cursor | `.cursor/rules/{skills,agents}/<name>.mdc` (Agent Requested) | **Generated** (different frontmatter) | Cursor auto-attaches matching rules |
 
 Why hybrid: Claude Code and Codex use the same Markdown + YAML-frontmatter
 file shape as `.shared/`, so symlinks let edits in `.shared/` propagate
@@ -65,7 +66,6 @@ so the only requirement is that those branches exist in the local repo.
 - 52 skills (29 action recipes + 23 governance guides, with 17 merged pairs)
 - 29 agents (5 architecture/planning, 4 persistence, 4 security/privacy, 2 API,
   6 ops/resilience, 7 testing, 1 final review)
-- 4 slash commands (PRD, tasks, techspec, executar-task)
 
 For the full list, see `.claude/README.md` (or any of the other adapter
 READMEs — they all show the same inventory).
