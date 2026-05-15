@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Create"
+  short_description: "Start a spec-driven feature by writing specs/NNN-feature-slug/spec.md — captures problem, goals, non-goals, user-facing behavior, acceptance"
+  default_prompt: "Use $spec-create to start a spec-driven feature by writing specs/NNN-feature-slug/spec.md — captures problem, goals, non-goals, user-facing behavior, acceptance criteria, and open questions. Use whenever the user says \"create a spec for X\", \"start a feature X\", \"criar uma spec\", \"vamos planejar X\", or wants to begin work on a non-trivial change before code is written. First step of the spec-create → spec-plan → spec-tasks → spec-implement flow."

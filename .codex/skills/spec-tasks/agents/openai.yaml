@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Tasks"
+  short_description: "Break a spec.md + plan.md into an ordered, atomic tasks.md checklist that spec-implement can execute one task at a time. Each task has an ID"
+  default_prompt: "Use $spec-tasks to break a spec.md + plan.md into an ordered, atomic tasks.md checklist that spec-implement can execute one task at a time. Each task has an ID (T01..), title, files touched, the skill to invoke, validation step, and depends-on chain. Use after spec-plan, when the user says \"break the plan into tasks\", \"/spec-tasks NNN\", or \"vamos quebrar isso em tarefas\". Third step of the spec-create → spec-plan → spec-tasks → spec-implement flow."

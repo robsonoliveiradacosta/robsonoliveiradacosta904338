@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Plan"
+  short_description: "Turn a spec.md into a concrete architectural plan.md by delegating cross-file design to the architect agent — names files, packages, the nex"
+  default_prompt: "Use $spec-plan to turn a spec.md into a concrete architectural plan.md by delegating cross-file design to the architect agent — names files, packages, the next Flyway migration number, role annotations, transaction boundaries, and which companion skills (add-crud-resource, add-flyway-migration, etc) to invoke per phase. Use after spec-create, when the user says \"plan the spec\", \"design the implementation\", \"/spec-plan NNN\", or \"como vou implementar isso\". Second step of the spec-create → spec-plan → spec-tasks → spec-implement flow."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Implement"
+  short_description: "Execute the next pending task (or a named task ID) from a spec's tasks.md, invoking the named skill or agent, running the validation step, a"
+  default_prompt: "Use $spec-implement to execute the next pending task (or a named task ID) from a spec's tasks.md, invoking the named skill or agent, running the validation step, and ticking the checkbox in place when it passes. Stops on validation failure and reports back. Use after spec-tasks, when the user says \"implement spec NNN\", \"run T05\", \"continue the spec\", \"executar a próxima task\". Final step of the spec-create → spec-plan → spec-tasks → spec-implement flow."

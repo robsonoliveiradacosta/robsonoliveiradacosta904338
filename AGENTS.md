@@ -105,11 +105,12 @@ All config in `src/main/resources/application.properties`. Environment overrides
 
 ## AI agent toolkit (skills, agents)
 
-This project ships a **deduplicated union** of 52 skills and 29 specialist
-agents, sourced from two upstream branches (`claude-opus-4.7-xhigh` for
-action recipes/reviewers, `codex-gpt-5.5-xhigh` for governance
-guides/specialists). Canonical content lives in `.shared/` and is exposed to
-each tool through its native convention:
+This project ships a **deduplicated union** of 57 skills and 29 specialist
+agents — 53 skills sourced from two upstream branches (`claude-opus-4.7-xhigh`
+for action recipes/reviewers, `codex-gpt-5.5-xhigh` for governance
+guides/specialists) plus 4 locally-authored `spec-*` skills that wire a
+spec-driven-development flow on top. Canonical content lives in `.shared/`
+and is exposed to each tool through its native convention:
 
 | Tool | Path | How to invoke |
 |---|---|---|
@@ -122,6 +123,23 @@ See `.shared/README.md` for the full inventory. The build script
 `.shared/scripts/build.py` re-extracts content from upstream branches and
 regenerates the Gemini/Cursor adapters; Claude/Codex symlinks just refresh
 to point at whatever is in `.shared/`.
+
+### Spec-driven flow (for non-trivial features)
+
+Four chained skills produce a reviewable, resumable record under
+`specs/NNN-<slug>/` for any change touching multiple layers:
+
+1. `spec-create` — writes `spec.md` (problem, goals, acceptance criteria).
+2. `spec-plan` — delegates to the `architect` agent, writes `plan.md`
+   (files, packages, next migration #, role annotations, skills per phase).
+3. `spec-tasks` — writes `tasks.md` as an ordered checklist with per-task
+   skill, validation step, and depends-on chain.
+4. `spec-implement NNN [Tnn]` — runs one task (or all in `auto` mode),
+   invokes the named skill/agent, runs validation, ticks the box.
+
+Use this for full-slice features and any change that benefits from being
+captured before code. Direct skill invocation (`add-crud-resource`,
+`add-flyway-migration`, …) is still the right path for one-off edits.
 
 ### Most-used skills in this codebase
 

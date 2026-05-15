@@ -2,12 +2,14 @@
 
 Single source of truth for the AI skills and specialist agents that target
 this Quarkus 21 / PostgreSQL / Flyway / MinIO project. The collection is the
-**deduplicated union** of two upstream branches:
+**deduplicated union** of two upstream branches plus locally-authored skills
+(notably the `spec-*` spec-driven-development flow):
 
 | Source branch | Style |
 |---|---|
 | `claude-opus-4.7-xhigh` | Action recipes (`add-X`, `bootstrap-X`) and reviewer agents |
 | `codex-gpt-5.5-xhigh` | Capability/governance guides and specialist implementer agents |
+| local | `spec-create` → `spec-plan` → `spec-tasks` → `spec-implement` flow |
 
 When a Claude action and a Codex governance guide describe the same concept,
 they are merged into a single canonical skill — the action recipe runs first
@@ -18,7 +20,8 @@ and the strategic considerations from the Codex guide are appended under a
 
 ```
 .shared/
-├── skills/<name>.md         # 52 canonical skills (frontmatter + body)
+├── skills/<name>.md         # 57 canonical skills (frontmatter + body)
+│                            # 53 from upstream + 4 local spec-* skills
 ├── agents/<name>.md         # 29 canonical agents
 ├── commands/<name>.md       # slash commands (currently empty — supported
 │                            # by the build script if you add files here)
@@ -63,9 +66,30 @@ so the only requirement is that those branches exist in the local repo.
 
 ## Inventory at a glance
 
-- 52 skills (29 action recipes + 23 governance guides, with 17 merged pairs)
+- 57 skills: 29 action recipes + 23 governance guides (17 merged pairs) + 4
+  spec-driven-development flow skills (`spec-create`, `spec-plan`,
+  `spec-tasks`, `spec-implement`)
 - 29 agents (5 architecture/planning, 4 persistence, 4 security/privacy, 2 API,
   6 ops/resilience, 7 testing, 1 final review)
 
 For the full list, see `.claude/README.md` (or any of the other adapter
 READMEs — they all show the same inventory).
+
+## Spec-driven development flow
+
+For non-trivial features (multiple layers, several files), use the four
+local `spec-*` skills as a chain. Each writes/reads files under
+`specs/NNN-<slug>/` so the work is reviewable, resumable, and committed
+alongside the code:
+
+```
+spec-create  →  specs/NNN-<slug>/spec.md     # what + why + acceptance criteria
+spec-plan    →  specs/NNN-<slug>/plan.md     # files, packages, migration #, skills
+spec-tasks   →  specs/NNN-<slug>/tasks.md    # ordered checklist with validation
+spec-implement(NNN [Tnn])                    # runs one task, ticks the box
+```
+
+`spec-plan` delegates cross-file design to the `architect` agent, and
+`spec-tasks` lists which `add-*` skills and which review agents
+(`migration-safety`, `security`, `testing`, …) to invoke per task. So the
+flow doesn't replace the existing toolkit — it sequences it.
