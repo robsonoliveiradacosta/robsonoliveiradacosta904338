@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Minio Storage"
+  short_description: "Add MinIO (S3-compatible) object storage to a Quarkus project — wire the quarkus-minio extension, add bucket auto-creation on startup, an Im"
+  default_prompt: "Use $add-minio-storage to add MinIO (S3-compatible) object storage to a Quarkus project — wire the quarkus-minio extension, add bucket auto-creation on startup, an ImageService that issues 30-minute presigned URLs with size/type validation, a MinioHealthCheck for /q/health/ready, and a MinioTestResource for Testcontainers-based tests. Use whenever the user wants to upload files, store images, integrate object storage, or add S3-compatible blob storage to a Quarkus app."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Api Docs Openapi Health"
+  short_description: "Add API documentation, OpenAPI metadata, Swagger UI examples, and Quarkus health checks. Use when documenting REST resources, adding operati"
+  default_prompt: "Use $api-docs-openapi-health to add API documentation, OpenAPI metadata, Swagger UI examples, and Quarkus health checks. Use when documenting REST resources, adding operation summaries, response schemas, request examples, error responses, /q/swagger-ui configuration, /q/health checks, readiness/liveness probes, or operational endpoint docs."

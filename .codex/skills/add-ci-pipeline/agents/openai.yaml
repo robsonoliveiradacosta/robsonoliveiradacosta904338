@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Ci Pipeline"
+  short_description: "Generate a production-grade GitHub Actions CI pipeline for a Quarkus project — runs Maven build with cache, unit + integration tests against"
+  default_prompt: "Use $add-ci-pipeline to generate a production-grade GitHub Actions CI pipeline for a Quarkus project — runs Maven build with cache, unit + integration tests against a real Postgres service container, JVM and native image matrix, container image build with Trivy vulnerability scan, CycloneDX SBOM generation, and an optional release job that pushes to GHCR on tagged commits. Use when the user asks for CI, GitHub Actions, automated testing, \"set up the pipeline\", security scanning of dependencies, or publishing container images."

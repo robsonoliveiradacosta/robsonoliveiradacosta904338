@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Jwt Auth"
+  short_description: "Wire SmallRye JWT (RS256) authentication into a Quarkus project — generate RSA key pair, add Maven dependencies and application.properties c"
+  default_prompt: "Use $add-jwt-auth to wire SmallRye JWT (RS256) authentication into a Quarkus project — generate RSA key pair, add Maven dependencies and application.properties config, create User entity + Flyway migration with BCrypt-hashed default users, TokenService, AuthService (login/refresh), AuthResource, and the TestTokenHelper used by integration tests. Use whenever the user needs JWT auth, login endpoints, role-based security, or asks \"add authentication to my Quarkus app\"."

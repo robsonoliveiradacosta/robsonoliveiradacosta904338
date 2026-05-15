@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Observability"
+  short_description: "Wire production observability into a Quarkus project — Micrometer metrics with Prometheus scrape endpoint, OpenTelemetry distributed tracing"
+  default_prompt: "Use $add-observability to wire production observability into a Quarkus project — Micrometer metrics with Prometheus scrape endpoint, OpenTelemetry distributed tracing (OTLP exporter), structured JSON console logs, and a JAX-RS filter that propagates an X-Request-Id correlation header through MDC and OpenTelemetry context. Use whenever the user asks for metrics, monitoring, tracing, structured logs, observability, \"instrument the API\", or wants to integrate with Prometheus/Grafana/Tempo/Jaeger."

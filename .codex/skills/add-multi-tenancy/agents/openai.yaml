@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Multi Tenancy"
+  short_description: "Add row-level multi-tenancy to a Quarkus + Hibernate 6.4+ project via @TenantId discriminator column with TenantResolver that reads the tena"
+  default_prompt: "Use $add-multi-tenancy to add row-level multi-tenancy to a Quarkus + Hibernate 6.4+ project via @TenantId discriminator column with TenantResolver that reads the tenant claim from SecurityIdentity — generates the Flyway migration to add tenant_id to every relevant table with composite unique constraints, a CurrentTenantIdentifierResolver wired to JWT claims, application of @TenantId to entities, and a strong recommendation pattern for testing tenant isolation. Use ONLY when the project genuinely needs multiple tenants (separate customer organizations sharing the same database); otherwise this adds noise without value."

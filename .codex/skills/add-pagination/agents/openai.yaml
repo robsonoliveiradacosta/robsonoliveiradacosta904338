@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Pagination"
+  short_description: "Convert a non-paginated Quarkus REST resource into a paginated listing endpoint following this repo's PageResponse<T> + Panache Page/Sort pa"
+  default_prompt: "Use $add-pagination to convert a non-paginated Quarkus REST resource into a paginated listing endpoint following this repo's PageResponse<T> + Panache Page/Sort pattern — adds page/size/sort/filter query parameters with caps and validation, wires repository.findWithFilters + countWithFilters, and refactors the resource and service to return PageResponse<T>. Use whenever the user asks to paginate, sort, filter, \"add page params\", or wants list endpoints to scale beyond a few thousand rows."

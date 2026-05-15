@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Error Handling"
+  short_description: "Replace ad-hoc error responses in a Quarkus REST API with RFC 7807 Problem Details — generates a ProblemDetail record, a base ExceptionMappe"
+  default_prompt: "Use $add-error-handling to replace ad-hoc error responses in a Quarkus REST API with RFC 7807 Problem Details — generates a ProblemDetail record, a base ExceptionMapper, and specific mappers for ConstraintViolationException (validation), NotFoundException, NotAuthorizedException, WebApplicationException pass-through, and a final fallback that never leaks stack traces. Use whenever the user wants consistent error responses, problem+json, RFC 7807, \"professional error handling\", or \"stop leaking exception messages\"."

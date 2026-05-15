@@ -1,0 +1,4 @@
+interface:
+  display_name: "Api Test Strategy Matrix"
+  short_description: "Create professional QA test strategy matrices for Quarkus REST API features. Use when deciding coverage across unit, service, resource, inte"
+  default_prompt: "Use $api-test-strategy-matrix to create professional QA test strategy matrices for Quarkus REST API features. Use when deciding coverage across unit, service, resource, integration, contract, security, performance, smoke, regression, and exploratory tests before or after implementing API changes."

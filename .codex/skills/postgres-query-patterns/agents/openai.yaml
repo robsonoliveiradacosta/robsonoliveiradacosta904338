@@ -1,0 +1,4 @@
+interface:
+  display_name: "Postgres Query Patterns"
+  short_description: "Design predictable PostgreSQL query patterns for Quarkus Panache and JPA repositories. Use when implementing filters, pagination, sorting, j"
+  default_prompt: "Use $postgres-query-patterns to design predictable PostgreSQL query patterns for Quarkus Panache and JPA repositories. Use when implementing filters, pagination, sorting, joins, counts, text search, existence checks, uniqueness checks, dynamic queries, and performance-aware repository methods."

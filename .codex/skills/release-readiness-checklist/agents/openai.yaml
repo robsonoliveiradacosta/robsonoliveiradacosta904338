@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Readiness Checklist"
+  short_description: "Prepare Quarkus REST APIs for safe releases. Use before deployment or tagging to verify tests, migrations, configuration, secrets, Docker im"
+  default_prompt: "Use $release-readiness-checklist to prepare Quarkus REST APIs for safe releases. Use before deployment or tagging to verify tests, migrations, configuration, secrets, Docker images, health checks, API compatibility, rollback notes, release notes, operational risks, and production readiness."

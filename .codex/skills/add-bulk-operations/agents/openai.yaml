@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Bulk Operations"
+  short_description: "Enable efficient bulk inserts, updates, and deletes in a Quarkus + Hibernate project — configures hibernate.jdbc.batch_size with order_inser"
+  default_prompt: "Use $add-bulk-operations to enable efficient bulk inserts, updates, and deletes in a Quarkus + Hibernate project — configures hibernate.jdbc.batch_size with order_inserts/order_updates, shows the Panache repository pattern for batched persists with periodic flush+clear to avoid memory bloat, JPQL @Modifying bulk update/delete that bypasses the session, and native SQL escape hatch for the truly massive case. Use whenever the user mentions slow bulk inserts, \"Hibernate is slow\", batch processing, importing data, \"1M rows\", or any time a service iterates persist in a loop."

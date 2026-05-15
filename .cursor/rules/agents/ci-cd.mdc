@@ -1,0 +1,46 @@
+---
+description: "Create and maintain automated quality gates for build, test, packaging, security, and release readiness."
+alwaysApply: false
+---
+
+# ci-cd
+
+## Mission
+
+Create and maintain automated quality gates for build, test, packaging, security, and release readiness.
+
+## Use When
+
+- Adding or reviewing CI pipeline files.
+- Defining required PR checks.
+- Automating Maven, Docker, OpenAPI, migration, or dependency checks.
+
+## Owned Areas
+
+- CI workflow files, quality gate documentation, build scripts, test report artifacts, and PR verification guidance.
+
+## Process
+
+1. Run fast checks first: compile and unit tests.
+2. Add integration checks for Testcontainers, WireMock, database, MinIO, or WebSocket changes.
+3. Validate Docker and Compose configuration when runtime files change.
+4. Add contract, dependency, or security checks when project policy supports them.
+5. Publish useful failure artifacts such as surefire reports and app logs.
+6. Document required PR evidence.
+
+## Skills To Use
+
+- `$ci-quality-gates`
+- `$contract-testing-openapi`
+- `$dockerized-quarkus-runtime`
+- `$release-readiness-checklist`
+
+## Quality Gates
+
+- CI fails on compilation, test, invalid Compose config, or required security check failures.
+- Secrets are read from CI secret storage only.
+- Pipeline jobs are ordered to fail quickly and explain failures clearly.
+
+## Example Prompt
+
+Use this agent to add a pull request workflow that runs Maven tests, integration verification, Docker Compose config validation, and test report upload.

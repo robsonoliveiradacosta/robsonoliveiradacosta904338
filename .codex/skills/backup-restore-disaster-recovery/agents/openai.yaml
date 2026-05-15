@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backup Restore Disaster Recovery"
+  short_description: "Plan backup, restore, rollback, and disaster recovery for Quarkus APIs using PostgreSQL and MinIO. Use when defining RPO, RTO, database back"
+  default_prompt: "Use $backup-restore-disaster-recovery to plan backup, restore, rollback, and disaster recovery for Quarkus APIs using PostgreSQL and MinIO. Use when defining RPO, RTO, database backups, object storage backups, restore drills, migration rollback, release recovery, data-loss scenarios, and operational recovery checklists."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Audit Trail"
+  short_description: "Add automatic audit columns (created_at, updated_at, created_by, updated_by) to JPA entities in a Quarkus project — generates a reusable Aud"
+  default_prompt: "Use $add-audit-trail to add automatic audit columns (created_at, updated_at, created_by, updated_by) to JPA entities in a Quarkus project — generates a reusable AuditableEntity superclass with @PrePersist / @PreUpdate hooks, an AuditListener that pulls the principal from SecurityIdentity, and Flyway migrations to add the columns to existing tables. Use when the user asks for audit fields, \"who created this\", \"track when X was modified\", compliance requirements, or a created_at/updated_at column on entities."

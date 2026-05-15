@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Pact Contract Tests"
+  short_description: "Add Pact provider-side contract testing to a Quarkus REST API so consumer-defined contracts (published by frontend/mobile/microservice teams"
+  default_prompt: "Use $add-pact-contract-tests to add Pact provider-side contract testing to a Quarkus REST API so consumer-defined contracts (published by frontend/mobile/microservice teams to a Pact Broker) are verified against the running API in CI — wires the pact-jvm-provider-junit5 dependency, a verifier test that boots the API with @QuarkusTest, state-handler methods that seed the DB for each interaction, and CI integration that publishes verification results back to the broker. Use only when at least one consumer is already publishing Pact contracts; otherwise prefer OpenAPI-driven testing."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Flyway Migration"
+  short_description: "Create the next Flyway migration file under src/main/resources/db/migration/ with correct sequential numbering (V<n+1>__*.sql) and a templat"
+  default_prompt: "Use $add-flyway-migration to create the next Flyway migration file under src/main/resources/db/migration/ with correct sequential numbering (V<n+1>__*.sql) and a template body matching the kind of change requested — create table, add column, alter, junction, index, or seed data. Use whenever the user asks for a schema change, \"add a migration\", \"alter table X\", or proposes changes that touch persistent data."

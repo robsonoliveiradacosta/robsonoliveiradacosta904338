@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Outbox Pattern"
+  short_description: "Implement the transactional outbox pattern in a Quarkus + PostgreSQL project so domain events are published reliably (at-least-once) to Kafk"
+  default_prompt: "Use $add-outbox-pattern to implement the transactional outbox pattern in a Quarkus + PostgreSQL project so domain events are published reliably (at-least-once) to Kafka/RabbitMQ/HTTP webhooks without dual-write inconsistency — generates an outbox_events table, an OutboxEventPublisher service that writes events inside the business transaction, a scheduled poller that publishes pending events with retry/backoff and marks them dispatched, idempotent consumer guidance, and DB constraints that make replay safe. Use whenever the user needs reliable event publishing, mentions Kafka/RabbitMQ/webhooks, \"publish event after save\", dual-write problem, eventually consistent messaging, or any cross-service notification."

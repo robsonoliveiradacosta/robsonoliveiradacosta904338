@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Openapi Client Gen"
+  short_description: "Generate typed client SDKs (TypeScript, Java, Kotlin, Python, …) from a Quarkus project's /q/openapi specification, using the openapi-genera"
+  default_prompt: "Use $add-openapi-client-gen to generate typed client SDKs (TypeScript, Java, Kotlin, Python, …) from a Quarkus project's /q/openapi specification, using the openapi-generator Maven plugin or CLI. Adds a clients/ directory layout, a maven module / npm package skeleton per language, a CI job that regenerates clients on every release, and a check that fails when the spec drifts. Use when the user asks for an SDK, \"TypeScript client\", auto-generated API client, or wants frontends to consume the API without hand-writing fetch wrappers."

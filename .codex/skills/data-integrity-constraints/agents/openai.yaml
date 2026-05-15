@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Integrity Constraints"
+  short_description: "Design database-backed integrity rules for Quarkus APIs. Use when deciding not-null, unique, foreign key, check constraints, cascade rules, "
+  default_prompt: "Use $data-integrity-constraints to design database-backed integrity rules for Quarkus APIs. Use when deciding not-null, unique, foreign key, check constraints, cascade rules, composite keys, state constraints, duplicate prevention, concurrency-safe uniqueness, and alignment between Bean Validation and PostgreSQL constraints."

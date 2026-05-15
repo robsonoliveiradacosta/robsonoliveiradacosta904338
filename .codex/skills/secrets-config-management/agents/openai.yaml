@@ -1,0 +1,4 @@
+interface:
+  display_name: "Secrets Config Management"
+  short_description: "Manage secrets and runtime configuration for Quarkus REST APIs. Use when reviewing application.properties, profiles, environment variables, "
+  default_prompt: "Use $secrets-config-management to manage secrets and runtime configuration for Quarkus REST APIs. Use when reviewing application.properties, profiles, environment variables, JWT keys, database credentials, MinIO secrets, CORS origins, local .env files, production overrides, secret rotation, and accidental secret exposure."

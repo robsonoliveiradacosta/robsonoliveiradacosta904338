@@ -1,0 +1,4 @@
+interface:
+  display_name: "Privacy Data Retention Lgpd"
+  short_description: "Review privacy, data retention, and LGPD-oriented concerns for Quarkus REST APIs. Use when identifying personal data, minimizing DTOs, avoid"
+  default_prompt: "Use $privacy-data-retention-lgpd to review privacy, data retention, and LGPD-oriented concerns for Quarkus REST APIs. Use when identifying personal data, minimizing DTOs, avoiding PII in logs, designing deletion or anonymization, retention periods, audit data, user records, tokens, backups, and compliance-sensitive API behavior."

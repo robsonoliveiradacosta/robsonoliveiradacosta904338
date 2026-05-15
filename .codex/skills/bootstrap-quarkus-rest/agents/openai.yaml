@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bootstrap Quarkus Rest"
+  short_description: "Scaffold a new Quarkus 3.x REST project that follows this repository's layered architecture (resource/service/repository/entity), with Flywa"
+  default_prompt: "Use $bootstrap-quarkus-rest to scaffold a new Quarkus 3.x REST project that follows this repository's layered architecture (resource/service/repository/entity), with Flyway-owned PostgreSQL schema, JWT auth, optional MinIO + WebSocket + scheduler, multi-stage Dockerfile and docker-compose stack. Use whenever the user wants to start a new Quarkus backend with the same conventions as this project."

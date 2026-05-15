@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Rate Limit"
+  short_description: "Add a per-principal in-process rate limiter to a Quarkus REST API using bucket4j and a JAX-RS ContainerRequestFilter. Adds the bucket4j-core"
+  default_prompt: "Use $add-rate-limit to add a per-principal in-process rate limiter to a Quarkus REST API using bucket4j and a JAX-RS ContainerRequestFilter. Adds the bucket4j-core dependency, generates RateLimitFilter that runs after authentication (Priorities.AUTHENTICATION+1), tags responses with X-RateLimit-* headers, and wires a config flag (app.rate-limit.enabled) so tests can disable it. Use when the user asks for rate limiting, throttling, abuse protection, or \"limit X requests per minute per user\"."

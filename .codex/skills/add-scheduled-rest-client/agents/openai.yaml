@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Scheduled Rest Client"
+  short_description: "Add a periodic synchronization job that consumes an external REST API in a Quarkus project — generates a MicroProfile REST Client interface,"
+  default_prompt: "Use $add-scheduled-rest-client to add a periodic synchronization job that consumes an external REST API in a Quarkus project — generates a MicroProfile REST Client interface, a sync service (@Transactional), a @Scheduled cron job, an admin-only manual-trigger endpoint, and a WireMock-backed integration test stub. Use whenever the user wants to poll an external API on a schedule, sync data with a third party, or \"fetch X every N hours\"."

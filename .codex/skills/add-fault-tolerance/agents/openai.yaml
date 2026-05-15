@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Fault Tolerance"
+  short_description: "Harden external integrations in a Quarkus project with SmallRye Fault Tolerance — applies @Timeout, @Retry with exponential backoff, @Circui"
+  default_prompt: "Use $add-fault-tolerance to harden external integrations in a Quarkus project with SmallRye Fault Tolerance — applies @Timeout, @Retry with exponential backoff, @CircuitBreaker, @Bulkhead, and @Fallback annotations to REST Clients and the services that call them, plus Micrometer metrics so the circuit-breaker state is observable. Use when the user mentions retry, timeout, circuit breaker, resilience, \"stop a slow upstream from killing us\", or any external HTTP call without protection."

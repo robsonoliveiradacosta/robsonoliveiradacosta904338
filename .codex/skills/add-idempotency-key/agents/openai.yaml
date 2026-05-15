@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Idempotency Key"
+  short_description: "Add Stripe-style Idempotency-Key header support to a Quarkus REST API so retries of POST/PUT/PATCH operations are safe — generates a Flyway "
+  default_prompt: "Use $add-idempotency-key to add Stripe-style Idempotency-Key header support to a Quarkus REST API so retries of POST/PUT/PATCH operations are safe — generates a Flyway migration for the idempotency_keys table with TTL, a JAX-RS filter that intercepts before the resource method and returns the cached response when the same key+method+path is replayed, a scheduled purge job for expired keys, and a target annotation @Idempotent for opting endpoints in. Use whenever the user mentions idempotency, retry-safe POST, duplicate request prevention, Stripe-style Idempotency-Key, exactly-once semantics, or any payment/order/transaction-creation endpoint."

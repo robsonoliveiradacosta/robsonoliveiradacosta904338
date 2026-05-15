@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Testcontainers Resource"
+  short_description: "Generate a Quarkus QuarkusTestResourceLifecycleManager that starts a Testcontainers container (PostgreSQL, MinIO, Kafka, Redis, …) and overr"
+  default_prompt: "Use $add-testcontainers-resource to generate a Quarkus QuarkusTestResourceLifecycleManager that starts a Testcontainers container (PostgreSQL, MinIO, Kafka, Redis, …) and overrides the relevant Quarkus config properties for tests. Use whenever the user asks for an isolated test container, \"Testcontainers wrapper\", \"test resource for X\", or wants tests to stop depending on a local running service."

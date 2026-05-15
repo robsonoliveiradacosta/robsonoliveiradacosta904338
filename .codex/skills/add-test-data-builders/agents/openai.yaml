@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Test Data Builders"
+  short_description: "Generate fluent test data builder classes for JPA entities in a Quarkus project — one Builder per entity in src/test/java/.../testdata/, sen"
+  default_prompt: "Use $add-test-data-builders to generate fluent test data builder classes for JPA entities in a Quarkus project — one Builder per entity in src/test/java/.../testdata/, sensible default values for every field, fluent withX() methods that return the builder, build() returning a populated entity, and a persisted() variant that calls repository.persist within a @Transactional context. Use whenever the user complains about duplicate entity construction in tests, wants \"test factories\", asks for an Object Mother / Builder pattern, or whenever tests have visible setup duplication."

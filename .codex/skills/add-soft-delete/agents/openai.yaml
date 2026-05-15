@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Soft Delete"
+  short_description: "Convert a JPA entity in a Quarkus project from hard-delete to soft-delete — adds a deleted_at column via Flyway, applies Hibernate's @SoftDe"
+  default_prompt: "Use $add-soft-delete to convert a JPA entity in a Quarkus project from hard-delete to soft-delete — adds a deleted_at column via Flyway, applies Hibernate's @SoftDelete or @SQLDelete + @SQLRestriction so the entity is filtered automatically, exposes restore and listIncludingDeleted operations in the service, and refactors the resource to use a 410 Gone status for deleted IDs when appropriate. Use when the user asks for soft delete, \"don't actually delete\", \"restore deleted records\", \"trash/recycle bin\", or a deleted_at column."

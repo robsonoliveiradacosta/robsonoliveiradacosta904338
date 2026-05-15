@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Optimistic Locking"
+  short_description: "Add JPA optimistic locking via @Version to selected entities in a Quarkus project — generates the Flyway migration that adds the version col"
+  default_prompt: "Use $add-optimistic-locking to add JPA optimistic locking via @Version to selected entities in a Quarkus project — generates the Flyway migration that adds the version column with default 0 and backfills existing rows, applies @Version to the entity, wires an OptimisticLockExceptionMapper that returns 409 Conflict (RFC 7807), and shows the service-layer retry pattern for safe-to-retry write paths. Use whenever the user mentions optimistic locking, concurrent updates, \"last write wins\", lost-update problem, @Version, OptimisticLockException, or any scenario where two clients can edit the same record."

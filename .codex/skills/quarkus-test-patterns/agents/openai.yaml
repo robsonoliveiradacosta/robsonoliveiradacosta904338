@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quarkus Test Patterns"
+  short_description: "Design and implement tests for this repository's Quarkus architecture. Use when adding or fixing unit tests, resource/API tests, integration"
+  default_prompt: "Use $quarkus-test-patterns to design and implement tests for this repository's Quarkus architecture. Use when adding or fixing unit tests, resource/API tests, integration tests, Testcontainers resources, REST Assured assertions, Mockito-based service tests, WireMock tests, auth tests, or Maven test commands."

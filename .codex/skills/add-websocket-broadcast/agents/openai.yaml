@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Websocket Broadcast"
+  short_description: "Add a Quarkus websockets-next broadcast endpoint that fans out events to all connected clients via a single Mutiny BroadcastProcessor — gene"
+  default_prompt: "Use $add-websocket-broadcast to add a Quarkus websockets-next broadcast endpoint that fans out events to all connected clients via a single Mutiny BroadcastProcessor — generates the @WebSocket endpoint, a public notification method services can call, and a sample notification record. Use whenever the user asks for WebSocket notifications, server-push, real-time updates, broadcast to clients, or \"notify when X happens\"."

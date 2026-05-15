@@ -1,0 +1,4 @@
+interface:
+  display_name: "Threat Modeling Api Security"
+  short_description: "Perform threat modeling for Quarkus REST APIs using OWASP API Top 10 and STRIDE-style thinking. Use when designing or reviewing authenticati"
+  default_prompt: "Use $threat-modeling-api-security to perform threat modeling for Quarkus REST APIs using OWASP API Top 10 and STRIDE-style thinking. Use when designing or reviewing authentication, authorization, uploads, external integrations, JWT, rate limits, data exposure, privilege escalation, and abuse cases before implementation or release."

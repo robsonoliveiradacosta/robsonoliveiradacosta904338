@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dependency Supply Chain Security"
+  short_description: "Review Maven and Docker supply chain security for Quarkus APIs. Use when auditing dependencies, transitive packages, CVEs, vulnerable base i"
+  default_prompt: "Use $dependency-supply-chain-security to review Maven and Docker supply chain security for Quarkus APIs. Use when auditing dependencies, transitive packages, CVEs, vulnerable base images, SBOMs, license risk, dependency updates, pinned versions, plugin versions, and CI security gates."

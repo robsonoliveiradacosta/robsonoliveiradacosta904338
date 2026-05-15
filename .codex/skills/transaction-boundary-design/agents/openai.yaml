@@ -1,0 +1,4 @@
+interface:
+  display_name: "Transaction Boundary Design"
+  short_description: "Design transaction boundaries for Quarkus services using Hibernate ORM and Panache. Use when deciding @Transactional placement, rollback beh"
+  default_prompt: "Use $transaction-boundary-design to design transaction boundaries for Quarkus services using Hibernate ORM and Panache. Use when deciding @Transactional placement, rollback behavior, consistency, long-running operations, remote calls, file storage, event publication, retries, and service method atomicity."

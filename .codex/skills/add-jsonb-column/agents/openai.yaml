@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Jsonb Column"
+  short_description: "Add a PostgreSQL JSONB column to a JPA entity in a Quarkus + Hibernate project — Flyway migration with JSONB column and GIN index, Hibernate"
+  default_prompt: "Use $add-jsonb-column to add a PostgreSQL JSONB column to a JPA entity in a Quarkus + Hibernate project — Flyway migration with JSONB column and GIN index, Hibernate 6.4+ @JdbcTypeCode(SqlTypes.JSON) mapping to a typed POJO/record (no string nu), repository finder methods using JSONB operators (->>, @>) with proper parameter binding, and a sample request DTO with @Valid nested validation. Use whenever the user mentions JSONB, JSON column, flexible attributes, metadata bag, semi-structured fields, \"store dynamic settings\", or wants to query keys inside a JSON payload."

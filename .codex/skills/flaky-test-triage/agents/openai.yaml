@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flaky Test Triage"
+  short_description: "Diagnose and fix intermittent tests in Quarkus API projects. Use when tests pass and fail unpredictably due to shared data, test order, cloc"
+  default_prompt: "Use $flaky-test-triage to diagnose and fix intermittent tests in Quarkus API projects. Use when tests pass and fail unpredictably due to shared data, test order, clocks, async work, WebSocket timing, Testcontainers startup, fixed ports, race conditions, external services, or cleanup gaps."

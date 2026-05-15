@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Purge Job"
+  short_description: "Add a scheduled job that hard-deletes soft-deleted rows older than a configurable retention period — generates a @Scheduled job per entity, "
+  default_prompt: "Use $add-purge-job to add a scheduled job that hard-deletes soft-deleted rows older than a configurable retention period — generates a @Scheduled job per entity, uses bulk JPQL DELETE for performance, exposes per-entity retention as @ConfigProperty so ops can tune without redeploy, increments a Micrometer counter with the entity tag, and logs counts for audit. Use only when add-soft-delete is already in place; otherwise prefer to delete records directly. Trigger when the user mentions purge, retention, cleanup, \"soft-deleted rows accumulating\", \"GDPR / LGPD retention\", or \"scheduled deletion\"."

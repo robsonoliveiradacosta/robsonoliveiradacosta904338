@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Crud Resource"
+  short_description: "Generate a full CRUD slice for a new domain entity in a Quarkus + Panache project — Entity, Repository, Service (@Transactional), JAX-RS Res"
+  default_prompt: "Use $add-crud-resource to generate a full CRUD slice for a new domain entity in a Quarkus + Panache project — Entity, Repository, Service (@Transactional), JAX-RS Resource with @RolesAllowed and OpenAPI annotations, request/response DTOs, Flyway migration, plus REST Assured and Mockito tests. Use whenever the user asks to add a new resource, endpoint, entity, or \"CRUD for X\" to a Quarkus project that follows this repo's layered architecture."

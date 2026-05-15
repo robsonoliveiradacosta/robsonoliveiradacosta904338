@@ -1,0 +1,4 @@
+interface:
+  display_name: "Panache Orm Mapping Patterns"
+  short_description: "Design JPA and Hibernate ORM with Panache mappings for Quarkus APIs. Use when modeling entities, relationships, join tables, fetch strategy,"
+  default_prompt: "Use $panache-orm-mapping-patterns to design JPA and Hibernate ORM with Panache mappings for Quarkus APIs. Use when modeling entities, relationships, join tables, fetch strategy, cascade behavior, orphan removal, DTO mapping, lazy loading, repository methods, and N plus one prevention."

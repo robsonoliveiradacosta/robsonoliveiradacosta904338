@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Decision Records"
+  short_description: "Create and maintain architecture decision records for Quarkus API projects. Use when documenting significant choices about Quarkus, Panache,"
+  default_prompt: "Use $architecture-decision-records to create and maintain architecture decision records for Quarkus API projects. Use when documenting significant choices about Quarkus, Panache, Flyway, PostgreSQL, MinIO, JWT, Testcontainers, Docker, transactions, migrations, security, observability, or operational tradeoffs."

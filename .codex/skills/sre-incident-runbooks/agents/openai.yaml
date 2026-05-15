@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sre Incident Runbooks"
+  short_description: "Create SRE incident runbooks for Quarkus REST APIs and supporting services. Use when documenting response steps for API outage, PostgreSQL u"
+  default_prompt: "Use $sre-incident-runbooks to create SRE incident runbooks for Quarkus REST APIs and supporting services. Use when documenting response steps for API outage, PostgreSQL unavailable, MinIO failures, JWT/key issues, failed migrations, high latency, external API failures, elevated errors, and post-incident follow-up."

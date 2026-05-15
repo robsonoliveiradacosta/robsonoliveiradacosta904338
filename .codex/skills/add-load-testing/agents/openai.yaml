@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Load Testing"
+  short_description: "Add k6 load testing to a Quarkus REST API — generates k6 scripts derived from the project's OpenAPI spec covering the most-used endpoints, a"
+  default_prompt: "Use $add-load-testing to add k6 load testing to a Quarkus REST API — generates k6 scripts derived from the project's OpenAPI spec covering the most-used endpoints, a ramp-up / steady / spike scenario, thresholds (p95 latency, error rate, request rate) that fail the run if violated, a docker-compose service to run k6 locally against the stack, and a nightly GitHub Actions job that runs the test against a deployed environment and compares results with a baseline. Use when the user asks for load testing, performance testing, k6, stress test, \"how many requests can we handle\", or wants a perf budget per endpoint."

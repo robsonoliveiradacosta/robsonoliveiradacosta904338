@@ -1,0 +1,4 @@
+interface:
+  display_name: "Postgres Migration Safety"
+  short_description: "Plan safe PostgreSQL Flyway migrations for production Quarkus APIs. Use when adding columns, constraints, indexes, backfills, table refactor"
+  default_prompt: "Use $postgres-migration-safety to plan safe PostgreSQL Flyway migrations for production Quarkus APIs. Use when adding columns, constraints, indexes, backfills, table refactors, nullable to non-null transitions, data migrations, rollback notes, large-table changes, and zero-downtime compatibility."

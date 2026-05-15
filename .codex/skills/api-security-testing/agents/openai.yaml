@@ -1,0 +1,4 @@
+interface:
+  display_name: "Api Security Testing"
+  short_description: "Design security-focused tests for professional REST APIs. Use when testing JWT, RBAC, authorization bypass, token tampering, rate limiting, "
+  default_prompt: "Use $api-security-testing to design security-focused tests for professional REST APIs. Use when testing JWT, RBAC, authorization bypass, token tampering, rate limiting, input validation, injection risk, upload safety, sensitive data exposure, CORS behavior, and OWASP API Top 10 controls."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Persistence Test Patterns"
+  short_description: "Test repository, ORM, Flyway, and transactional behavior in Quarkus APIs. Use when writing persistence tests for Panache repositories, const"
+  default_prompt: "Use $persistence-test-patterns to test repository, ORM, Flyway, and transactional behavior in Quarkus APIs. Use when writing persistence tests for Panache repositories, constraints, migrations, pagination, sorting, relationships, lazy loading, transaction rollback, concurrent writes, and Testcontainers-backed PostgreSQL behavior."

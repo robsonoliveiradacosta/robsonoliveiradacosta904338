@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Mutation Testing"
+  short_description: "Add Pitest (PIT) mutation testing to a Quarkus + Maven project to measure how well existing tests detect actual bugs — wires the pitest-mave"
+  default_prompt: "Use $add-mutation-testing to add Pitest (PIT) mutation testing to a Quarkus + Maven project to measure how well existing tests detect actual bugs — wires the pitest-maven plugin targeting service/repository packages, uses incremental analysis with history file to skip unchanged code, sets per-class mutator strength, configures CI to compare mutation score vs baseline and fail PRs that drop it, and surfaces surviving mutants as actionable findings. Use when the user asks about mutation testing, Pitest, \"are my tests actually good\", \"we have 90% coverage but bugs slip through\", or wants to measure test quality not just quantity."

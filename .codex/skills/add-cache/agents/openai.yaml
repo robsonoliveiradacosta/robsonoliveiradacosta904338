@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Cache"
+  short_description: "Add declarative method-level caching to a Quarkus service using the quarkus-cache extension — Caffeine for in-process (single instance) or R"
+  default_prompt: "Use $add-cache to add declarative method-level caching to a Quarkus service using the quarkus-cache extension — Caffeine for in-process (single instance) or Redis for distributed, with @CacheResult on reads and @CacheInvalidate / @CacheInvalidateAll on writes, plus TTL and size caps. Use when the user mentions caching, \"speed up the listing endpoint\", repeated expensive computations, or external API responses that change slowly."

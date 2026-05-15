@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dockerized Quarkus Runtime"
+  short_description: "Package and run Quarkus APIs with Docker and Docker Compose following this repository's runtime pattern. Use when creating Dockerfiles, dock"
+  default_prompt: "Use $dockerized-quarkus-runtime to package and run Quarkus APIs with Docker and Docker Compose following this repository's runtime pattern. Use when creating Dockerfiles, docker-compose services, environment variables, PostgreSQL/MinIO dependencies, health checks, JVM/native container builds, local start scripts, or deployment-ready runtime documentation."

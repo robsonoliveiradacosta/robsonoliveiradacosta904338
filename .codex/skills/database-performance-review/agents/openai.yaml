@@ -1,0 +1,4 @@
+interface:
+  display_name: "Database Performance Review"
+  short_description: "Review PostgreSQL, Flyway, JPA, and Panache performance for Quarkus APIs. Use when checking indexes, constraints, pagination, query plans, N"
+  default_prompt: "Use $database-performance-review to review PostgreSQL, Flyway, JPA, and Panache performance for Quarkus APIs. Use when checking indexes, constraints, pagination, query plans, N+1 risks, transaction boundaries, lock behavior, migration impact, repository methods, or slow endpoint causes."

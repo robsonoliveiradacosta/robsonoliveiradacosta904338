@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rest Assured Api Suite"
+  short_description: "Build professional REST Assured suites for Quarkus APIs. Use when testing REST resources, authentication, authorization, JSON payloads, vali"
+  default_prompt: "Use $rest-assured-api-suite to build professional REST Assured suites for Quarkus APIs. Use when testing REST resources, authentication, authorization, JSON payloads, validation errors, pagination, filters, sorting, multipart uploads, headers, rate limits, and documented response contracts."
