@@ -242,15 +242,49 @@ structured transformations.
 
 **Anti-pattern:** putting Opus on every step "to be safe." Cost balloons and the marginal gain on structured transformations is zero or negative (Opus over-engineers simple DTOs). Reserve the heavy ammunition for steps where reasoning differentiates the outcome.
 
-**Where the bump is automated:** the `architect`, `migration-safety`,
-`query-optimization`, `security`, and `testing` agent files carry
-`model: opus` in their frontmatter (`.shared/agents/<name>.md`). The Agent
-tool reads that and routes them to Opus regardless of the parent session's
-model — Sonnet sessions still get Opus on those five agents. Other
-choices (session model, extended thinking toggle) remain manual. The
-overrides are kept in `AGENT_MODEL_OVERRIDES` in
-`.shared/scripts/build.py` so they survive a full rebuild from upstream;
-edit there to add or change overrides.
+**Where the bump is automated (Claude Code only):** the `architect`,
+`migration-safety`, `query-optimization`, `security`, and `testing` agent
+files carry `model: opus` in their frontmatter (`.shared/agents/<name>.md`).
+The Agent tool reads that and routes them to Opus regardless of the parent
+session's model — Sonnet sessions still get Opus on those five agents.
+Other choices (session model, extended thinking toggle) remain manual. The
+overrides live in `AGENT_MODEL_OVERRIDES` in `.shared/scripts/build.py` so
+they survive a full rebuild from upstream; edit there to add or change
+overrides.
+
+**Codex CLI equivalent (manual via profile).** The `model: opus` line is
+Claude-Code-specific syntax — Codex runs GPT models and ignores the field.
+The closest mapping is to define profiles in `~/.codex/config.toml` and
+invoke them explicitly on the heavy steps:
+
+```toml
+[profiles.deep]
+model = "gpt-5-codex"            # current GPT model with strongest reasoning
+model_reasoning_effort = "high"
+
+[profiles.fast]
+model = "gpt-5-mini"
+model_reasoning_effort = "medium"
+```
+
+Then run with `--profile`:
+
+```bash
+codex --profile deep   $spec-plan 001        # architect engages here
+codex --profile deep   $spec-implement 001   # T09–T12 reviews engage here
+codex --profile fast   $spec-create 001      # interview, transformations
+```
+
+Codex doesn't auto-switch per agent the way Claude Code does; the choice is
+session-level. If you wrap everything in one `codex --profile deep` session
+you get correct behavior on the heavy steps at the cost of paying GPT-5's
+high-reasoning rate on the light steps too. Splitting into two sessions
+matches the cost profile in the table above.
+
+**Gemini CLI / Cursor:** `model:` frontmatter isn't carried into the
+generated TOML / MDC adapters. Configure model and reasoning at the tool's
+own level (Gemini CLI flags or `~/.gemini/settings.json`; Cursor's model
+selector).
 
 ### Most-used skills in this codebase
 
