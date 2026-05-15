@@ -61,7 +61,7 @@ Run with `spec-implement 001` (next pending task) or `spec-implement 001 T05`
   - **Validation:** `./mvnw compile`
   - **Depends on:** T03, T04
 
-- [x] **T06** — Create `FavoriteResource` at `/api/v1/me/favorites` → done 2026-05-15 17:06
+- [x] **T06** — Create `FavoriteResource` at `/v1/me/favorites` → done 2026-05-15 17:06
   - **Files:** `src/main/java/com/quarkus/resource/FavoriteResource.java`
   - **Skill:** `add-crud-resource Favorite` (resource portion — adjusted)
   - **Endpoints (all `@RolesAllowed({"USER","ADMIN"})`):**

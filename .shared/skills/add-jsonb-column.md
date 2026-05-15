@@ -177,7 +177,7 @@ void findFeatured_returnsOnlyFeaturedAlbums() {
               "metadata":{"featured":true,"tags":["rock"]}
             }
         """)
-    .when().post("/api/v1/albums").then().statusCode(201);
+    .when().post("/v1/albums").then().statusCode(201);
 
     given().auth().oauth2(TestTokenHelper.adminToken())
         .contentType("application/json")
@@ -187,11 +187,11 @@ void findFeatured_returnsOnlyFeaturedAlbums() {
               "metadata":{"featured":false,"tags":["jazz"]}
             }
         """)
-    .when().post("/api/v1/albums").then().statusCode(201);
+    .when().post("/v1/albums").then().statusCode(201);
 
     given().auth().oauth2(TestTokenHelper.userToken())
         .queryParam("featured", true)
-    .when().get("/api/v1/albums")
+    .when().get("/v1/albums")
     .then().body("content.size()", equalTo(1))
            .body("content[0].title", equalTo("A"));
 }

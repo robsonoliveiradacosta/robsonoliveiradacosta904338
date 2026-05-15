@@ -40,11 +40,11 @@ Consultar a seção **"Endpoints de API > Álbuns"** na techspec.md para a espec
 
 | Método | Path | Descrição |
 |--------|------|-----------|
-| GET | `/api/v1/albums` | Lista paginada com filtros |
-| GET | `/api/v1/albums/{id}` | Busca por ID |
-| POST | `/api/v1/albums` | Cria novo álbum |
-| PUT | `/api/v1/albums/{id}` | Atualiza álbum |
-| DELETE | `/api/v1/albums/{id}` | Remove álbum |
+| GET | `/v1/albums` | Lista paginada com filtros |
+| GET | `/v1/albums/{id}` | Busca por ID |
+| POST | `/v1/albums` | Cria novo álbum |
+| PUT | `/v1/albums/{id}` | Atualiza álbum |
+| DELETE | `/v1/albums/{id}` | Remove álbum |
 
 **Query params para listagem:**
 - `page` (int, default 0)

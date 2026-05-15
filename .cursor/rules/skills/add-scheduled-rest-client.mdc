@@ -22,7 +22,7 @@ Generate a complete external-API-sync slice: REST Client interface, sync service
 | Response DTO shape | record matching the remote JSON |
 | Local entity name | what we persist locally |
 | Cron expression | confirm with user; example `0 0 4 * * ?` (4 AM daily) |
-| Admin manual-trigger endpoint? | yes — generate `POST /api/v1/<resource>/sync` for `ADMIN` |
+| Admin manual-trigger endpoint? | yes — generate `POST /v1/<resource>/sync` for `ADMIN` |
 
 ## Dependencies
 
@@ -192,7 +192,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-@Path("/api/v1/regionals")
+@Path("/v1/regionals")
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = "Regionals")
 public class RegionalResource {

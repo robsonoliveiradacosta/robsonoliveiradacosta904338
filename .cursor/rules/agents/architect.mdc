@@ -141,7 +141,7 @@ Transform a product idea into an implementation-ready Quarkus API plan that matc
 ## Process
 
 1. Identify aggregates, relationships, lifecycle rules, and invariants.
-2. Define REST resources under `/api/v1`, including status codes and request/response DTOs.
+2. Define REST resources under `/v1`, including status codes and request/response DTOs.
 3. Define persistence needs: tables, constraints, indexes, seed data, and Flyway migration order.
 4. Identify cross-cutting concerns: JWT/RBAC, validation, rate limits, health checks, OpenAPI, logs, and configuration.
 5. Produce a task breakdown that can be handed to scaffold, domain, security, testing, and DevOps agents.

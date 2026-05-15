@@ -193,11 +193,11 @@ class TenantIsolationTest {
         given().auth().oauth2(TestTokenHelper.adminToken("tenant-a"))
             .contentType("application/json")
             .body("""{"title":"Secret A","year":2024}""")
-        .when().post("/api/v1/albums").then().statusCode(201);
+        .when().post("/v1/albums").then().statusCode(201);
 
         // Tenant B's list
         String response = given().auth().oauth2(TestTokenHelper.adminToken("tenant-b"))
-        .when().get("/api/v1/albums")
+        .when().get("/v1/albums")
         .then().statusCode(200).extract().asString();
 
         // ABSOLUTE: B must not see A's album by any field
@@ -212,11 +212,11 @@ class TenantIsolationTest {
         Long id = given().auth().oauth2(TestTokenHelper.adminToken("tenant-a"))
             .contentType("application/json")
             .body("""{"title":"Restricted","year":2024}""")
-        .when().post("/api/v1/albums").then().extract().path("id");
+        .when().post("/v1/albums").then().extract().path("id");
 
         // B tries to fetch by id directly
         given().auth().oauth2(TestTokenHelper.adminToken("tenant-b"))
-        .when().get("/api/v1/albums/" + id)
+        .when().get("/v1/albums/" + id)
         .then().statusCode(404);  // Filtered out — NOT 200 with data
     }
 }

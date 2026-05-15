@@ -4,8 +4,8 @@ prompt = """
 
 Add complete JWT (RS256) authentication and role-based authorization to a Quarkus project that follows this repo's conventions. After running, the project has:
 
-- `POST /api/v1/auth/login` returning a 5-minute JWT
-- `POST /api/v1/auth/refresh` to rotate the token
+- `POST /v1/auth/login` returning a 5-minute JWT
+- `POST /v1/auth/refresh` to rotate the token
 - `@RolesAllowed("ADMIN")` / `@RolesAllowed("USER")` enforced on resources
 - `TestTokenHelper.adminToken()` / `userToken()` available for tests
 - Default seeded users: `admin/admin123` (ADMIN), `user/user123` (USER)
@@ -237,7 +237,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-@Path("/api/v1/auth")
+@Path("/v1/auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "Auth")
@@ -352,7 +352,7 @@ public final class TestTokenHelper {
 - Tell the user the migration numbers used.
 - Provide the test login curl:
   ```bash
-  curl -X POST http://localhost:8080/api/v1/auth/login \
+  curl -X POST http://localhost:8080/v1/auth/login \
     -H "Content-Type: application/json" \
     -d '{"username":"admin","password":"admin123"}'
   ```

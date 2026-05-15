@@ -106,7 +106,7 @@ npm install -g wscat
 wscat -c ws://localhost:8080/ws/albums
 
 # Em outro terminal, criar álbum via API
-curl -X POST http://localhost:8080/api/v1/albums \
+curl -X POST http://localhost:8080/v1/albums \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"title": "New Album", "year": 2024, "artistIds": [1]}'

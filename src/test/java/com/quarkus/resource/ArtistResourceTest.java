@@ -23,7 +23,7 @@ class ArtistResourceTest {
         given()
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200)
                 .body("$", hasSize(greaterThanOrEqualTo(0)));
@@ -39,7 +39,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(201);
 
@@ -48,7 +48,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("name", "Queen")
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200)
                 .body("$", hasSize(greaterThanOrEqualTo(1)))
@@ -61,7 +61,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("sort", "name:asc")
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200)
                 .body("$", hasSize(greaterThanOrEqualTo(1)));
@@ -73,7 +73,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("sort", "name:desc")
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200)
                 .body("$", hasSize(greaterThanOrEqualTo(1)));
@@ -89,7 +89,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -100,7 +100,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .pathParam("id", artistId)
                 .when()
-                .get("/api/v1/artists/{id}")
+                .get("/v1/artists/{id}")
                 .then()
                 .statusCode(200)
                 .body("id", is(artistId))
@@ -114,7 +114,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .pathParam("id", 99999)
                 .when()
-                .get("/api/v1/artists/{id}")
+                .get("/v1/artists/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -128,7 +128,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(201)
                 .body("name", is("The Beatles"))
@@ -145,7 +145,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(400);
     }
@@ -159,7 +159,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(requestJson)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(400);
     }
@@ -174,7 +174,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -189,7 +189,7 @@ class ArtistResourceTest {
                 .pathParam("id", artistId)
                 .body(updateRequest)
                 .when()
-                .put("/api/v1/artists/{id}")
+                .put("/v1/artists/{id}")
                 .then()
                 .statusCode(200)
                 .body("name", is("Updated Artist"))
@@ -206,7 +206,7 @@ class ArtistResourceTest {
                 .pathParam("id", 99999)
                 .body(request)
                 .when()
-                .put("/api/v1/artists/{id}")
+                .put("/v1/artists/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -221,7 +221,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -236,7 +236,7 @@ class ArtistResourceTest {
                 .pathParam("id", artistId)
                 .body(invalidRequest)
                 .when()
-                .put("/api/v1/artists/{id}")
+                .put("/v1/artists/{id}")
                 .then()
                 .statusCode(400);
     }
@@ -251,7 +251,7 @@ class ArtistResourceTest {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -262,7 +262,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateAdminToken())
                 .pathParam("id", artistId)
                 .when()
-                .delete("/api/v1/artists/{id}")
+                .delete("/v1/artists/{id}")
                 .then()
                 .statusCode(204);
 
@@ -271,7 +271,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .pathParam("id", artistId)
                 .when()
-                .get("/api/v1/artists/{id}")
+                .get("/v1/artists/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -282,7 +282,7 @@ class ArtistResourceTest {
                 .auth().oauth2(TestTokenHelper.generateAdminToken())
                 .pathParam("id", 99999)
                 .when()
-                .delete("/api/v1/artists/{id}")
+                .delete("/v1/artists/{id}")
                 .then()
                 .statusCode(404);
     }

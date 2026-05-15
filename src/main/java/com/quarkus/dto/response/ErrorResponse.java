@@ -16,7 +16,7 @@ public record ErrorResponse(
         @Schema(description = "Timestamp when the error occurred", examples = {"2024-01-15T10:30:00"})
         String timestamp,
 
-        @Schema(description = "Request path that caused the error", examples = {"/api/v1/artists"})
+        @Schema(description = "Request path that caused the error", examples = {"/v1/artists"})
         String path
 ) {
     public ErrorResponse(int status, String message, String path) {

@@ -396,13 +396,13 @@ class IdempotencyTest {
         var first = given().auth().oauth2(TestTokenHelper.userToken())
             .header("Idempotency-Key", key)
             .contentType("application/json").body(body)
-        .when().post("/api/v1/payments")
+        .when().post("/v1/payments")
         .then().statusCode(201).extract().response();
 
         var second = given().auth().oauth2(TestTokenHelper.userToken())
             .header("Idempotency-Key", key)
             .contentType("application/json").body(body)
-        .when().post("/api/v1/payments")
+        .when().post("/v1/payments")
         .then().statusCode(201).extract().response();
 
         assertEquals(first.path("id"), second.path("id"));   // Same record
@@ -415,12 +415,12 @@ class IdempotencyTest {
         given().auth().oauth2(TestTokenHelper.userToken())
             .header("Idempotency-Key", key)
             .contentType("application/json").body("""{"amount":100,"currency":"BRL"}""")
-        .when().post("/api/v1/payments").then().statusCode(201);
+        .when().post("/v1/payments").then().statusCode(201);
 
         given().auth().oauth2(TestTokenHelper.userToken())
             .header("Idempotency-Key", key)
             .contentType("application/json").body("""{"amount":999,"currency":"BRL"}""")
-        .when().post("/api/v1/payments").then().statusCode(422);
+        .when().post("/v1/payments").then().statusCode(422);
     }
 
     @Test
@@ -428,11 +428,11 @@ class IdempotencyTest {
         // Should NOT consult idempotency table; each call creates a new payment
         given().auth().oauth2(TestTokenHelper.userToken())
             .contentType("application/json").body("""{"amount":100,"currency":"BRL"}""")
-        .when().post("/api/v1/payments").then().statusCode(201);
+        .when().post("/v1/payments").then().statusCode(201);
 
         given().auth().oauth2(TestTokenHelper.userToken())
             .contentType("application/json").body("""{"amount":100,"currency":"BRL"}""")
-        .when().post("/api/v1/payments").then().statusCode(201);
+        .when().post("/v1/payments").then().statusCode(201);
 
         assertEquals(2, paymentRepository.count());
     }

@@ -45,7 +45,7 @@ By default, audit `src/test/java/` files changed in `git diff` vs `main`. User c
 
 5. **REST Assured tests that check status code only**.
    ```java
-   given()...when().get("/api/v1/albums").then().statusCode(200);
+   given()...when().get("/v1/albums").then().statusCode(200);
    ```
    For list/get endpoints, assert response body shape: `.body("size()", greaterThan(0))`, `.body("[0].title", equalTo("X"))`. A 200 with an empty/malformed body is a regression that this assertion misses.
 

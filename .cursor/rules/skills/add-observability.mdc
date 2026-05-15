@@ -189,7 +189,7 @@ If the user develops locally and wants a complete stack, suggest adding to `dock
 - Tell the user the new endpoints: `/q/metrics` (Prometheus format).
 - Show one curl that proves correlation id round-trips:
   ```bash
-  curl -i -H "X-Request-Id: abc-123" http://localhost:8080/api/v1/albums
+  curl -i -H "X-Request-Id: abc-123" http://localhost:8080/v1/albums
   # Response includes: X-Request-Id: abc-123
   ```
 - Remind them to set `OTEL_EXPORTER_OTLP_ENDPOINT` for non-localhost collectors.

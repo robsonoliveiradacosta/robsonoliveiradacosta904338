@@ -7,7 +7,7 @@ alwaysApply: false
 
 Replace hard-delete with soft-delete on an entity so:
 
-- `DELETE /api/v1/albums/{id}` marks `deleted_at = NOW()` instead of removing the row.
+- `DELETE /v1/albums/{id}` marks `deleted_at = NOW()` instead of removing the row.
 - Subsequent reads (`findAll`, `findById`) **automatically** filter out deleted rows — service and resource code stays unchanged.
 - A separate `restore(id)` and `listIncludingDeleted()` exist for admin recovery.
 - Existing unique constraints still work (no two non-deleted rows with the same key) — but soft-deleted rows don't collide.
@@ -168,29 +168,29 @@ public AlbumResponse findById(Long id) {
 void deleteIsSoft() {
     Long id = createAlbum();
     given().auth().oauth2(TestTokenHelper.adminToken())
-    .when().delete("/api/v1/albums/" + id)
+    .when().delete("/v1/albums/" + id)
     .then().statusCode(204);
 
     // Normal find = 404
     given().auth().oauth2(TestTokenHelper.userToken())
-    .when().get("/api/v1/albums/" + id)
+    .when().get("/v1/albums/" + id)
     .then().statusCode(404);
 
     // Admin listing all = sees it
     given().auth().oauth2(TestTokenHelper.adminToken())
-    .when().get("/api/v1/albums/admin/all")
+    .when().get("/v1/albums/admin/all")
     .then().body("findAll { it.id == " + id + " }.size()", equalTo(1));
 }
 
 @Test
 void restoreBringsItBack() {
     Long id = createAlbum();
-    given().auth().oauth2(TestTokenHelper.adminToken()).delete("/api/v1/albums/" + id);
-    given().auth().oauth2(TestTokenHelper.adminToken()).post("/api/v1/albums/" + id + "/restore")
+    given().auth().oauth2(TestTokenHelper.adminToken()).delete("/v1/albums/" + id);
+    given().auth().oauth2(TestTokenHelper.adminToken()).post("/v1/albums/" + id + "/restore")
         .then().statusCode(204);
 
     given().auth().oauth2(TestTokenHelper.userToken())
-    .when().get("/api/v1/albums/" + id)
+    .when().get("/v1/albums/" + id)
     .then().statusCode(200);
 }
 ```

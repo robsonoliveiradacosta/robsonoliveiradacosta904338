@@ -129,7 +129,7 @@ the consumer of this feature actually sees. Keep it concrete.>
 ### Example interaction
 
 ```http
-POST /api/v1/<resource>
+POST /v1/<resource>
 Authorization: Bearer <jwt>
 Content-Type: application/json
 

@@ -347,6 +347,17 @@ def _strip_leading_h1(body: str) -> str:
     return body
 
 
+_API_PATH_RE = re.compile(r"/api/(v\d+)\b")
+
+
+def _normalize_api_paths(text: str) -> str:
+    """Normalize URL paths from upstream `/api/vN/...` to this project's
+    convention `/vN/...`. Applied to every body and description on extract,
+    so a future re-pull from upstream branches keeps the repo consistent
+    without manual sed."""
+    return _API_PATH_RE.sub(r"/\1", text)
+
+
 def merge_sources(name: str, claude_text: Optional[str], codex_text: Optional[str]) -> tuple[str, str]:
     """Returns (description, body)."""
     claude_fm: dict = {}
@@ -369,7 +380,7 @@ def merge_sources(name: str, claude_text: Optional[str], codex_text: Optional[st
             f"## Strategic considerations & governance\n\n"
             f"{codex_body.rstrip()}\n"
         )
-        return desc, merged
+        return _normalize_api_paths(desc), _normalize_api_paths(merged)
 
     fm = claude_fm or codex_fm or {}
     body = claude_body or codex_body or ""
@@ -377,7 +388,7 @@ def merge_sources(name: str, claude_text: Optional[str], codex_text: Optional[st
     desc = fm.get("description")
     if not desc:
         desc = _first_paragraph(body) or name
-    return desc, body
+    return _normalize_api_paths(desc), _normalize_api_paths(body)
 
 
 def write(path: Path, content: str) -> None:

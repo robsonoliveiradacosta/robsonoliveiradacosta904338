@@ -39,9 +39,9 @@ Consultar a seção **"Pontos de Integração > MinIO"** na techspec.md para con
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|
-| POST | `/api/v1/albums/{albumId}/images` | Upload de imagem(ns) | ADMIN |
-| GET | `/api/v1/albums/{albumId}/images/{imageKey}` | Retorna presigned URL | USER, ADMIN |
-| DELETE | `/api/v1/albums/{albumId}/images/{imageKey}` | Remove imagem | ADMIN |
+| POST | `/v1/albums/{albumId}/images` | Upload de imagem(ns) | ADMIN |
+| GET | `/v1/albums/{albumId}/images/{imageKey}` | Retorna presigned URL | USER, ADMIN |
+| DELETE | `/v1/albums/{albumId}/images/{imageKey}` | Remove imagem | ADMIN |
 
 **Configuração application.properties:**
 

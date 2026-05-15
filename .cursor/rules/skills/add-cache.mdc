@@ -134,15 +134,15 @@ Generate one test that proves invalidation works (the trickiest failure mode):
 @TestProfile(CacheEnabledTestProfile.class) // overrides %test.quarkus.cache.enabled=false
 void updateInvalidatesListCache() {
     given().auth().oauth2(TestTokenHelper.userToken())
-    .when().get("/api/v1/regionals").then().statusCode(200).body("$.size()", equalTo(2));
+    .when().get("/v1/regionals").then().statusCode(200).body("$.size()", equalTo(2));
 
     given().auth().oauth2(TestTokenHelper.adminToken())
         .contentType("application/json").body("{\"name\":\"South\"}")
-    .when().put("/api/v1/regionals/1").then().statusCode(200);
+    .when().put("/v1/regionals/1").then().statusCode(200);
 
     // List should reflect the update — if cache wasn't invalidated, this would still show the old name.
     given().auth().oauth2(TestTokenHelper.userToken())
-    .when().get("/api/v1/regionals").then().body("[0].name", equalTo("South"));
+    .when().get("/v1/regionals").then().body("[0].name", equalTo("South"));
 }
 ```
 

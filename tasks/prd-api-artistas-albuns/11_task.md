@@ -93,7 +93,7 @@ quarkus.swagger-ui.always-include=true
 **Exemplo de anotações OpenAPI em Resource:**
 
 ```java
-@Path("/api/v1/artists")
+@Path("/v1/artists")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "Artists", description = "Operações de gerenciamento de artistas")

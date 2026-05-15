@@ -25,7 +25,7 @@ import java.nio.file.Files;
 import java.util.Map;
 import java.util.Set;
 
-@Path("/api/v1/albums/{albumId}/images")
+@Path("/v1/albums/{albumId}/images")
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = "Images", description = "Album image management endpoints")
 public class ImageResource {

@@ -34,4 +34,4 @@ Write HTTP-level tests that prove the API contract and security behavior clients
 
 ## Example
 
-For `POST /api/v1/albums`, test admin success, user `403`, anonymous `401`, missing title `400`, invalid artist ID `404`, duplicate conflict `409`, and response fields `id`, `title`, `year`, and `artists`.
+For `POST /v1/albums`, test admin success, user `403`, anonymous `401`, missing title `400`, invalid artist ID `404`, duplicate conflict `409`, and response fields `id`, `title`, `year`, and `artists`.

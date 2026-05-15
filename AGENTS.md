@@ -56,12 +56,12 @@ curl http://localhost:8080/q/health             # full health
 
 Quarkus 3.31.1 on Java 21. Standard layered REST app under `com.quarkus.*`:
 
-`resource/` (JAX-RS) → `service/` (`@ApplicationScoped`, `@Transactional`) → `repository/` (Panache `PanacheRepository`) → `entity/` (JPA). DTOs in `dto/request/` and `dto/response/` decouple the wire format from entities. Endpoints are all under `/api/v1/...`.
+`resource/` (JAX-RS) → `service/` (`@ApplicationScoped`, `@Transactional`) → `repository/` (Panache `PanacheRepository`) → `entity/` (JPA). DTOs in `dto/request/` and `dto/response/` decouple the wire format from entities. Endpoints are all under `/v1/...`.
 
 ### Authentication & authorization
 
 - **SmallRye JWT (RS256)**. Keys live at `src/main/resources/{privateKey,publicKey}.pem` and **must be generated locally** before running — they are not in git. See README §"Gere as Chaves JWT" for the `openssl` commands.
-- Tokens are issued by `security/TokenService` with a **5-minute lifespan** (`smallrye.jwt.new-token.lifespan=300`); clients must call `POST /api/v1/auth/refresh` to renew.
+- Tokens are issued by `security/TokenService` with a **5-minute lifespan** (`smallrye.jwt.new-token.lifespan=300`); clients must call `POST /v1/auth/refresh` to renew.
 - Roles `USER` and `ADMIN` are enforced via `@RolesAllowed`. `quarkus.security.jaxrs.deny-unannotated-endpoints=false`, so endpoints without an annotation are public — always annotate explicitly.
 - Default seeded users come from Flyway `V9__insert_sample_users.sql`: `admin/admin123`, `user/user123`. Passwords are BCrypt-hashed (`quarkus-elytron-security-common`).
 
@@ -84,7 +84,7 @@ Quarkus 3.31.1 on Java 21. Standard layered REST app under `com.quarkus.*`:
 ### External regional API + scheduler
 
 - `integration/RegionalApiClient` is a MicroProfile REST Client (`@RegisterRestClient(configKey="regional-api")`) pointed at `quarkus.rest-client.regional-api.url` (default `https://integrador-argus-api.geia.vip`).
-- `scheduler/RegionalSyncScheduler` runs `service/RegionalSyncService` daily at **04:00** via `@Scheduled(cron = "0 0 4 * * ?")`. Admins can also trigger a sync manually via `POST /api/v1/regionals/sync`.
+- `scheduler/RegionalSyncScheduler` runs `service/RegionalSyncService` daily at **04:00** via `@Scheduled(cron = "0 0 4 * * ?")`. Admins can also trigger a sync manually via `POST /v1/regionals/sync`.
 - In tests the URL is overridden to `${quarkus.wiremock.devservices.url}` so `quarkus-wiremock-test` can stub responses.
 
 ### WebSocket notifications

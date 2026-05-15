@@ -443,7 +443,7 @@ http://localhost:8080/q/openapi
 
 ```bash
 # Login
-POST /api/v1/auth/login
+POST /v1/auth/login
 Content-Type: application/json
 
 {
@@ -452,7 +452,7 @@ Content-Type: application/json
 }
 
 # Refresh Token
-POST /api/v1/auth/refresh
+POST /v1/auth/refresh
 Authorization: Bearer {token}
 ```
 
@@ -460,15 +460,15 @@ Authorization: Bearer {token}
 
 ```bash
 # Listar artistas
-GET /api/v1/artists?name=Beatles&sort=name:asc
+GET /v1/artists?name=Beatles&sort=name:asc
 Authorization: Bearer {token}
 
 # Buscar artista
-GET /api/v1/artists/{id}
+GET /v1/artists/{id}
 Authorization: Bearer {token}
 
 # Criar artista (ADMIN)
-POST /api/v1/artists
+POST /v1/artists
 Authorization: Bearer {token}
 Content-Type: application/json
 
@@ -479,7 +479,7 @@ Content-Type: application/json
 }
 
 # Atualizar artista (ADMIN)
-PUT /api/v1/artists/{id}
+PUT /v1/artists/{id}
 Authorization: Bearer {token}
 Content-Type: application/json
 
@@ -490,7 +490,7 @@ Content-Type: application/json
 }
 
 # Deletar artista (ADMIN)
-DELETE /api/v1/artists/{id}
+DELETE /v1/artists/{id}
 Authorization: Bearer {token}
 ```
 
@@ -498,15 +498,15 @@ Authorization: Bearer {token}
 
 ```bash
 # Listar álbuns com paginação
-GET /api/v1/albums?page=0&size=20&sort=title:asc&artistType=BAND
+GET /v1/albums?page=0&size=20&sort=title:asc&artistType=BAND
 Authorization: Bearer {token}
 
 # Buscar álbum
-GET /api/v1/albums/{id}
+GET /v1/albums/{id}
 Authorization: Bearer {token}
 
 # Criar álbum (ADMIN)
-POST /api/v1/albums
+POST /v1/albums
 Authorization: Bearer {token}
 Content-Type: application/json
 
@@ -517,7 +517,7 @@ Content-Type: application/json
 }
 
 # Atualizar álbum (ADMIN)
-PUT /api/v1/albums/{id}
+PUT /v1/albums/{id}
 Authorization: Bearer {token}
 Content-Type: application/json
 
@@ -528,7 +528,7 @@ Content-Type: application/json
 }
 
 # Deletar álbum (ADMIN)
-DELETE /api/v1/albums/{id}
+DELETE /v1/albums/{id}
 Authorization: Bearer {token}
 ```
 
@@ -536,18 +536,18 @@ Authorization: Bearer {token}
 
 ```bash
 # Upload de imagem (ADMIN)
-POST /api/v1/albums/{albumId}/images
+POST /v1/albums/{albumId}/images
 Authorization: Bearer {token}
 Content-Type: multipart/form-data
 
 file: [imagem.jpg]
 
 # Obter URL da imagem
-GET /api/v1/albums/{albumId}/images/{hash}
+GET /v1/albums/{albumId}/images/{hash}
 Authorization: Bearer {token}
 
 # Deletar imagem (ADMIN)
-DELETE /api/v1/albums/{albumId}/images/{hash}
+DELETE /v1/albums/{albumId}/images/{hash}
 Authorization: Bearer {token}
 ```
 
@@ -555,11 +555,11 @@ Authorization: Bearer {token}
 
 ```bash
 # Listar regionais
-GET /api/v1/regionals
+GET /v1/regionals
 Authorization: Bearer {token}
 
 # Sincronizar manualmente (ADMIN)
-POST /api/v1/regionals/sync
+POST /v1/regionals/sync
 Authorization: Bearer {token}
 ```
 
@@ -572,7 +572,7 @@ A API utiliza JWT (JSON Web Tokens) para autenticação e autorização.
 Faça login com credenciais válidas:
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/auth/login \
+curl -X POST http://localhost:8080/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "username": "admin",
@@ -596,7 +596,7 @@ Resposta:
 Inclua o token no header `Authorization`:
 
 ```bash
-curl -X GET http://localhost:8080/api/v1/albums \
+curl -X GET http://localhost:8080/v1/albums \
   -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
@@ -623,7 +623,7 @@ Usuários criados automaticamente pelo Flyway:
 Renove um token antes que expire:
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/auth/refresh \
+curl -X POST http://localhost:8080/v1/auth/refresh \
   -H "Authorization: Bearer {current_token}"
 ```
 

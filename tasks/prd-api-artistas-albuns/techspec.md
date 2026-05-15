@@ -223,14 +223,14 @@ public class Regional {
 
 ### Endpoints de API
 
-#### Autenticação (`/api/v1/auth`)
+#### Autenticação (`/v1/auth`)
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|
 | `POST` | `/login` | Autenticação, retorna JWT | Público |
 | `POST` | `/refresh` | Renova token JWT | Autenticado |
 
-#### Artistas (`/api/v1/artists`)
+#### Artistas (`/v1/artists`)
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|
@@ -244,7 +244,7 @@ public class Regional {
 - `name` (string): filtro por nome (LIKE)
 - `sort` (string): `name:asc` ou `name:desc`
 
-#### Álbuns (`/api/v1/albums`)
+#### Álbuns (`/v1/albums`)
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|
@@ -260,7 +260,7 @@ public class Regional {
 - `sort` (string): `title:asc`, `year:desc`
 - `artistType` (string): `SINGER` ou `BAND`
 
-#### Imagens (`/api/v1/albums/{albumId}/images`)
+#### Imagens (`/v1/albums/{albumId}/images`)
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|
@@ -268,7 +268,7 @@ public class Regional {
 | `GET` | `/{imageKey}` | Retorna URL pré-assinada (30 min) | USER, ADMIN |
 | `DELETE` | `/{imageKey}` | Remove imagem | ADMIN |
 
-#### Regionais (`/api/v1/regionals`)
+#### Regionais (`/v1/regionals`)
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|

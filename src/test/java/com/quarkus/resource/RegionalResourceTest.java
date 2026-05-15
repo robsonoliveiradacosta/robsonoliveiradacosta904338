@@ -48,7 +48,7 @@ class RegionalResourceTest {
         given()
             .auth().oauth2(TestTokenHelper.generateUserToken())
             .when()
-            .get("/api/v1/regionals")
+            .get("/v1/regionals")
             .then()
             .statusCode(200)
             .contentType(ContentType.JSON);
@@ -58,7 +58,7 @@ class RegionalResourceTest {
     void testListRegionals_RequiresAuthentication() {
         given()
             .when()
-            .get("/api/v1/regionals")
+            .get("/v1/regionals")
             .then()
             .statusCode(401);
     }
@@ -81,7 +81,7 @@ class RegionalResourceTest {
             .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .when()
-            .post("/api/v1/regionals/sync")
+            .post("/v1/regionals/sync")
             .then()
             .statusCode(200)
             .body("inserted", greaterThanOrEqualTo(0))
@@ -98,7 +98,7 @@ class RegionalResourceTest {
             .auth().oauth2(TestTokenHelper.generateUserToken())
             .contentType(ContentType.JSON)
             .when()
-            .post("/api/v1/regionals/sync")
+            .post("/v1/regionals/sync")
             .then()
             .statusCode(403);
     }
@@ -108,7 +108,7 @@ class RegionalResourceTest {
         given()
             .contentType(ContentType.JSON)
             .when()
-            .post("/api/v1/regionals/sync")
+            .post("/v1/regionals/sync")
             .then()
             .statusCode(401);
     }
@@ -132,7 +132,7 @@ class RegionalResourceTest {
             .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .when()
-            .post("/api/v1/regionals/sync")
+            .post("/v1/regionals/sync")
             .then()
             .statusCode(200)
             .body("inserted", is(2));
@@ -141,7 +141,7 @@ class RegionalResourceTest {
         given()
             .auth().oauth2(TestTokenHelper.generateUserToken())
             .when()
-            .get("/api/v1/regionals")
+            .get("/v1/regionals")
             .then()
             .statusCode(200)
             .body("findAll { it.id == 200 || it.id == 201 }.size()", is(2));
@@ -160,7 +160,7 @@ class RegionalResourceTest {
             .auth().oauth2(TestTokenHelper.generateAdminToken())
             .contentType(ContentType.JSON)
             .when()
-            .post("/api/v1/regionals/sync")
+            .post("/v1/regionals/sync")
             .then()
             .statusCode(500);
     }

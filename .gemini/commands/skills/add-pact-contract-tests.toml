@@ -239,7 +239,7 @@ Ensure the API described by OpenAPI is the API clients actually receive.
 
 ## Testing Examples
 
-- Assert `POST /api/v1/auth/login` returns the documented token response.
+- Assert `POST /v1/auth/login` returns the documented token response.
 - Assert invalid album creation returns the documented validation error shape.
 - Assert protected writes advertise and enforce bearer authentication.
 

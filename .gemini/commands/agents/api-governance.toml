@@ -63,7 +63,7 @@ which openapi-diff && openapi-diff /tmp/main.yaml /tmp/branch.yaml
 ## Breaking changes — block merge
 
 ### B1: Removed required field `Album.title`
-**Endpoint:** POST /api/v1/albums
+**Endpoint:** POST /v1/albums
 **Before:**
 ```yaml
 required: [title, year, artistIds]
@@ -87,8 +87,8 @@ Clients with stored `ORCHESTRA` values can no longer round-trip them.
 ---
 
 ## Non-breaking additions (informational)
-- New endpoint: `POST /api/v1/albums/{id}/restore`
-- New optional query param `includeDeleted` on `GET /api/v1/albums`
+- New endpoint: `POST /v1/albums/{id}/restore`
+- New optional query param `includeDeleted` on `GET /v1/albums`
 
 ## Subtle: forward-compatibility risks
 - New enum value `WEBP` added to `Image.format`. Old TypeScript clients with `as const` switch statements may silently fall through.
@@ -152,7 +152,7 @@ Keep REST API contracts coherent, versioned, documented, and compatible with exi
 ## Process
 
 1. Classify each API change as additive, behavior-changing, or breaking.
-2. Preserve `/api/v1` compatibility unless a breaking change is explicitly approved.
+2. Preserve `/v1` compatibility unless a breaking change is explicitly approved.
 3. Align DTO validation, runtime behavior, OpenAPI schemas, examples, and REST Assured tests.
 4. Verify auth requirements and status codes are documented and enforced.
 5. Propose deprecation notes when removing or replacing public behavior.
@@ -172,7 +172,7 @@ Keep REST API contracts coherent, versioned, documented, and compatible with exi
 
 ## Example Prompt
 
-Use this agent to review whether adding `releaseDate` to album responses is compatible with existing `/api/v1/albums` clients.
+Use this agent to review whether adding `releaseDate` to album responses is compatible with existing `/v1/albums` clients.
 
 
 ---

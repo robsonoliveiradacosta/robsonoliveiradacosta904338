@@ -19,7 +19,7 @@ Generate a complete CRUD slice in **one pass** so the new endpoint compiles, has
 |---|---|
 | Entity name | PascalCase singular, e.g. `Genre` |
 | Field list | `name:String:required`, `priority:Integer:optional`, `code:String:unique` |
-| Resource base path | derive from plural lowercase (`/api/v1/genres`) — confirm with user |
+| Resource base path | derive from plural lowercase (`/v1/genres`) — confirm with user |
 | Read roles / write roles | default: read `USER,ADMIN`, write `ADMIN` only |
 | Relationships? | Optional `@ManyToOne` / `@ManyToMany` to existing entities |
 
@@ -206,7 +206,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.List;
 
-@Path("/api/v1/genres")
+@Path("/v1/genres")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "Genres")
@@ -336,7 +336,7 @@ class GenreResourceTest {
 
     @Test
     void list_requiresAuth() {
-        given().when().get("/api/v1/genres").then().statusCode(401);
+        given().when().get("/v1/genres").then().statusCode(401);
     }
 
     @Test
@@ -347,7 +347,7 @@ class GenreResourceTest {
             .body("""
                 {"name":"Rock","priority":1}
             """)
-        .when().post("/api/v1/genres")
+        .when().post("/v1/genres")
         .then().statusCode(403);
     }
 
@@ -359,12 +359,12 @@ class GenreResourceTest {
             .body("""
                 {"name":"Rock","priority":1}
             """)
-        .when().post("/api/v1/genres")
+        .when().post("/v1/genres")
         .then().statusCode(201).extract().path("id");
 
         given()
             .auth().oauth2(TestTokenHelper.userToken())
-        .when().get("/api/v1/genres/" + id)
+        .when().get("/v1/genres/" + id)
         .then().statusCode(200).body("name", equalTo("Rock"));
     }
 }
@@ -384,7 +384,7 @@ class GenreResourceTest {
 
 Tell the user:
 - The new migration number used.
-- The new endpoints (`GET /api/v1/genres`, `POST /api/v1/genres`, …).
+- The new endpoints (`GET /v1/genres`, `POST /v1/genres`, …).
 - That `./mvnw test -Dtest=GenreServiceTest,GenreResourceTest` should pass.
 
 ---
@@ -403,7 +403,7 @@ Add one coherent domain feature without leaking concerns across layers. Follow t
 4. Add a Panache repository for query composition, pagination, sorting, and relationship lookups.
 5. Add request DTOs for writes and response DTOs for reads. Keep API contracts separate from entities.
 6. Implement service methods for create, read, update, delete, filtering, and mapping.
-7. Add a REST resource under `/api/v1/<plural-resource>` with clear status codes.
+7. Add a REST resource under `/v1/<plural-resource>` with clear status codes.
 8. Add tests before considering the module complete.
 
 ## Design Rules

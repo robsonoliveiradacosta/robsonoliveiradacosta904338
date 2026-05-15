@@ -181,11 +181,11 @@ class AuditableEntityTest {
         Long id = given().auth().oauth2(TestTokenHelper.adminToken())
             .contentType("application/json")
             .body("""{"name":"Sample","type":"BAND","country":"BR"}""")
-        .when().post("/api/v1/artists")
+        .when().post("/v1/artists")
         .then().statusCode(201).extract().path("id");
 
         given().auth().oauth2(TestTokenHelper.userToken())
-        .when().get("/api/v1/artists/" + id)
+        .when().get("/v1/artists/" + id)
         .then()
             .body("createdBy", equalTo("admin"))
             .body("updatedBy", equalTo("admin"))

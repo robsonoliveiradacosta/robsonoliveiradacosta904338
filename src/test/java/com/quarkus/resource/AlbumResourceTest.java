@@ -64,7 +64,7 @@ class AlbumResourceTest {
         given()
                 .when()
                 .auth().oauth2(TestTokenHelper.generateUserToken())
-                .get("/api/v1/albums")
+                .get("/v1/albums")
                 .then()
                 .statusCode(200)
                 .body("content", hasSize(1))
@@ -84,7 +84,7 @@ class AlbumResourceTest {
                 .queryParam("page", 0)
                 .queryParam("size", 1)
                 .when()
-                .get("/api/v1/albums")
+                .get("/v1/albums")
                 .then()
                 .statusCode(200)
                 .body("content", hasSize(1))
@@ -99,7 +99,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("sort", "title:desc")
                 .when()
-                .get("/api/v1/albums")
+                .get("/v1/albums")
                 .then()
                 .statusCode(200)
                 .body("content", hasSize(1));
@@ -111,7 +111,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("artistType", "BAND")
                 .when()
-                .get("/api/v1/albums")
+                .get("/v1/albums")
                 .then()
                 .statusCode(200)
                 .body("content", hasSize(1))
@@ -124,7 +124,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("artistType", "SINGER")
                 .when()
-                .get("/api/v1/albums")
+                .get("/v1/albums")
                 .then()
                 .statusCode(200)
                 .body("content", hasSize(0));
@@ -136,7 +136,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .pathParam("id", album1Id)
                 .when()
-                .get("/api/v1/albums/{id}")
+                .get("/v1/albums/{id}")
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(album1Id.intValue()))
@@ -151,7 +151,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .pathParam("id", 99999)
                 .when()
-                .get("/api/v1/albums/{id}")
+                .get("/v1/albums/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -165,7 +165,7 @@ class AlbumResourceTest {
                 .body(request)
                 .when()
                 .auth().oauth2(TestTokenHelper.generateAdminToken())
-                .post("/api/v1/albums")
+                .post("/v1/albums")
                 .then()
                 .statusCode(201)
                 .body("title", equalTo("Bohemian Rhapsody"))
@@ -182,7 +182,7 @@ class AlbumResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/v1/albums")
+                .post("/v1/albums")
                 .then()
                 .statusCode(400);
     }
@@ -196,7 +196,7 @@ class AlbumResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/v1/albums")
+                .post("/v1/albums")
                 .then()
                 .statusCode(404);
     }
@@ -211,7 +211,7 @@ class AlbumResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .put("/api/v1/albums/{id}")
+                .put("/v1/albums/{id}")
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(album1Id.intValue()))
@@ -231,7 +231,7 @@ class AlbumResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .put("/api/v1/albums/{id}")
+                .put("/v1/albums/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -246,7 +246,7 @@ class AlbumResourceTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .put("/api/v1/albums/{id}")
+                .put("/v1/albums/{id}")
                 .then()
                 .statusCode(400);
     }
@@ -257,7 +257,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateAdminToken())
                 .pathParam("id", album1Id)
                 .when()
-                .delete("/api/v1/albums/{id}")
+                .delete("/v1/albums/{id}")
                 .then()
                 .statusCode(204);
 
@@ -266,7 +266,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .pathParam("id", album1Id)
                 .when()
-                .get("/api/v1/albums/{id}")
+                .get("/v1/albums/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -277,7 +277,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateAdminToken())
                 .pathParam("id", 99999)
                 .when()
-                .delete("/api/v1/albums/{id}")
+                .delete("/v1/albums/{id}")
                 .then()
                 .statusCode(404);
     }
@@ -288,7 +288,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("size", 150) // Over max of 100
                 .when()
-                .get("/api/v1/albums")
+                .get("/v1/albums")
                 .then()
                 .statusCode(200)
                 .body("size", equalTo(100)); // Should be capped at 100
@@ -300,7 +300,7 @@ class AlbumResourceTest {
                 .auth().oauth2(TestTokenHelper.generateUserToken())
                 .queryParam("sort", "invalid:param")
                 .when()
-                .get("/api/v1/albums")
+                .get("/v1/albums")
                 .then()
                 .statusCode(200)
                 .body("content", notNullValue());

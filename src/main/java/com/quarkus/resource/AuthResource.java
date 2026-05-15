@@ -19,7 +19,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-@Path("/api/v1/auth")
+@Path("/v1/auth")
 @Tag(name = "Authentication", description = "Authentication and authorization operations")
 public class AuthResource {
 

@@ -28,4 +28,4 @@ Keep repository queries correct, bounded, and easy to index.
 
 ## Example
 
-For `GET /api/v1/albums?artistType=BAND&sort=title:asc`, whitelist `title`, join artists only as needed, paginate results, and ensure indexes support join keys and title sorting.
+For `GET /v1/albums?artistType=BAND&sort=title:asc`, whitelist `title`, join artists only as needed, paginate results, and ensure indexes support join keys and title sorting.

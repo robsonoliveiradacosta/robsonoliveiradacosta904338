@@ -5,7 +5,7 @@ description: "Convert a non-paginated Quarkus REST resource into a paginated lis
 
 # add-pagination
 
-Convert a `GET /api/v1/<resource>` endpoint that returns `List<Response>` into one that returns `PageResponse<Response>`, following the exact pattern in `AlbumResource` / `AlbumService` / `AlbumRepository`.
+Convert a `GET /v1/<resource>` endpoint that returns `List<Response>` into one that returns `PageResponse<Response>`, following the exact pattern in `AlbumResource` / `AlbumService` / `AlbumRepository`.
 
 ## When to invoke
 
@@ -146,7 +146,7 @@ void list_paginates() {
         .auth().oauth2(TestTokenHelper.userToken())
         .queryParam("page", 0)
         .queryParam("size", 10)
-    .when().get("/api/v1/genres")
+    .when().get("/v1/genres")
     .then()
         .statusCode(200)
         .body("content.size()", equalTo(10))
@@ -161,7 +161,7 @@ void list_rejectsUnknownSortField() {
     given()
         .auth().oauth2(TestTokenHelper.userToken())
         .queryParam("sort", "secretInternalField:asc")
-    .when().get("/api/v1/genres")
+    .when().get("/v1/genres")
     .then()
         .statusCode(200); // falls back to default — does NOT return 500 or leak DB error
 }
@@ -171,7 +171,7 @@ void list_clampsSize() {
     given()
         .auth().oauth2(TestTokenHelper.userToken())
         .queryParam("size", 9999)
-    .when().get("/api/v1/genres")
+    .when().get("/v1/genres")
     .then()
         .statusCode(200)
         .body("size", equalTo(100));

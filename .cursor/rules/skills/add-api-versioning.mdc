@@ -1,5 +1,5 @@
 ---
-description: "Establish an explicit URL-path-based API versioning strategy for a Quarkus REST API — moves existing endpoints to a versioned base path (already /api/v1 in this repo), introduces a Resource-per-version convention, generates a DeprecationFilter that adds RFC 8594 Sunset and Deprecation headers when an endpoint is marked @Deprecated(since=\"v1\", sunset=\"2026-12-01\"), splits OpenAPI documentation per version, and writes a docs/api-versioning.md policy with deprecation lifecycle and SemVer mapping. Use whenever the user asks for API versioning, \"how do I add v2\", deprecation strategy, breaking change roadmap, or wants to introduce a new version of an existing endpoint without breaking current consumers."
+description: "Establish an explicit URL-path-based API versioning strategy for a Quarkus REST API — moves existing endpoints to a versioned base path (already /v1 in this repo), introduces a Resource-per-version convention, generates a DeprecationFilter that adds RFC 8594 Sunset and Deprecation headers when an endpoint is marked @Deprecated(since=\"v1\", sunset=\"2026-12-01\"), splits OpenAPI documentation per version, and writes a docs/api-versioning.md policy with deprecation lifecycle and SemVer mapping. Use whenever the user asks for API versioning, \"how do I add v2\", deprecation strategy, breaking change roadmap, or wants to introduce a new version of an existing endpoint without breaking current consumers."
 alwaysApply: false
 ---
 
@@ -18,7 +18,7 @@ Make the API version explicit so future breaking changes don't strand consumers.
 
 | Strategy | Pros | Cons |
 |---|---|---|
-| **URL path** (`/api/v1/`, `/api/v2/`) ← this skill | Visible, explicit, easy to route at gateway, cacheable, browser-friendly | Two paths in OpenAPI; URL pollution |
+| **URL path** (`/v1/`, `/v2/`) ← this skill | Visible, explicit, easy to route at gateway, cacheable, browser-friendly | Two paths in OpenAPI; URL pollution |
 | **Accept header** (`Accept: application/vnd.example.v2+json`) | Clean URLs; "REST purist" | Invisible in browser/curl; hard to debug; cache key complexity |
 | **Query param** (`?version=2`) | Easy to default | Easy to forget; doesn't survive bookmarks; mixed semantics |
 
@@ -28,7 +28,7 @@ This skill uses **URL path**. It's the strategy almost every major API (Stripe, 
 
 | Input | Default |
 |---|---|
-| Current version (already in URL) | `v1` (detected from existing `@Path("/api/v1/...")`) |
+| Current version (already in URL) | `v1` (detected from existing `@Path("/v1/...")`) |
 | Target new version | required when introducing — e.g. `v2` |
 | Deprecation policy | recommend **6-month minimum** between deprecation and sunset |
 | SemVer mapping | recommend **path version bump = MAJOR bump** in `mp.openapi.extensions.smallrye.info.version` |
@@ -168,9 +168,9 @@ public class DeprecationFilter implements ContainerResponseFilter {
 src/main/java/{{packagePath}}/
 └── resource/
     ├── v1/                              # rename existing resources here
-    │   └── AlbumResource.java           # @Path("/api/v1/albums")
+    │   └── AlbumResource.java           # @Path("/v1/albums")
     └── v2/                              # new version lives here
-        └── AlbumResource.java           # @Path("/api/v2/albums")
+        └── AlbumResource.java           # @Path("/v2/albums")
 ```
 
 A v2 resource example showing the "service-version-agnostic" pattern:
@@ -183,7 +183,7 @@ import {{packageRoot}}.dto.v2.response.AlbumResponseV2;
 import {{packageRoot}}.service.AlbumService;
 // ... (other imports)
 
-@Path("/api/v2/albums")
+@Path("/v2/albums")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "Albums (v2)")
@@ -213,7 +213,7 @@ package {{packageRoot}}.resource.v1;
 
 import {{packageRoot}}.security.Deprecated;
 
-@Path("/api/v1/albums")
+@Path("/v1/albums")
 @Deprecated(since = "v1", sunset = "2027-05-15", link = "https://docs.example.com/migrating-to-v2-albums")
 @Tag(name = "Albums (v1, deprecated)")
 public class AlbumResource {
@@ -262,7 +262,7 @@ A small test that proves the deprecation headers fire:
 @Test
 void v1Endpoint_emitsDeprecationAndSunsetHeaders() {
     given().auth().oauth2(TestTokenHelper.userToken())
-    .when().get("/api/v1/albums")
+    .when().get("/v1/albums")
     .then()
         .statusCode(200)
         .header("Deprecation", "true")
@@ -272,7 +272,7 @@ void v1Endpoint_emitsDeprecationAndSunsetHeaders() {
 @Test
 void v2Endpoint_doesNotEmitDeprecation() {
     given().auth().oauth2(TestTokenHelper.userToken())
-    .when().get("/api/v2/albums")
+    .when().get("/v2/albums")
     .then()
         .statusCode(200)
         .header("Deprecation", nullValue())
@@ -283,7 +283,7 @@ void v2Endpoint_doesNotEmitDeprecation() {
 ## Anti-patterns to refuse
 
 - **Versioning via "?v=2" query parameter** without a strong reason. Caching, bookmarks, and routing all suffer.
-- **Multiple minor versions in the URL** (`/api/v1.2/`). The URL version is binary: either it's compatible or it's not. Compatibility lives in OpenAPI MINOR/PATCH.
+- **Multiple minor versions in the URL** (`/v1.2/`). The URL version is binary: either it's compatible or it's not. Compatibility lives in OpenAPI MINOR/PATCH.
 - **Removing a deprecated endpoint without the Sunset window**. Clients that haven't migrated break with zero warning.
 - **Duplicating the service layer per version**. Bug fixes happen once, in the service; the v1 and v2 resources just shape the wire format.
 - **Versioning everything at once when only one resource has a breaking change.** Bump only the affected paths; other resources stay on their current version.
@@ -316,7 +316,7 @@ Change REST APIs without surprising existing clients.
 ## Workflow
 
 1. Identify whether the change is additive, behavior-changing, or breaking.
-2. Keep existing `/api/v1` contracts stable unless a breaking change is explicitly approved.
+2. Keep existing `/v1` contracts stable unless a breaking change is explicitly approved.
 3. Prefer additive DTO fields, optional request fields, and new endpoints over changing existing meanings.
 4. Deprecate before removal; document replacement endpoints and timelines.
 5. Add tests that preserve old behavior while covering new behavior.

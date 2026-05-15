@@ -13,12 +13,12 @@ docker-compose up -d minio postgres
 2. Get authentication token:
 ```bash
 # Admin token
-ADMIN_TOKEN=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
+ADMIN_TOKEN=$(curl -s -X POST http://localhost:8080/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin123"}' | jq -r '.accessToken')
 
 # User token
-USER_TOKEN=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
+USER_TOKEN=$(curl -s -X POST http://localhost:8080/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"user","password":"user123"}' | jq -r '.accessToken')
 ```
@@ -32,7 +32,7 @@ USER_TOKEN=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
 echo "test image content" > test-image.jpg
 
 # Upload image (requires ADMIN role)
-curl -X POST http://localhost:8080/api/v1/albums/1/images \
+curl -X POST http://localhost:8080/v1/albums/1/images \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -F "file=@test-image.jpg"
 
@@ -50,7 +50,7 @@ curl -X POST http://localhost:8080/api/v1/albums/1/images \
 IMAGE_KEY="uuid_test-image.jpg"
 
 # Get presigned URL (available to USER and ADMIN)
-curl -X GET "http://localhost:8080/api/v1/albums/1/images/$IMAGE_KEY" \
+curl -X GET "http://localhost:8080/v1/albums/1/images/$IMAGE_KEY" \
   -H "Authorization: Bearer $USER_TOKEN"
 
 # Expected response:
@@ -77,7 +77,7 @@ curl "http://localhost:9000/album-images/1/uuid_test-image.jpg?X-Amz-..." \
 # Delete image (requires ADMIN role)
 IMAGE_KEY="uuid_test-image.jpg"
 
-curl -X DELETE "http://localhost:8080/api/v1/albums/1/images/$IMAGE_KEY" \
+curl -X DELETE "http://localhost:8080/v1/albums/1/images/$IMAGE_KEY" \
   -H "Authorization: Bearer $ADMIN_TOKEN"
 
 # Expected response: 204 No Content
@@ -92,7 +92,7 @@ curl -X DELETE "http://localhost:8080/api/v1/albums/1/images/$IMAGE_KEY" \
 echo "fake pdf" > test-file.pdf
 
 # Try to upload (should fail with 400)
-curl -X POST http://localhost:8080/api/v1/albums/1/images \
+curl -X POST http://localhost:8080/v1/albums/1/images \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -F "file=@test-file.pdf"
 
@@ -106,7 +106,7 @@ curl -X POST http://localhost:8080/api/v1/albums/1/images \
 dd if=/dev/zero of=large-file.jpg bs=1M count=51
 
 # Try to upload (should fail with 400)
-curl -X POST http://localhost:8080/api/v1/albums/1/images \
+curl -X POST http://localhost:8080/v1/albums/1/images \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -F "file=@large-file.jpg"
 
@@ -117,14 +117,14 @@ curl -X POST http://localhost:8080/api/v1/albums/1/images \
 
 ```bash
 # Try to upload as USER (should fail with 403)
-curl -X POST http://localhost:8080/api/v1/albums/1/images \
+curl -X POST http://localhost:8080/v1/albums/1/images \
   -H "Authorization: Bearer $USER_TOKEN" \
   -F "file=@test-image.jpg"
 
 # Expected: 403 Forbidden
 
 # Try to delete as USER (should fail with 403)
-curl -X DELETE "http://localhost:8080/api/v1/albums/1/images/$IMAGE_KEY" \
+curl -X DELETE "http://localhost:8080/v1/albums/1/images/$IMAGE_KEY" \
   -H "Authorization: Bearer $USER_TOKEN"
 
 # Expected: 403 Forbidden
@@ -134,20 +134,20 @@ curl -X DELETE "http://localhost:8080/api/v1/albums/1/images/$IMAGE_KEY" \
 
 ```bash
 # Upload multiple images to the same album
-curl -X POST http://localhost:8080/api/v1/albums/1/images \
+curl -X POST http://localhost:8080/v1/albums/1/images \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -F "file=@image1.jpg"
 
-curl -X POST http://localhost:8080/api/v1/albums/1/images \
+curl -X POST http://localhost:8080/v1/albums/1/images \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -F "file=@image2.png"
 
-curl -X POST http://localhost:8080/api/v1/albums/1/images \
+curl -X POST http://localhost:8080/v1/albums/1/images \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -F "file=@image3.webp"
 
 # Verify all images are stored
-curl -X GET http://localhost:8080/api/v1/albums/1 \
+curl -X GET http://localhost:8080/v1/albums/1 \
   -H "Authorization: Bearer $USER_TOKEN"
 
 # The album response should include all imageKeys

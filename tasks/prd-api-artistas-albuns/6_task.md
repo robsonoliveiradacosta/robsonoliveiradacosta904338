@@ -40,8 +40,8 @@ Consultar a seção **"Segurança > JWT com SmallRye"** na techspec.md para deta
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|
-| POST | `/api/v1/auth/login` | Autenticação | Público |
-| POST | `/api/v1/auth/refresh` | Renova token | Autenticado |
+| POST | `/v1/auth/login` | Autenticação | Público |
+| POST | `/v1/auth/refresh` | Renova token | Autenticado |
 
 **Geração de chaves RSA:**
 

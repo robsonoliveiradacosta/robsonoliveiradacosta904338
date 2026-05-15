@@ -38,7 +38,7 @@ class RateLimitFilterTest {
 
         when(requestContext.getSecurityContext()).thenReturn(securityContext);
         when(requestContext.getUriInfo()).thenReturn(uriInfo);
-        when(uriInfo.getPath()).thenReturn("/api/v1/test");
+        when(uriInfo.getPath()).thenReturn("/v1/test");
     }
 
     @Test

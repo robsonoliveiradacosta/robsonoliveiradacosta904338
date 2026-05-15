@@ -17,7 +17,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-@Path("/api/v1/me/favorites")
+@Path("/v1/me/favorites")
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = "Favorites", description = "Per-user album favorites (owner-scoped via JWT)")
 public class FavoriteResource {

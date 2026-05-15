@@ -28,7 +28,7 @@
 
 [Liste endpoints de API se aplicável:
 
-- Método e caminho (ex: `POST /api/v0/recurso`)
+- Método e caminho (ex: `POST /v0/recurso`)
 - Breve descrição
 - Referências de formato requisição/resposta]
 

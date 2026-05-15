@@ -2,7 +2,7 @@ description = "Add JPA optimistic locking via @Version to selected entities in a
 prompt = """
 # add-optimistic-locking
 
-Add JPA optimistic locking so two concurrent updates can't silently overwrite each other. After this skill, the second `PUT /api/v1/<resource>/{id}` to a stale version returns **409 Conflict** with a Problem Details body, and the caller knows to refetch + retry.
+Add JPA optimistic locking so two concurrent updates can't silently overwrite each other. After this skill, the second `PUT /v1/<resource>/{id}` to a stale version returns **409 Conflict** with a Problem Details body, and the caller knows to refetch + retry.
 
 ## When to invoke
 
@@ -220,14 +220,14 @@ void update_returns409_whenVersionStale() {
     given().auth().oauth2(TestTokenHelper.adminToken())
         .contentType("application/json")
         .body(Map.of("title","New","year",1969,"version",v0))
-    .when().put("/api/v1/albums/" + id)
+    .when().put("/v1/albums/" + id)
     .then().statusCode(200).body("version", equalTo(v0.intValue() + 1));
 
     // Second update with the STALE version
     given().auth().oauth2(TestTokenHelper.adminToken())
         .contentType("application/json")
         .body(Map.of("title","Newer","year",1969,"version",v0))
-    .when().put("/api/v1/albums/" + id)
+    .when().put("/v1/albums/" + id)
     .then()
         .statusCode(409)
         .contentType("application/problem+json")
@@ -239,7 +239,7 @@ void create_setsInitialVersionToZero() {
     // Verify @Version initializes to 0 on first persist (not null)
     Long id = createAlbum();
     given().auth().oauth2(TestTokenHelper.userToken())
-    .when().get("/api/v1/albums/" + id)
+    .when().get("/v1/albums/" + id)
     .then().body("version", equalTo(0));
 }
 ```

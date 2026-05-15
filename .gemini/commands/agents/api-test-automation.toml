@@ -39,7 +39,7 @@ Implement maintainable REST Assured suites for Quarkus resources and API contrac
 
 ## Example Prompt
 
-Use this agent to add REST Assured tests for `POST /api/v1/albums`, including admin success, user forbidden, invalid payload, and duplicate conflict.
+Use this agent to add REST Assured tests for `POST /v1/albums`, including admin success, user forbidden, invalid payload, and duplicate conflict.
 
 
 ---

@@ -45,7 +45,7 @@ class ImageResourceTest {
                         }
                         """)
                 .when()
-                .post("/api/v1/auth/login")
+                .post("/v1/auth/login")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200)
@@ -62,7 +62,7 @@ class ImageResourceTest {
                         }
                         """)
                 .when()
-                .post("/api/v1/auth/login")
+                .post("/v1/auth/login")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(200)
@@ -80,7 +80,7 @@ class ImageResourceTest {
                         }
                         """)
                 .when()
-                .post("/api/v1/artists")
+                .post("/v1/artists")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(anyOf(is(201), is(409)))
@@ -100,7 +100,7 @@ class ImageResourceTest {
                         }
                         """.formatted(testArtistId))
                 .when()
-                .post("/api/v1/albums")
+                .post("/v1/albums")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(201)
@@ -119,7 +119,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
                 .body("hash", notNullValue())
@@ -140,7 +140,7 @@ class ImageResourceTest {
                 .auth().oauth2(userToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(403);
 
@@ -158,7 +158,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "application/pdf")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(400)
                 .body("message", containsString("Invalid content type"));
@@ -179,7 +179,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201); // Small file should succeed
 
@@ -196,7 +196,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -208,7 +208,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
+                .get("/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(200)
                 .body("hash", equalTo(hash))
@@ -226,7 +226,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -238,7 +238,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(adminToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
+                .get("/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(200)
                 .body("url", notNullValue());
@@ -250,7 +250,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, "2026/02/02/nonexistent.jpg")
+                .get("/v1/albums/{albumId}/images/{hash}", testAlbumId, "2026/02/02/nonexistent.jpg")
                 .then()
                 .statusCode(404);
     }
@@ -265,7 +265,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", 99999L)
+                .post("/v1/albums/{albumId}/images", 99999L)
                 .then()
                 .statusCode(404);
 
@@ -282,7 +282,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -294,7 +294,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(adminToken)
                 .when()
-                .delete("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
+                .delete("/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(204);
 
@@ -302,7 +302,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .get("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
+                .get("/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(404);
     }
@@ -316,7 +316,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -328,7 +328,7 @@ class ImageResourceTest {
         given()
                 .auth().oauth2(userToken)
                 .when()
-                .delete("/api/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
+                .delete("/v1/albums/{albumId}/images/{hash}", testAlbumId, hash)
                 .then()
                 .statusCode(403);
     }
@@ -344,7 +344,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile1, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -355,7 +355,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", tempFile2, "image/png")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -377,7 +377,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", jpegFile, "image/jpeg")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201);
         jpegFile.delete();
@@ -388,7 +388,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", pngFile, "image/png")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201);
         pngFile.delete();
@@ -399,7 +399,7 @@ class ImageResourceTest {
                 .auth().oauth2(adminToken)
                 .multiPart("file", webpFile, "image/webp")
                 .when()
-                .post("/api/v1/albums/{albumId}/images", testAlbumId)
+                .post("/v1/albums/{albumId}/images", testAlbumId)
                 .then()
                 .statusCode(201);
         webpFile.delete();

@@ -36,24 +36,24 @@ come back to.
 ## User-facing behavior
 
 All endpoints are scoped to the authenticated principal via JWT — there is
-no `userId` in the URL. Path style is `/api/v1/me/favorites/...` so it's
+no `userId` in the URL. Path style is `/v1/me/favorites/...` so it's
 clear the resource belongs to the caller.
 
 ### Endpoints
 
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/api/v1/me/favorites/{albumId}` | Mark album as favorite. Idempotent. |
-| `DELETE` | `/api/v1/me/favorites/{albumId}` | Unmark. Idempotent (no-op if not favorited). |
-| `GET` | `/api/v1/me/favorites` | Paginated list of favorited albums. |
-| `GET` | `/api/v1/me/favorites/{albumId}` | Probe — is this album favorited? |
+| `POST` | `/v1/me/favorites/{albumId}` | Mark album as favorite. Idempotent. |
+| `DELETE` | `/v1/me/favorites/{albumId}` | Unmark. Idempotent (no-op if not favorited). |
+| `GET` | `/v1/me/favorites` | Paginated list of favorited albums. |
+| `GET` | `/v1/me/favorites/{albumId}` | Probe — is this album favorited? |
 
 ### Example interactions
 
 **Mark as favorite (first time)**
 
 ```http
-POST /api/v1/me/favorites/42
+POST /v1/me/favorites/42
 Authorization: Bearer <jwt>
 
 → 201 Created
@@ -63,7 +63,7 @@ Authorization: Bearer <jwt>
 **Mark as favorite (already favorited — idempotent)**
 
 ```http
-POST /api/v1/me/favorites/42
+POST /v1/me/favorites/42
 Authorization: Bearer <jwt>
 
 → 200 OK
@@ -73,7 +73,7 @@ Authorization: Bearer <jwt>
 **Unmark**
 
 ```http
-DELETE /api/v1/me/favorites/42
+DELETE /v1/me/favorites/42
 Authorization: Bearer <jwt>
 
 → 204 No Content
@@ -82,7 +82,7 @@ Authorization: Bearer <jwt>
 **List favorites (paginated, newest first)**
 
 ```http
-GET /api/v1/me/favorites?page=0&size=20&sort=createdAt,desc
+GET /v1/me/favorites?page=0&size=20&sort=createdAt,desc
 Authorization: Bearer <jwt>
 
 → 200 OK
@@ -104,7 +104,7 @@ Authorization: Bearer <jwt>
 **Probe state (for UI toggle)**
 
 ```http
-GET /api/v1/me/favorites/42
+GET /v1/me/favorites/42
 Authorization: Bearer <jwt>
 
 → 200 OK
@@ -112,7 +112,7 @@ Authorization: Bearer <jwt>
 ```
 
 ```http
-GET /api/v1/me/favorites/999
+GET /v1/me/favorites/999
 Authorization: Bearer <jwt>
 
 → 404 Not Found
@@ -139,9 +139,9 @@ Authorization: Bearer <jwt>
       200 with the original `favoritedAt`.
 - [ ] `DELETE` is idempotent: returns 204 whether or not the favorite
       existed.
-- [ ] `GET /api/v1/me/favorites` returns only the caller's favorites,
+- [ ] `GET /v1/me/favorites` returns only the caller's favorites,
       paginated, sorted by `createdAt desc` by default.
-- [ ] `GET /api/v1/me/favorites/{albumId}` returns 200 with `favoritedAt`
+- [ ] `GET /v1/me/favorites/{albumId}` returns 200 with `favoritedAt`
       if favorited, 404 otherwise.
 - [ ] Deleting an album removes all favorite rows for that album.
 - [ ] All four endpoints documented in OpenAPI (`@Operation`,
@@ -176,7 +176,7 @@ Authorization: Bearer <jwt>
 
 ## Open questions
 
-- [ ] Sort options on `GET /api/v1/me/favorites` — only `createdAt desc`,
+- [ ] Sort options on `GET /v1/me/favorites` — only `createdAt desc`,
       or also expose `album.title` / `album.year`? Defer to plan stage,
       check what `PageResponse` already supports.
 - [ ] Response shape for the listing — flat (`{favoritedAt, album: {...}}`)

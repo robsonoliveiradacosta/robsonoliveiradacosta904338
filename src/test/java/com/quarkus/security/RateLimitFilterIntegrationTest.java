@@ -44,7 +44,7 @@ class RateLimitFilterIntegrationTest {
             given()
                 .auth().oauth2(token)
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200)
                 .header("X-RateLimit-Limit", equalTo("10"))
@@ -62,7 +62,7 @@ class RateLimitFilterIntegrationTest {
             given()
                 .auth().oauth2(token)
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200);
         }
@@ -71,7 +71,7 @@ class RateLimitFilterIntegrationTest {
         given()
             .auth().oauth2(token)
             .when()
-            .get("/api/v1/artists")
+            .get("/v1/artists")
             .then()
             .statusCode(429)
             .header("X-RateLimit-Limit", equalTo("10"))
@@ -94,7 +94,7 @@ class RateLimitFilterIntegrationTest {
             given()
                 .auth().oauth2(userToken)
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200);
         }
@@ -103,7 +103,7 @@ class RateLimitFilterIntegrationTest {
         given()
             .auth().oauth2(adminToken)
             .when()
-            .get("/api/v1/artists")
+            .get("/v1/artists")
             .then()
             .statusCode(200)
             .header("X-RateLimit-Remaining", notNullValue());
@@ -119,7 +119,7 @@ class RateLimitFilterIntegrationTest {
         given()
             .auth().oauth2(token)
             .when()
-            .get("/api/v1/artists")
+            .get("/v1/artists")
             .then()
             .statusCode(200)
             .header("X-RateLimit-Limit", equalTo("10"))
@@ -136,7 +136,7 @@ class RateLimitFilterIntegrationTest {
             given()
                 .auth().oauth2(token)
                 .when()
-                .get("/api/v1/artists")
+                .get("/v1/artists")
                 .then()
                 .statusCode(200)
                 .header("X-RateLimit-Limit", equalTo("10"))

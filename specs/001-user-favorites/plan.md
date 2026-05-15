@@ -28,7 +28,7 @@ decisions are listed in the final section.
 | Entity | NEW `Favorite` (junction-with-payload — dedicated entity because we expose `favoritedAt`) |
 | Repository | NEW `FavoriteRepository`: `findByUserAndAlbum`, `findByUserPaged(userId, Page, Sort)` (with `JOIN FETCH` of the album), `countByUser(userId)`, `deleteByUserAndAlbum(userId, albumId)` |
 | Service | NEW `FavoriteService` — `add` / `remove` `@Transactional`; `list` / `get` no annotation (matches `AlbumService` pattern) |
-| Resource | NEW `FavoriteResource` at `/api/v1/me/favorites` — 4 endpoints, all `@RolesAllowed({"USER","ADMIN"})` |
+| Resource | NEW `FavoriteResource` at `/v1/me/favorites` — 4 endpoints, all `@RolesAllowed({"USER","ADMIN"})` |
 | DTOs | NEW `FavoriteResponse` (flat-with-nested-album), NEW `FavoriteStatusResponse` (probe shape `{albumId, favoritedAt}`); NO request DTO (path-param only) |
 | Tests | NEW `FavoriteServiceTest` (Mockito), NEW `FavoriteResourceTest` (REST Assured + `TestTokenHelper`) |
 | Cross-cutting | None — `RateLimitFilter` and JWT roles already cover; `NotFoundExceptionMapper` covers 404s |
@@ -79,10 +79,10 @@ In execution order. `spec-tasks` will map these to specific tasks.
 
 | Method | Path | Role | Status codes |
 |---|---|---|---|
-| `POST` | `/api/v1/me/favorites/{albumId}` | `USER`, `ADMIN` | 201, 200 (idempotent), 401, 404 (album), 429 |
-| `DELETE` | `/api/v1/me/favorites/{albumId}` | `USER`, `ADMIN` | 204 (always — idempotent), 401, 429 |
-| `GET` | `/api/v1/me/favorites` | `USER`, `ADMIN` | 200 `PageResponse<FavoriteResponse>`, 401, 429 |
-| `GET` | `/api/v1/me/favorites/{albumId}` | `USER`, `ADMIN` | 200 `FavoriteStatusResponse`, 401, 404, 429 |
+| `POST` | `/v1/me/favorites/{albumId}` | `USER`, `ADMIN` | 201, 200 (idempotent), 401, 404 (album), 429 |
+| `DELETE` | `/v1/me/favorites/{albumId}` | `USER`, `ADMIN` | 204 (always — idempotent), 401, 429 |
+| `GET` | `/v1/me/favorites` | `USER`, `ADMIN` | 200 `PageResponse<FavoriteResponse>`, 401, 429 |
+| `GET` | `/v1/me/favorites/{albumId}` | `USER`, `ADMIN` | 200 `FavoriteStatusResponse`, 401, 404, 429 |
 
 **Asymmetry note:** POST validates album existence and returns 404 if
 missing; DELETE is fire-and-forget cleanup and always returns 204 even if

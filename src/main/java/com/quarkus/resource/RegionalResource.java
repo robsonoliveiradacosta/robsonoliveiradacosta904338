@@ -15,7 +15,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("/api/v1/regionals")
+@Path("/v1/regionals")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Tag(name = "Regionals", description = "Regional management endpoints")

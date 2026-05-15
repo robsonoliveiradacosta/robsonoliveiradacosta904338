@@ -30,9 +30,9 @@ Successfully implemented complete MinIO integration for album image uploads with
 
 ### REST API Layer
 - **ImageResource.java** (`src/main/java/com/quarkus/resource/ImageResource.java`)
-  - POST `/api/v1/albums/{albumId}/images` - Upload image (ADMIN only)
-  - GET `/api/v1/albums/{albumId}/images/{imageKey}` - Get presigned URL (USER + ADMIN)
-  - DELETE `/api/v1/albums/{albumId}/images/{imageKey}` - Delete image (ADMIN only)
+  - POST `/v1/albums/{albumId}/images` - Upload image (ADMIN only)
+  - GET `/v1/albums/{albumId}/images/{imageKey}` - Get presigned URL (USER + ADMIN)
+  - DELETE `/v1/albums/{albumId}/images/{imageKey}` - Delete image (ADMIN only)
   - Multipart file upload support
   - OpenAPI documentation annotations
 
@@ -125,9 +125,9 @@ app.minio.max-file-size=52428800  # 50MB in bytes
 
 | Method | Path | Description | Role |
 |--------|------|-------------|------|
-| POST | `/api/v1/albums/{albumId}/images` | Upload image | ADMIN |
-| GET | `/api/v1/albums/{albumId}/images/{imageKey}` | Get presigned URL | USER, ADMIN |
-| DELETE | `/api/v1/albums/{albumId}/images/{imageKey}` | Delete image | ADMIN |
+| POST | `/v1/albums/{albumId}/images` | Upload image | ADMIN |
+| GET | `/v1/albums/{albumId}/images/{imageKey}` | Get presigned URL | USER, ADMIN |
+| DELETE | `/v1/albums/{albumId}/images/{imageKey}` | Delete image | ADMIN |
 
 ## Testing Results
 

@@ -52,7 +52,7 @@ const BASE = __ENV.BASE_URL || 'http://localhost:8080';
 /** Returns a fresh JWT or throws. Cached per VU iteration. */
 export function login() {
   const res = http.post(
-    `${BASE}/api/v1/auth/login`,
+    `${BASE}/v1/auth/login`,
     JSON.stringify({
       username: __ENV.USER || 'admin',
       password: __ENV.PASS || 'admin123',
@@ -115,13 +115,13 @@ export default function (data) {
 
   // 70% of traffic: list albums
   if (Math.random() < 0.7) {
-    const res = http.get(`${BASE}/api/v1/albums?page=0&size=20`, headers);
+    const res = http.get(`${BASE}/v1/albums?page=0&size=20`, headers);
     albumListLatency.add(res.timings.duration);
     errors.add(res.status >= 400);
     check(res, { 'albums 200': r => r.status === 200 });
   } else {
     const id = randomId(1, 100);
-    const res = http.get(`${BASE}/api/v1/albums/${id}`, headers);
+    const res = http.get(`${BASE}/v1/albums/${id}`, headers);
     errors.add(res.status >= 500);  // 404 is expected for random IDs, don't count
   }
 
@@ -170,7 +170,7 @@ const BASE = __ENV.BASE_URL || 'http://localhost:8080';
 export function setup() { return { token: login() }; }
 
 export default function (data) {
-  http.get(`${BASE}/api/v1/albums?page=0&size=20`, authHeaders(data.token));
+  http.get(`${BASE}/v1/albums?page=0&size=20`, authHeaders(data.token));
 }
 ```
 
@@ -197,8 +197,8 @@ export function setup() { return { token: login() }; }
 export default function (data) {
   const headers = authHeaders(data.token);
   check(http.get(`${BASE}/q/health`),                   { 'health 200': r => r.status === 200 });
-  check(http.get(`${BASE}/api/v1/albums`, headers),     { 'albums 200': r => r.status === 200 });
-  check(http.get(`${BASE}/api/v1/artists`, headers),    { 'artists 200': r => r.status === 200 });
+  check(http.get(`${BASE}/v1/albums`, headers),     { 'albums 200': r => r.status === 200 });
+  check(http.get(`${BASE}/v1/artists`, headers),    { 'artists 200': r => r.status === 200 });
 }
 ```
 

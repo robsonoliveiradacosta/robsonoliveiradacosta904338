@@ -25,7 +25,7 @@ Implement a domain module end to end across migration, entity, repository, servi
 3. Add a repository for persistence queries.
 4. Add request and response DTOs; do not expose entities directly.
 5. Put business logic and transactions in the service layer.
-6. Keep REST resources thin and consistent with `/api/v1` routes.
+6. Keep REST resources thin and consistent with `/v1` routes.
 7. Add service and resource tests for success and failure paths.
 
 ## Skills To Use

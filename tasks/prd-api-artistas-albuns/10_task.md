@@ -10,8 +10,8 @@ Implementar sincronização de regionais com API externa usando REST Client e Sc
 - Usar `quarkus-rest-client-jackson` para cliente REST
 - Usar `quarkus-scheduler` para job agendado
 - Sincronização diária às 04:00 (cron: 0 0 4 * * ?)
-- Endpoint manual para disparo: POST /api/v1/regionals/sync (ADMIN)
-- Endpoint de listagem: GET /api/v1/regionals (USER, ADMIN)
+- Endpoint manual para disparo: POST /v1/regionals/sync (ADMIN)
+- Endpoint de listagem: GET /v1/regionals (USER, ADMIN)
 - Regras de sincronização:
   - Novo no externo → INSERT active=true
   - Ausente no externo → UPDATE active=false
@@ -156,8 +156,8 @@ public class RegionalSyncService {
 
 | Método | Path | Descrição | Acesso |
 |--------|------|-----------|--------|
-| GET | `/api/v1/regionals` | Lista regionais ativos | USER, ADMIN |
-| POST | `/api/v1/regionals/sync` | Dispara sincronização | ADMIN |
+| GET | `/v1/regionals` | Lista regionais ativos | USER, ADMIN |
+| POST | `/v1/regionals/sync` | Dispara sincronização | ADMIN |
 
 ## Critérios de Sucesso
 

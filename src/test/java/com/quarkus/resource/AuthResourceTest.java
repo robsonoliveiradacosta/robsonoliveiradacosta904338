@@ -20,7 +20,7 @@ class AuthResourceTest {
             .body(request)
             .log().all()
         .when()
-            .post("/api/v1/auth/login")
+            .post("/v1/auth/login")
         .then()
             .log().all()
             .statusCode(200)
@@ -37,7 +37,7 @@ class AuthResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
         .when()
-            .post("/api/v1/auth/login")
+            .post("/v1/auth/login")
         .then()
             .statusCode(200)
             .body("accessToken", notNullValue())
@@ -53,7 +53,7 @@ class AuthResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
         .when()
-            .post("/api/v1/auth/login")
+            .post("/v1/auth/login")
         .then()
             .statusCode(401);
     }
@@ -66,7 +66,7 @@ class AuthResourceTest {
             .contentType(ContentType.JSON)
             .body(request)
         .when()
-            .post("/api/v1/auth/login")
+            .post("/v1/auth/login")
         .then()
             .statusCode(401);
     }
@@ -79,7 +79,7 @@ class AuthResourceTest {
             .contentType(ContentType.JSON)
             .body(invalidRequest)
         .when()
-            .post("/api/v1/auth/login")
+            .post("/v1/auth/login")
         .then()
             .statusCode(400);
     }
@@ -92,7 +92,7 @@ class AuthResourceTest {
             .contentType(ContentType.JSON)
             .body(invalidRequest)
         .when()
-            .post("/api/v1/auth/login")
+            .post("/v1/auth/login")
         .then()
             .statusCode(400);
     }
@@ -105,7 +105,7 @@ class AuthResourceTest {
             .contentType(ContentType.JSON)
             .body(loginRequest)
         .when()
-            .post("/api/v1/auth/login")
+            .post("/v1/auth/login")
         .then()
             .statusCode(200)
             .extract()
@@ -114,7 +114,7 @@ class AuthResourceTest {
         given()
             .auth().oauth2(token)
         .when()
-            .post("/api/v1/auth/refresh")
+            .post("/v1/auth/refresh")
         .then()
             .statusCode(200)
             .body("accessToken", notNullValue())
@@ -126,7 +126,7 @@ class AuthResourceTest {
     void shouldReturn401WhenRefreshingWithoutToken() {
         given()
         .when()
-            .post("/api/v1/auth/refresh")
+            .post("/v1/auth/refresh")
         .then()
             .statusCode(401);
     }
@@ -136,7 +136,7 @@ class AuthResourceTest {
         given()
             .auth().oauth2("invalid-token")
         .when()
-            .post("/api/v1/auth/refresh")
+            .post("/v1/auth/refresh")
         .then()
             .statusCode(401);
     }

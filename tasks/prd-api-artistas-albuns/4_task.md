@@ -37,11 +37,11 @@ Consultar a seção **"Endpoints de API > Artistas"** na techspec.md para a espe
 
 | Método | Path | Descrição |
 |--------|------|-----------|
-| GET | `/api/v1/artists` | Lista com filtro e ordenação |
-| GET | `/api/v1/artists/{id}` | Busca por ID |
-| POST | `/api/v1/artists` | Cria novo artista |
-| PUT | `/api/v1/artists/{id}` | Atualiza artista |
-| DELETE | `/api/v1/artists/{id}` | Remove artista |
+| GET | `/v1/artists` | Lista com filtro e ordenação |
+| GET | `/v1/artists/{id}` | Busca por ID |
+| POST | `/v1/artists` | Cria novo artista |
+| PUT | `/v1/artists/{id}` | Atualiza artista |
+| DELETE | `/v1/artists/{id}` | Remove artista |
 
 **Query params para listagem:**
 - `name` (string): filtro por nome (LIKE case-insensitive)

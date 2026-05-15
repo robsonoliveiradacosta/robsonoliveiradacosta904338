@@ -15,7 +15,7 @@ After this skill, every error response looks like:
   "title": "Validation failed",
   "status": 400,
   "detail": "Request body has invalid fields",
-  "instance": "/api/v1/albums",
+  "instance": "/v1/albums",
   "requestId": "abc-123",
   "errors": [
     {"field": "title", "message": "must not be blank"}
@@ -308,7 +308,7 @@ void validationError_returnsProblemDetail() {
         .body("""
             {"title":"","year":1969,"artistIds":[]}
         """)
-    .when().post("/api/v1/albums")
+    .when().post("/v1/albums")
     .then()
         .statusCode(400)
         .contentType("application/problem+json")

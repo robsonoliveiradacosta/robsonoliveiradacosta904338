@@ -49,22 +49,22 @@ class FavoriteResourceTest {
 
     @Test
     void shouldReturn401OnPostWithoutToken() {
-        given().when().post("/api/v1/me/favorites/" + albumA).then().statusCode(401);
+        given().when().post("/v1/me/favorites/" + albumA).then().statusCode(401);
     }
 
     @Test
     void shouldReturn401OnDeleteWithoutToken() {
-        given().when().delete("/api/v1/me/favorites/" + albumA).then().statusCode(401);
+        given().when().delete("/v1/me/favorites/" + albumA).then().statusCode(401);
     }
 
     @Test
     void shouldReturn401OnListWithoutToken() {
-        given().when().get("/api/v1/me/favorites").then().statusCode(401);
+        given().when().get("/v1/me/favorites").then().statusCode(401);
     }
 
     @Test
     void shouldReturn401OnStatusProbeWithoutToken() {
-        given().when().get("/api/v1/me/favorites/" + albumA).then().statusCode(401);
+        given().when().get("/v1/me/favorites/" + albumA).then().statusCode(401);
     }
 
     // -- POST --
@@ -72,7 +72,7 @@ class FavoriteResourceTest {
     @Test
     void shouldReturn201OnFirstFavorite() {
         given().auth().oauth2(TestTokenHelper.generateUserToken())
-            .when().post("/api/v1/me/favorites/" + albumA)
+            .when().post("/v1/me/favorites/" + albumA)
             .then().statusCode(201)
             .body("albumId", equalTo(albumA.intValue()))
             .body("favoritedAt", notNullValue())
@@ -83,10 +83,10 @@ class FavoriteResourceTest {
     void shouldReturn200OnRepeatFavorite() {
         String token = TestTokenHelper.generateUserToken();
 
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumA)
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumA)
             .then().statusCode(201);
 
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumA)
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumA)
             .then().statusCode(200)
             .body("albumId", equalTo(albumA.intValue()));
     }
@@ -94,7 +94,7 @@ class FavoriteResourceTest {
     @Test
     void shouldReturn404WhenFavoritingNonExistentAlbum() {
         given().auth().oauth2(TestTokenHelper.generateUserToken())
-            .when().post("/api/v1/me/favorites/999999")
+            .when().post("/v1/me/favorites/999999")
             .then().statusCode(404);
     }
 
@@ -103,20 +103,20 @@ class FavoriteResourceTest {
     @Test
     void shouldReturn204OnDeleteWhetherOrNotFavoriteExisted() {
         String token = TestTokenHelper.generateUserToken();
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumA)
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumA)
             .then().statusCode(201);
 
-        given().auth().oauth2(token).when().delete("/api/v1/me/favorites/" + albumA)
+        given().auth().oauth2(token).when().delete("/v1/me/favorites/" + albumA)
             .then().statusCode(204);
 
-        given().auth().oauth2(token).when().delete("/api/v1/me/favorites/" + albumA)
+        given().auth().oauth2(token).when().delete("/v1/me/favorites/" + albumA)
             .then().statusCode(204);
     }
 
     @Test
     void shouldReturn204OnDeleteForNonExistentAlbum() {
         given().auth().oauth2(TestTokenHelper.generateUserToken())
-            .when().delete("/api/v1/me/favorites/999999")
+            .when().delete("/v1/me/favorites/999999")
             .then().statusCode(204);
     }
 
@@ -126,18 +126,18 @@ class FavoriteResourceTest {
     void shouldListOnlyMyFavoritesNotOthers() {
         // admin favorites albumA
         given().auth().oauth2(TestTokenHelper.generateAdminToken())
-            .when().post("/api/v1/me/favorites/" + albumA).then().statusCode(201);
+            .when().post("/v1/me/favorites/" + albumA).then().statusCode(201);
 
         // user GETs own list — should be empty
         given().auth().oauth2(TestTokenHelper.generateUserToken())
-            .when().get("/api/v1/me/favorites")
+            .when().get("/v1/me/favorites")
             .then().statusCode(200)
             .body("totalElements", equalTo(0))
             .body("content", hasSize(0));
 
         // admin GETs own list — should have 1
         given().auth().oauth2(TestTokenHelper.generateAdminToken())
-            .when().get("/api/v1/me/favorites")
+            .when().get("/v1/me/favorites")
             .then().statusCode(200)
             .body("totalElements", equalTo(1))
             .body("content[0].albumId", equalTo(albumA.intValue()));
@@ -146,16 +146,16 @@ class FavoriteResourceTest {
     @Test
     void shouldListNewestFirst() throws InterruptedException {
         String token = TestTokenHelper.generateUserToken();
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumA)
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumA)
             .then().statusCode(201);
         Thread.sleep(20);
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumB)
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumB)
             .then().statusCode(201);
         Thread.sleep(20);
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumC)
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumC)
             .then().statusCode(201);
 
-        given().auth().oauth2(token).when().get("/api/v1/me/favorites")
+        given().auth().oauth2(token).when().get("/v1/me/favorites")
             .then().statusCode(200)
             .body("totalElements", equalTo(3))
             .body("content[0].albumId", equalTo(albumC.intValue()))
@@ -166,13 +166,13 @@ class FavoriteResourceTest {
     @Test
     void shouldRespectPageSizeAndPageParams() {
         String token = TestTokenHelper.generateUserToken();
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumA).then().statusCode(201);
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumB).then().statusCode(201);
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumC).then().statusCode(201);
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumA).then().statusCode(201);
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumB).then().statusCode(201);
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumC).then().statusCode(201);
 
         given().auth().oauth2(token)
             .queryParam("page", 0).queryParam("size", 2)
-            .when().get("/api/v1/me/favorites")
+            .when().get("/v1/me/favorites")
             .then().statusCode(200)
             .body("size", equalTo(2))
             .body("totalElements", equalTo(3))
@@ -185,9 +185,9 @@ class FavoriteResourceTest {
     @Test
     void shouldReturn200OnStatusProbeWhenFavorited() {
         String token = TestTokenHelper.generateUserToken();
-        given().auth().oauth2(token).when().post("/api/v1/me/favorites/" + albumA).then().statusCode(201);
+        given().auth().oauth2(token).when().post("/v1/me/favorites/" + albumA).then().statusCode(201);
 
-        given().auth().oauth2(token).when().get("/api/v1/me/favorites/" + albumA)
+        given().auth().oauth2(token).when().get("/v1/me/favorites/" + albumA)
             .then().statusCode(200)
             .body("albumId", equalTo(albumA.intValue()))
             .body("favoritedAt", notNullValue());
@@ -196,14 +196,14 @@ class FavoriteResourceTest {
     @Test
     void shouldReturn404OnStatusProbeWhenNotFavorited() {
         given().auth().oauth2(TestTokenHelper.generateUserToken())
-            .when().get("/api/v1/me/favorites/" + albumA)
+            .when().get("/v1/me/favorites/" + albumA)
             .then().statusCode(404);
     }
 
     @Test
     void shouldAllowAdminRoleSameAsUser() {
         given().auth().oauth2(TestTokenHelper.generateAdminToken())
-            .when().post("/api/v1/me/favorites/" + albumA)
+            .when().post("/v1/me/favorites/" + albumA)
             .then().statusCode(201);
     }
 }

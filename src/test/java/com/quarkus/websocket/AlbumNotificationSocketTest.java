@@ -72,7 +72,7 @@ class AlbumNotificationSocketTest {
                 .contentType(ContentType.JSON)
                 .body(request)
             .when()
-                .post("/api/v1/albums")
+                .post("/v1/albums")
             .then()
                 .statusCode(201)
                 .body("id", notNullValue());
@@ -108,7 +108,7 @@ class AlbumNotificationSocketTest {
                     .contentType(ContentType.JSON)
                     .body(request)
                 .when()
-                    .post("/api/v1/albums")
+                    .post("/v1/albums")
                 .then()
                     .statusCode(201);
 
