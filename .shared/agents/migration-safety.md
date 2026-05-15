@@ -1,6 +1,7 @@
 ---
 name: migration-safety
 description: "Reviews Flyway migrations in src/main/resources/db/migration/ for the failure modes that bite Quarkus + Flyway projects in production — duplicate or gapped version numbers, edits to already-applied migrations, non-idempotent seed inserts, destructive changes without a backup plan, NOT-NULL adds against populated tables without backfill, missing indexes on FK columns, and mismatch between migration DDL and the JPA entity. Use after a migration is added or modified, before merging anything that touches db/migration/, or when the user explicitly asks for a migration review."
+model: opus
 ---
 
 # migration-safety

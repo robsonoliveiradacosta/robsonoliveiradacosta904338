@@ -1,6 +1,7 @@
 ---
 name: security
 description: "Audits a Quarkus + SmallRye JWT project for security gaps that this repo's conventions intentionally leave room for — missing @RolesAllowed (combined with deny-unannotated-endpoints=false), unvalidated request DTOs, leaked entity fields in responses, JWT key files in git, weak BCrypt cost, public endpoints that shouldn't be, CORS misconfiguration, and SQL/path injection in Panache queries. Use after writing new resources, before merging a PR touching security-sensitive code, or when the user explicitly asks for a security review."
+model: opus
 ---
 
 # security

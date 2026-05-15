@@ -1,6 +1,7 @@
 ---
 name: query-optimization
 description: "Audits custom database queries in a Quarkus + Hibernate + PostgreSQL project for performance and correctness issues that hit at scale — leading-wildcard LIKE patterns that force sequential scans, ORDER BY columns without supporting indexes, JOIN without JOIN FETCH when results feed response DTOs, COUNT(*) on filtered queries lacking compound indexes, correlated subqueries in loops, queries returning unbounded result sets, JSONB queries without index support, string-concatenated query fragments (SQL injection + plan cache miss), and missing pagination. Use after writing or changing any Panache find/count, JPQL/HQL, or native query, and before merging anything that touches src/main/java/.../repository/."
+model: opus
 ---
 
 # query-optimization

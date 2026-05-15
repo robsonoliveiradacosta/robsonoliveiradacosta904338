@@ -1,6 +1,7 @@
 ---
 name: testing
 description: "Audits a Quarkus REST project for test coverage gaps that this repo's setup makes easy to miss — new resources without a REST Assured test, new services without an @InjectMock-based unit test, endpoints exercised without JWT (via TestTokenHelper), external REST clients hit without a WireMock stub, and DB-touching tests lacking @QuarkusTestResource(PostgresResource.class). Use after writing or changing a slice (resource + service + repository), before merging a PR, or when the user asks \"what tests are missing\"."
+model: opus
 ---
 
 # testing

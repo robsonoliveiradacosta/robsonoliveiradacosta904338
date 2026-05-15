@@ -216,6 +216,42 @@ Use this for full-slice features and any change that benefits from being
 captured before code. Direct skill invocation (`add-crud-resource`,
 `add-flyway-migration`, …) is still the right path for one-off edits.
 
+#### Model & reasoning recommendations per stage
+
+Optimize cost × quality by reserving Opus + extended thinking for the steps
+where a wrong call cascades downstream; use Sonnet for execution and
+structured transformations.
+
+| Stage | Model | Reasoning | Why |
+|---|---|---|---|
+| `spec-create` (interview) | Sonnet 4.6 | standard | Fast turn UX matters more than deep reasoning. The questions are light judgment calls; over-thinking just slows the conversation. |
+| `spec-plan` (runner) | Sonnet 4.6 | standard | The skill itself only reads files, picks the next migration #, and prepares the agent prompt. The weight lives in the agent. |
+| `spec-plan` → **`architect` agent** | **Opus 4.7** | **extended thinking** | Where one bad decision contaminates everything downstream (wrong junction shape, missing JOIN FETCH, wrong role boundary). Worth the spend. Fast mode is a good default — same quality, lower latency on the step that gates the rest of the flow. |
+| `spec-tasks` | Sonnet 4.6 or **Haiku 4.5** | standard | Structured plan → checklist transformation. Deterministic. Drop to Haiku to cut cost. |
+| `spec-implement` (runner) | Sonnet 4.6 | standard | Sequence tasks, flip checkboxes, capture validation errors. No heavy reasoning. |
+| `spec-implement` → code-gen tasks (T02-T06 style) | Sonnet 4.6 | standard | Repo conventions guide the output; Quarkus + Panache patterns are well-represented in training data. Opus is overkill and tends to over-engineer simple DTOs. |
+| `spec-implement` → review agents (T09-T12) | **Opus 4.7** | **extended thinking** | This is where real findings surface. Bugs like `HHH000104` (collection JOIN FETCH + pagination → silent in-memory paging) need strong reasoning to flag — Sonnet typically lets them through. |
+| context7 calls | any | n/a | Pure doc lookup; the model just formats the query and reads the result. |
+
+**Practical rules:**
+
+1. **Opus + extended thinking only on the architect and the reviewers.** Two clear-ROI points: architectural decisions and subtle-bug hunting.
+2. **Sonnet standard for everything else** — interview, structured transformations, code generation guided by repo conventions.
+3. **Haiku only for `spec-tasks`** if cost matters — the most mechanical step.
+4. **Fast mode on Opus** is great for the architect: same quality, lower latency on the step that blocks the rest of the flow.
+
+**Anti-pattern:** putting Opus on every step "to be safe." Cost balloons and the marginal gain on structured transformations is zero or negative (Opus over-engineers simple DTOs). Reserve the heavy ammunition for steps where reasoning differentiates the outcome.
+
+**Where the bump is automated:** the `architect`, `migration-safety`,
+`query-optimization`, `security`, and `testing` agent files carry
+`model: opus` in their frontmatter (`.shared/agents/<name>.md`). The Agent
+tool reads that and routes them to Opus regardless of the parent session's
+model — Sonnet sessions still get Opus on those five agents. Other
+choices (session model, extended thinking toggle) remain manual. The
+overrides are kept in `AGENT_MODEL_OVERRIDES` in
+`.shared/scripts/build.py` so they survive a full rebuild from upstream;
+edit there to add or change overrides.
+
 ### Most-used skills in this codebase
 
 - New endpoint → `add-crud-resource <Entity>` (generates entity + repo + service + resource + DTOs + migration + tests in one pass).

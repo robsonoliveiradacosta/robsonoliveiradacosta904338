@@ -1,6 +1,7 @@
 ---
 name: architect
 description: "Cross-file design agent for adding new features to a Quarkus + Panache + Flyway project. Use when the user asks \"how should I add X\" or \"design the implementation for Y\" before any code is written, to produce a concrete plan that names files, packages, the migration number, role annotations, and which companion skills to invoke. Do NOT use for trivial single-file changes — direct edits are faster."
+model: opus
 ---
 
 # architect

@@ -250,6 +250,20 @@ AGENTS: list[tuple[str, Optional[str], Optional[str]]] = [
 COMMANDS: list[tuple[str, str]] = []
 
 
+# Per-agent model override: written into the agent's frontmatter on extract so
+# the bump survives a full rebuild from upstream. Claude Code (and Codex via
+# the same Markdown shape) read this and route the agent to the named model
+# regardless of the parent session's model. Keep this list in sync with
+# AGENTS.md §"Model & reasoning recommendations per stage".
+AGENT_MODEL_OVERRIDES: dict[str, str] = {
+    "architect": "opus",
+    "migration-safety": "opus",
+    "query-optimization": "opus",
+    "security": "opus",
+    "testing": "opus",
+}
+
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -415,8 +429,11 @@ def stage_extract_shared() -> dict:
         claude_text = git_show(CLAUDE_BRANCH, claude_path) if claude_path else None
         codex_text = git_show(CODEX_BRANCH, codex_path) if codex_path else None
         desc, body = merge_sources(name, claude_text, codex_text)
+        model_line = ""
+        if name in AGENT_MODEL_OVERRIDES:
+            model_line = f"model: {AGENT_MODEL_OVERRIDES[name]}\n"
         write(SHARED / "agents" / f"{name}.md",
-              f"---\nname: {name}\ndescription: {quote_yaml(desc)}\n---\n\n{body}")
+              f"---\nname: {name}\ndescription: {quote_yaml(desc)}\n{model_line}---\n\n{body}")
         index["agent"].append((name, desc))
 
     for name, claude_path in COMMANDS:
