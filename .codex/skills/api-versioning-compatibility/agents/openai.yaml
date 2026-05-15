@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Versioning Compatibility"
+  short_description: "Evolve REST API contracts safely"
+  default_prompt: "Use $api-versioning-compatibility to evolve REST endpoints and DTOs without breaking existing clients."

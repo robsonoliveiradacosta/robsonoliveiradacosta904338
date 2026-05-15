@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contract Testing OpenAPI"
+  short_description: "Keep REST contracts aligned"
+  default_prompt: "Use $contract-testing-openapi to align OpenAPI contracts, DTOs, examples, and REST API tests."

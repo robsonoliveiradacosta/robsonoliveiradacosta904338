@@ -1,0 +1,4 @@
+interface:
+  display_name: "Observability Logging Tracing"
+  short_description: "Improve API observability"
+  default_prompt: "Use $observability-logging-tracing to add structured logs, correlation IDs, metrics, tracing, and operational diagnostics."

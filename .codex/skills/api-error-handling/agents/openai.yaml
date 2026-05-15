@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Error Handling"
+  short_description: "Standardize REST API errors"
+  default_prompt: "Use $api-error-handling to standardize REST API errors, exception mapping, validation responses, and safe logging."

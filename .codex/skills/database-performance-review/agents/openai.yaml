@@ -1,0 +1,4 @@
+interface:
+  display_name: "Database Performance Review"
+  short_description: "Review schema and query performance"
+  default_prompt: "Use $database-performance-review to review PostgreSQL schema, indexes, JPA queries, transactions, and pagination performance."

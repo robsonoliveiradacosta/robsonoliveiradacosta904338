@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Readiness Checklist"
+  short_description: "Prepare API releases safely"
+  default_prompt: "Use $release-readiness-checklist to verify security, migrations, config, tests, docs, rollback, and release readiness."

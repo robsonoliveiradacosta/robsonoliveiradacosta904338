@@ -1,0 +1,4 @@
+interface:
+  display_name: "Resilience Timeouts Retries"
+  short_description: "Harden external dependency calls"
+  default_prompt: "Use $resilience-timeouts-retries to add timeouts, retries, circuit breakers, idempotency, and graceful failure handling."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seed Data Fixtures"
+  short_description: "Manage deterministic API test data"
+  default_prompt: "Use $seed-data-fixtures to design seed data, fixtures, default users, and isolated test datasets for a Quarkus API."
