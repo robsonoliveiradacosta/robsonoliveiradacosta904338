@@ -5,106 +5,104 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build and Run Commands
 
 ```bash
-# Development mode with live reload
+# Development mode with live reload (Quarkus Dev Mode)
 ./mvnw quarkus:dev
 
-# Run tests
+# Unit tests only (default skips ITs)
 ./mvnw test
 
-# Run integration tests
-./mvnw verify
+# Single test class / method
+./mvnw test -Dtest=AlbumResourceTest
+./mvnw test -Dtest=AlbumResourceTest#shouldListAlbums
 
-# Build package
+# Integration tests (failsafe) — only run when -Dnative or -DskipITs=false
+./mvnw verify -DskipITs=false
+
+# Build JVM package
 ./mvnw package
 
-# Build native executable (requires GraalVM or container build)
+# Build native executable
 ./mvnw package -Dnative
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+./mvnw package -Dnative -Dquarkus.native.container-build=true  # no local GraalVM needed
 ```
+
+The Maven `native` profile (activated by `-Dnative`) flips `skipITs` to false and disables jar packaging.
 
 ## Docker Compose
 
-```bash
-# Quick start - Build and run all services (PostgreSQL, MinIO, Application)
-./start.sh
-
-# Manual start - Build and run all services
-./mvnw package -DskipTests
-docker compose up --build -d
-
-# View logs from all services
-docker compose logs -f
-
-# View logs from specific service
-docker compose logs -f app
-docker compose logs -f postgres
-docker compose logs -f minio
-
-# Stop all services
-docker compose down
-
-# Stop and remove volumes (clean state)
-docker compose down -v
-
-# Check services health
-curl http://localhost:8080/q/health
-curl http://localhost:8080/q/health/live
-curl http://localhost:8080/q/health/ready
-```
-
-## Docker Builds
+`./start.sh` packages the app and runs the full stack (`postgres`, `minio`, `app`). Compose builds the `app` service from the root `Dockerfile` (multi-stage `maven:3.9.9-eclipse-temurin-21` → `distroless/java21`), not from `src/main/docker/`. The Dockerfiles under `src/main/docker/` are the upstream Quarkus templates and are only used by the documented manual `docker build` commands.
 
 ```bash
-# JVM container
-./mvnw package && docker build -f src/main/docker/Dockerfile.jvm -t quarkus/robsonoliveiradacosta904338-jvm .
-
-# Native container (smallest footprint)
-./mvnw package -Dnative && docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/robsonoliveiradacosta904338 .
+./start.sh                                      # build + compose up
+docker compose up --build -d                    # manual
+docker compose logs -f app|postgres|minio
+docker compose down [-v]                        # -v wipes volumes
+curl http://localhost:8080/q/health             # full health
 ```
 
-## Service URLs (when running with Docker Compose)
+## Service URLs
 
-- **API**: http://localhost:8080
-- **Swagger UI**: http://localhost:8080/q/swagger-ui
-- **Health Checks**: http://localhost:8080/q/health
-- **MinIO Console**: http://localhost:9001 (credentials: minioadmin/minioadmin)
-- **PostgreSQL**: localhost:5432 (database: music_catalog, user: postgres, password: postgres)
-
-## Environment Configuration
-
-Copy `.env.example` to `.env` and customize as needed:
-
-```bash
-cp .env.example .env
-```
-
-Available environment variables:
-- `POSTGRES_DB` - PostgreSQL database name
-- `POSTGRES_USER` - PostgreSQL username
-- `POSTGRES_PASSWORD` - PostgreSQL password
-- `MINIO_ACCESS_KEY` - MinIO access key
-- `MINIO_SECRET_KEY` - MinIO secret key
-- `MINIO_BUCKET` - MinIO bucket name for album images
-- `CORS_ALLOWED_ORIGINS` - Allowed CORS origins
-- `REGIONAL_API_URL` - External regional API URL
+- API: http://localhost:8080
+- Swagger UI: http://localhost:8080/q/swagger-ui
+- Health: http://localhost:8080/q/health (`/live`, `/ready`)
+- Quarkus Dev UI (dev mode only): http://localhost:8080/q/dev
+- MinIO Console: http://localhost:9001 (minioadmin/minioadmin)
+- PostgreSQL: localhost:5432 (db `music_catalog`, postgres/postgres)
 
 ## Architecture
 
-This is a Quarkus 3.31.1 project using Java 21 with:
-- **Quarkus REST** with Jackson for JSON serialization
-- **Quarkus ARC** for CDI dependency injection
-- **JUnit 5** with Quarkus test extensions
+Quarkus 3.31.1 on Java 21. Standard layered REST app under `com.quarkus.*`:
 
-### Project Layout
+`resource/` (JAX-RS) → `service/` (`@ApplicationScoped`, `@Transactional`) → `repository/` (Panache `PanacheRepository`) → `entity/` (JPA). DTOs in `dto/request/` and `dto/response/` decouple the wire format from entities. Endpoints are all under `/api/v1/...`.
 
-- `src/main/java/` - Application source code
-- `src/main/resources/application.properties` - Configuration
-- `src/main/docker/` - Container configurations (JVM, native, native-micro, legacy-jar)
-- `src/test/java/` - Test classes
+### Authentication & authorization
 
-## Quarkus Patterns
+- **SmallRye JWT (RS256)**. Keys live at `src/main/resources/{privateKey,publicKey}.pem` and **must be generated locally** before running — they are not in git. See README §"Gere as Chaves JWT" for the `openssl` commands.
+- Tokens are issued by `security/TokenService` with a **5-minute lifespan** (`smallrye.jwt.new-token.lifespan=300`); clients must call `POST /api/v1/auth/refresh` to renew.
+- Roles `USER` and `ADMIN` are enforced via `@RolesAllowed`. `quarkus.security.jaxrs.deny-unannotated-endpoints=false`, so endpoints without an annotation are public — always annotate explicitly.
+- Default seeded users come from Flyway `V9__insert_sample_users.sql`: `admin/admin123`, `user/user123`. Passwords are BCrypt-hashed (`quarkus-elytron-security-common`).
 
-- Use `@ApplicationScoped`, `@RequestScoped` for CDI beans
-- Use `@Path`, `@GET`, `@POST` etc. for REST endpoints
-- Configuration via `application.properties` or `@ConfigProperty`
-- Dev mode (`quarkus:dev`) enables live reload and dev services
+### Rate limiting
+
+`security/RateLimitFilter` is a JAX-RS `@Provider` running at `Priorities.AUTHENTICATION + 1`. It uses an in-memory `ConcurrentHashMap<String, Bucket>` keyed by the JWT principal name; unauthenticated requests bypass it. Limit is hard-coded at **10 req/min per user**. The test profile sets `app.rate-limit.enabled=false` — keep that in mind when writing tests that hammer endpoints. Because state is in-process, this does not scale horizontally without changes.
+
+### Persistence & migrations
+
+- Hibernate ORM with Panache. `quarkus.hibernate-orm.database.generation=none` — **schema is owned entirely by Flyway** (`src/main/resources/db/migration/V*.sql`). Never rely on auto-DDL; add a new `Vn__*.sql` for schema changes.
+- Test profile uses `flyway.clean-at-start=true` against `music_catalog_test`, so tests get a fresh schema each run.
+- The album↔artist relationship is many-to-many via the `album_artist` junction (`V3`). Album cover images are a separate `album_images` table (`V4`, altered in `V10`) holding the MinIO object key/hash plus metadata; the binary lives in MinIO, not Postgres.
+
+### Object storage (MinIO)
+
+- `config/MinioStartup` observes `StartupEvent` and **auto-creates the bucket** (default `album-images`) if missing.
+- `service/ImageService` issues **presigned GET URLs with a 30-minute expiry** (`app.minio.presigned-url.expiry=30`) so clients fetch images directly from MinIO. Max upload size 50 MB (`app.minio.max-file-size`).
+- `health/MinioHealthCheck` participates in `/q/health/ready`, so MinIO outages will mark the app not-ready.
+
+### External regional API + scheduler
+
+- `integration/RegionalApiClient` is a MicroProfile REST Client (`@RegisterRestClient(configKey="regional-api")`) pointed at `quarkus.rest-client.regional-api.url` (default `https://integrador-argus-api.geia.vip`).
+- `scheduler/RegionalSyncScheduler` runs `service/RegionalSyncService` daily at **04:00** via `@Scheduled(cron = "0 0 4 * * ?")`. Admins can also trigger a sync manually via `POST /api/v1/regionals/sync`.
+- In tests the URL is overridden to `${quarkus.wiremock.devservices.url}` so `quarkus-wiremock-test` can stub responses.
+
+### WebSocket notifications
+
+`websocket/AlbumNotificationSocket` (Quarkus `websockets-next`) exposes `/ws/albums` and broadcasts via a **static** `BroadcastProcessor`. `AlbumService.create` calls `notifyNewAlbum` after persist. The static field means the broadcaster is shared across all CDI clients of the bean — intentional, but it also means tests interact with the same processor (see `AlbumNotificationSocketTest`).
+
+## Testing patterns
+
+- `@QuarkusTest` for in-JVM integration tests. Most tests assume a **real Postgres at localhost:5432** (test profile config, line 84 of `application.properties`). For an isolated Testcontainers Postgres, annotate with `@QuarkusTestResource(PostgresResource.class)` (`src/test/java/com/quarkus/common/PostgresResource.java`); a similar `MinioTestResource` exists for MinIO.
+- REST endpoints are tested with **REST Assured**; auth uses `util/TestTokenHelper` to mint valid JWTs against the bundled keys.
+- The external regional API is stubbed by `quarkus-wiremock-test`; do not hit the real URL from tests.
+- Services use Mockito via `quarkus-junit5-mockito` (`@InjectMock`).
+
+## Configuration
+
+All config in `src/main/resources/application.properties`. Environment overrides flow through:
+`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `MINIO_URL`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_SECURE`, `MINIO_BUCKET`, `CORS_ALLOWED_ORIGINS`, `REGIONAL_API_URL`. Quarkus profiles `%dev`, `%test`, `%prod` override at the bottom of the file. `quarkus.devservices.enabled=false` globally — do **not** rely on Dev Services for Postgres/MinIO; the compose stack is the source of truth for local infra.
+
+## Quarkus conventions
+
+- `@ApplicationScoped` services, constructor or field `@Inject` (current code uses field injection).
+- Configuration via `@ConfigProperty` (e.g., `app.minio.bucket`).
+- Document REST endpoints with MicroProfile OpenAPI annotations (`@Operation`, `@APIResponse`, `@Tag`) — Swagger UI reads them at runtime.
+- Throw `jakarta.ws.rs.NotFoundException` etc. from services; `exception/NotAuthorizedExceptionMapper` handles auth failures. Add new mappers under `exception/` rather than catching in resources.
