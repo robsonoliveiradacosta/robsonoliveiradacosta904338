@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit"
+  short_description: "Create a concise git commit with a one-line message. Use when the user asks to commit, \"commita\", \"faz o commit\", or save staged/unstaged ch"
+  default_prompt: "Use $commit to create a concise git commit with a one-line message. Use when the user asks to commit, \"commita\", \"faz o commit\", or save staged/unstaged changes to git. Skip for amends, force-pushes, or pushes."
