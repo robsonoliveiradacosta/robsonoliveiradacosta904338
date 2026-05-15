@@ -4,7 +4,7 @@
 
 - **Skills**: 52 — invoke with `$<name>` (e.g. `$add-jwt-auth`)
 - **Agents**: 29 — name explicitly (`security`, `architect`, …)
-- **Commands**: 4
+- **Commands**: 0
 
 ## Skills
 | Name | Description |
@@ -98,7 +98,4 @@
 ## Commands
 | Name | Description |
 |---|---|
-| `criar-prd` | Slash command: criar-prd |
-| `criar-tasks` | Slash command: criar-tasks |
-| `criar-techspec` | Slash command: criar-techspec |
-| `executar-task` | Slash command: executar-task |
+

@@ -6,7 +6,7 @@ Each item is exposed as a TOML custom command. Gemini CLI auto-loads everything 
 
 - Skills: 52 → `/skills:<name>`
 - Agents: 29 → `/agents:<name>`
-- Commands: 4 → `/commands:<name>`
+- Commands: 0 → `/commands:<name>`
 
 ## Skills
 | Name | Description |
@@ -100,7 +100,4 @@ Each item is exposed as a TOML custom command. Gemini CLI auto-loads everything 
 ## Commands
 | Name | Description |
 |---|---|
-| `criar-prd` | Slash command: criar-prd |
-| `criar-tasks` | Slash command: criar-tasks |
-| `criar-techspec` | Slash command: criar-techspec |
-| `executar-task` | Slash command: executar-task |
+

@@ -4,7 +4,7 @@ Every `SKILL.md`, agent and command file in this directory is a **relative symli
 
 - **Skills**: 52 (skill auto-discovery via the frontmatter `description`)
 - **Agents**: 29 (used with the `Agent` tool)
-- **Slash commands**: 4
+- **Slash commands**: 0
 
 ## Skills
 | Name | Description |
@@ -98,7 +98,4 @@ Every `SKILL.md`, agent and command file in this directory is a **relative symli
 ## Commands
 | Name | Description |
 |---|---|
-| `criar-prd` | Slash command: criar-prd |
-| `criar-tasks` | Slash command: criar-tasks |
-| `criar-techspec` | Slash command: criar-techspec |
-| `executar-task` | Slash command: executar-task |
+

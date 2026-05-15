@@ -16,5 +16,5 @@ Pass extra request context with the standard `{{args}}` slot — the command pro
 ## Available agents (29)
 `/agents:architect`, `/agents:adr`, `/agents:data-modeling`, `/agents:domain-module`, `/agents:orm-mapping`, `/agents:migration-safety`, `/agents:transaction-consistency`, `/agents:query-optimization`, `/agents:performance`, `/agents:security`, `/agents:threat-modeling`, `/agents:supply-chain-security`, `/agents:privacy-compliance`, `/agents:api-governance`, `/agents:error-handling`, `/agents:resilience`, `/agents:observability`, `/agents:backup-recovery`, `/agents:sre-runbook`, `/agents:release-manager`, `/agents:ci-cd`, `/agents:testing`, `/agents:integration-test`, `/agents:api-test-automation`, `/agents:realtime-qa`, `/agents:mutation-testing`, `/agents:flaky-test`, `/agents:qa-strategy`, `/agents:review`
 
-## Available commands (4)
-`/commands:criar-prd`, `/commands:criar-tasks`, `/commands:criar-techspec`, `/commands:executar-task`
+## Available commands (0)
+

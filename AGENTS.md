@@ -103,19 +103,19 @@ Quarkus 3.31.1 on Java 21. Standard layered REST app under `com.quarkus.*`:
 All config in `src/main/resources/application.properties`. Environment overrides flow through:
 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `MINIO_URL`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_SECURE`, `MINIO_BUCKET`, `CORS_ALLOWED_ORIGINS`, `REGIONAL_API_URL`. Quarkus profiles `%dev`, `%test`, `%prod` override at the bottom of the file. `quarkus.devservices.enabled=false` globally — do **not** rely on Dev Services for Postgres/MinIO; the compose stack is the source of truth for local infra.
 
-## AI agent toolkit (skills, agents, commands)
+## AI agent toolkit (skills, agents)
 
-This project ships a **deduplicated union** of 52 skills, 29 specialist agents
-and 4 slash commands, sourced from two upstream branches
-(`claude-opus-4.7-xhigh` for action recipes/reviewers, `codex-gpt-5.5-xhigh`
-for governance guides/specialists). Canonical content lives in `.shared/` and
-is exposed to each tool through its native convention:
+This project ships a **deduplicated union** of 52 skills and 29 specialist
+agents, sourced from two upstream branches (`claude-opus-4.7-xhigh` for
+action recipes/reviewers, `codex-gpt-5.5-xhigh` for governance
+guides/specialists). Canonical content lives in `.shared/` and is exposed to
+each tool through its native convention:
 
 | Tool | Path | How to invoke |
 |---|---|---|
-| Claude Code | `.claude/` (symlinks) | Skills auto-trigger; agents via `Agent` tool; `/<cmd>` |
+| Claude Code | `.claude/` (symlinks) | Skills auto-trigger; agents via `Agent` tool |
 | Codex CLI | `.codex/` (symlinks + tiny `agents/openai.yaml` sidecars) | `$<skill-name>`; name agents explicitly |
-| Gemini CLI | `.gemini/commands/{skills,agents,commands}/` (TOML) | `/skills:<n>`, `/agents:<n>`, `/commands:<n>` |
+| Gemini CLI | `.gemini/commands/{skills,agents}/` (TOML) | `/skills:<n>`, `/agents:<n>` |
 | Cursor | `.cursor/rules/{skills,agents}/` (Agent Requested MDC) | Auto-attached when description matches |
 
 See `.shared/README.md` for the full inventory. The build script

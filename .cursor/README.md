@@ -6,7 +6,7 @@ Each skill and agent becomes an **Agent Requested** rule under `.cursor/rules/`.
 
 - Skills: 52 (`.cursor/rules/skills/`)
 - Agents: 29 (`.cursor/rules/agents/`)
-- Commands: 4 (`.cursor/commands/`)
+- Commands: 0 (`.cursor/commands/`)
 
 ## Skills
 | Name | Description |
@@ -100,7 +100,4 @@ Each skill and agent becomes an **Agent Requested** rule under `.cursor/rules/`.
 ## Commands
 | Name | Description |
 |---|---|
-| `criar-prd` | Slash command: criar-prd |
-| `criar-tasks` | Slash command: criar-tasks |
-| `criar-techspec` | Slash command: criar-techspec |
-| `executar-task` | Slash command: executar-task |
+

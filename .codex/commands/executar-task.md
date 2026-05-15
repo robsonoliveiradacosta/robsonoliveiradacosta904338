@@ -1,1 +1,0 @@
-../../.shared/commands/executar-task.md

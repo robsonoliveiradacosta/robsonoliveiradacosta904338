@@ -1,1 +1,0 @@
-../../.shared/commands/criar-tasks.md

@@ -247,12 +247,7 @@ AGENTS: list[tuple[str, Optional[str], Optional[str]]] = [
     ("review", None, ".codex/agents/review-agent.md"),
 ]
 
-COMMANDS: list[tuple[str, str]] = [
-    ("criar-prd",      ".claude/commands/criar-prd.md"),
-    ("criar-tasks",    ".claude/commands/criar-tasks.md"),
-    ("criar-techspec", ".claude/commands/criar-techspec.md"),
-    ("executar-task",  ".claude/commands/executar-task.md"),
-]
+COMMANDS: list[tuple[str, str]] = []
 
 
 # ---------------------------------------------------------------------------
